@@ -1,6 +1,12 @@
+import Button from 'react-bootstrap/Button';
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+function onClickHandler(){
+	alert("hello world");
+}
 
 function App() {
   return (
@@ -10,6 +16,7 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
+		<Button variant="warning" onClick={onClickHandler}>CLICK</Button>{' '}
         <a
           className="App-link"
           href="https://reactjs.org"
