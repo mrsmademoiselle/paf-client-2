@@ -17,16 +17,10 @@ async function handleSubmit() {
      */
     var userName = (document.getElementById("userName")! as HTMLInputElement).value!;
     var userPW = (document.getElementById("userPassword")! as HTMLInputElement).value!;
-    var userPic = (document.getElementById("userPic")! as HTMLInputElement).value!;
-   const formData = new FormData();
-   formData.append('userImage', userPic);
-   console.log(formData);
     const requestBody = {
         userName: userName,
-        userPassword: userPW,
-        userPic: userPic
+        userPassword: userPW
     }
-    console.log(requestBody);
     try {
         await fetch('localhost:9090/registrieren', {
             method: 'POST',
@@ -45,6 +39,7 @@ async function handleSubmit() {
 
 
 function Register() {
+    //TODO: Rework to be a Login
 
     return (
         <div className="App">
@@ -63,24 +58,19 @@ function Register() {
 
                                 <Row>
                                     <Col></Col>
-                                    <Col><img className="profilePic" src={placeHolderImg}></img>
-                                    </Col>
+                                    <Col><img className="profilePic" src={placeHolderImg}></img></Col>
                                     <Col></Col>
                                 </Row>
 
                                 <Row>
                                     <Col>
                                         <Form className="registerForm" onSubmit={handleSubmit}>
-                                            <Form.Group controlId="userPic" className="mb-3">
-                                                <Form.Control type="file" />
-                                            </Form.Group>
                                             <Form.Group className="mb-3" controlId="userName">
-                                                <Form.Control type="text" placeholder="Benutzername" required/>
+                                                <Form.Control type="text" placeholder="Benutzername" />
                                             </Form.Group>
                                             <Form.Group className="mb-3" controlId="userPassword">
-                                                <Form.Control type="password" placeholder="Passwort" required/>
+                                                <Form.Control type="password" placeholder="Passwort" />
                                             </Form.Group>
-                                            <a href="">Hast du bereits einen Account?</a><br/>
                                             <Button variant="primary" type="submit">
                                                 Registrieren
                                             </Button>

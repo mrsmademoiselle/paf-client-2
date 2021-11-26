@@ -9,6 +9,7 @@ import Stack from 'react-bootstrap/Stack';
 import placeHolderImg from './images/100.jpg'
 import './App.css';
 import Register from './components/Register'
+import Login from './components/Login'
 
 
 
