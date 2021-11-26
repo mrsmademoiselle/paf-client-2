@@ -36,3 +36,73 @@
     transform: rotate(360deg);
   }
 }
+
+.formContainer{
+  margin-top: 25%;
+  /*Das styling hatte mal das Form für grid tests kommt es ab hier*/
+  border-color: black;
+  border-radius: 10px;
+  background-color: #632b30;
+  color: wheat;
+}
+
+.GregisterLabel{
+  background-color: #aaabab;
+  color: white;
+  width: 150px;
+  height: 35px;
+  padding-top: 3%;
+}
+
+.GprofilePic{
+  margin-top: 5%;
+  width: 150px;
+  height: 150px;
+  border-radius: 500px;
+  border-width: 3px;
+  border-color: white;
+  border-style: solid;
+}
+
+.Gform{
+  margin: 5% 0% 5% 0%;
+}
+
+/*TODO: rename class, extract styling for fonts and other stuff*/
+/*TODO: Set background color for login and reg to wheat*/
+/*Class for Form*/
+.foobar{
+  border-color: black;
+  border-radius: 10px;
+  background-color: #632b30;
+  color: wheat;
+  padding-top: 70%;
+  z-index: 0;
+  position: relative;
+}
+
+.registerLabel{
+  text-align: center;
+  background-color: #aaabab;
+  color: white;
+  z-index: 2;
+  position: relative;
+  margin-left: 7.5%;
+  width: 150px;
+  height: 35px;
+}
+
+
+.profilePic{
+  width: 250px;
+  height: 250px;
+  position: absolute;
+  z-index: 1;
+  margin-top: 1%;
+  border-radius: 500px;
+  border-style: solid;
+  border-color: white;
+  border-width: thin;
+  right: 43.5%;
+}
+
