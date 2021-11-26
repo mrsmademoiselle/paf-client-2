@@ -2,32 +2,7 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
+/* maybe usefull for later*/
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -46,7 +21,7 @@
   color: wheat;
 }
 
-.GregisterLabel{
+.registerLabel{
   background-color: #aaabab;
   color: white;
   width: 150px;
@@ -54,7 +29,7 @@
   padding-top: 3%;
 }
 
-.GprofilePic{
+.profilePic{
   margin-top: 5%;
   width: 150px;
   height: 150px;
@@ -64,45 +39,6 @@
   border-style: solid;
 }
 
-.Gform{
+.registerForm{
   margin: 5% 0% 5% 0%;
 }
-
-/*TODO: rename class, extract styling for fonts and other stuff*/
-/*TODO: Set background color for login and reg to wheat*/
-/*Class for Form*/
-.foobar{
-  border-color: black;
-  border-radius: 10px;
-  background-color: #632b30;
-  color: wheat;
-  padding-top: 70%;
-  z-index: 0;
-  position: relative;
-}
-
-.registerLabel{
-  text-align: center;
-  background-color: #aaabab;
-  color: white;
-  z-index: 2;
-  position: relative;
-  margin-left: 7.5%;
-  width: 150px;
-  height: 35px;
-}
-
-
-.profilePic{
-  width: 250px;
-  height: 250px;
-  position: absolute;
-  z-index: 1;
-  margin-top: 1%;
-  border-radius: 500px;
-  border-style: solid;
-  border-color: white;
-  border-width: thin;
-  right: 43.5%;
-}
-
