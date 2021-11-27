@@ -15,6 +15,20 @@ function fileUpload() {
     // not yet implemented
 }
 
+/**
+ * Wenn der Benutzer über das Bild hovert, erscheint eine Drag and Drop Anzeige (siehe FX-Client)
+ */
+function hoverEffect() {
+    // not yet implemented
+}
+
+/**
+ * Wenn der Benutzer aufhört über das Bild zu hovern, erscheint das von ihm gesetzte Bild wieder
+ */
+function setCurrentPic() {
+    // not yet implemented
+}
+
 async function handleSubmit() {
     /**
      * Get information from the form and write into json
@@ -99,28 +113,26 @@ function Register() {
                     <Col>
                         <div className="formContainer">
                             <Container>
-                                <Row>
-                                    <Col/>
-                                    <Col>
-                                        <div className="registerLabel">Registrieren</div>
-                                    </Col>
-                                    <Col/>
+                                <Row className="justify-content-center">
+                                    <div className="registerLabel">Registrieren</div>
                                 </Row>
 
+                                {/* Profilbild */}
                                 <Row className="d-flex justify-content-center middleRow">
-                                    <img alt="" className="col-auto profilePic"
-                                         onClick={fileUpload} src={placeHolderImg}/>
+                                    <img alt="Standard Anzeigebild" className="col-auto profilePic"
+                                         onClick={fileUpload} src={placeHolderImg} title="Bild hochladen"
+                                         onMouseEnter={hoverEffect} onMouseLeave={setCurrentPic}/>
 
-                                    <Button className="col-auto uploadButton"><img className="uploadButtonIcon"
-                                                                                   src={editImg}/></Button>
+                                    <Button className="col-auto uploadButton">
+                                        <img className="uploadButtonIcon"
+                                             src={editImg} title="Bild hochladen"/>
+                                    </Button>
                                 </Row>
 
+                                {/* User Input */}
                                 <Row>
                                     <Col>
                                         <Form className="registerForm" onSubmit={handleSubmit}>
-                                            <Form.Group controlId="userPic" className="mb-3 picUpload pb-3">
-                                                <Form.Control type="file"/>
-                                            </Form.Group>
                                             <Form.Group className="mb-3" controlId="userName">
                                                 <Form.Control type="text" placeholder="Benutzername" required/>
                                             </Form.Group>
@@ -129,7 +141,7 @@ function Register() {
                                             </Form.Group>
                                             <Row className="loginLinkContainer">
                                                 <Col>
-                                                    <a className="loginLink" href="">Hast du
+                                                    <a className="loginLink" href="" title="Weiter zum Login">Hast du
                                                         bereits einen Account?</a><br/>
                                                 </Col>
                                             </Row>

@@ -26,8 +26,7 @@
     background-color: var(--first-background);
     color: white;
     width: 150px;
-    height: 45px;
-    padding: 3% 3% 3% 3%;
+    height: 35px;
     font-size: 15pt;
 }
 
@@ -83,4 +82,9 @@
 .loginLink {
     text-decoration: underline;
     color: var(--site-background);
+}
+
+.loginLink:hover {
+    text-decoration: underline;
+    color: var(--first-background);
 }
