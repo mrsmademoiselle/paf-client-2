@@ -1,14 +1,19 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import placeHolderImg from '../images/100.jpg'
+import editImg from '../images/edit.svg'
 import '../App.css';
 import TopNavigationBar from './TopNavigationBar'
-import { Modal } from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
+
+function fileUpload() {
+    // not yet implemented
+}
 
 async function handleSubmit() {
     /**
@@ -40,7 +45,7 @@ async function handleSubmit() {
         await fetch('localhost:9090/user/register', {
             method: 'POST',
             body: JSON.stringify(requestBody),
-            headers: { 'Content-Type': 'application/json' }
+            headers: {'Content-Type': 'application/json'}
         })
             .then(serverResponse => {
                 if (!serverResponse.ok) {
@@ -82,7 +87,6 @@ function ModalWindow() {
 }
 
 
-
 function Register() {
 
     return (
@@ -96,32 +100,40 @@ function Register() {
                         <div className="formContainer">
                             <Container>
                                 <Row>
-                                    <Col></Col>
-                                    <Col><div className="registerLabel">Registrieren</div></Col>
-                                    <Col></Col>
+                                    <Col/>
+                                    <Col>
+                                        <div className="registerLabel">Registrieren</div>
+                                    </Col>
+                                    <Col/>
                                 </Row>
 
-                                <Row>
-                                    <Col></Col>
-                                    <Col><img className="profilePic" src={placeHolderImg}></img>
-                                    </Col>
-                                    <Col></Col>
+                                <Row className="d-flex justify-content-center middleRow">
+                                    <img alt="" className="col-auto profilePic"
+                                         onClick={fileUpload} src={placeHolderImg}/>
+
+                                    <Button className="col-auto uploadButton"><img className="uploadButtonIcon"
+                                                                                   src={editImg}/></Button>
                                 </Row>
 
                                 <Row>
                                     <Col>
                                         <Form className="registerForm" onSubmit={handleSubmit}>
-                                            <Form.Group controlId="userPic" className="mb-3">
-                                                <Form.Control type="file" />
+                                            <Form.Group controlId="userPic" className="mb-3 picUpload pb-3">
+                                                <Form.Control type="file"/>
                                             </Form.Group>
                                             <Form.Group className="mb-3" controlId="userName">
-                                                <Form.Control type="text" placeholder="Benutzername" required />
+                                                <Form.Control type="text" placeholder="Benutzername" required/>
                                             </Form.Group>
                                             <Form.Group className="mb-3" controlId="userPassword">
-                                                <Form.Control type="password" placeholder="Passwort" required />
+                                                <Form.Control type="password" placeholder="Passwort" required/>
                                             </Form.Group>
-                                            <a href="">Hast du bereits einen Account?</a><br />
-                                            <Button variant="primary" type="submit">
+                                            <Row className="loginLinkContainer">
+                                                <Col>
+                                                    <a className="loginLink" href="">Hast du
+                                                        bereits einen Account?</a><br/>
+                                                </Col>
+                                            </Row>
+                                            <Button className="primaryButton" type="submit">
                                                 Registrieren
                                             </Button>
                                         </Form>

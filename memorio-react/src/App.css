@@ -1,49 +1,86 @@
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 /* maybe usefull for later*/
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
-.formContainer{
-  margin-top: 25%;
-  /*Das styling hatte mal das Form für grid tests kommt es ab hier*/
-  border-color: black;
-  border-radius: 10px;
-  background-color: #632b30;
-  color: wheat;
+
+.formContainer {
+    margin-top: 10%;
+    /*Das styling hatte mal das Form für grid tests kommt es ab hier*/
+    border-color: black;
+    border-radius: 10px;
+    background-color: #632b30;
+    color: wheat;
 }
 
-.registerLabel{
-  background-color: #aaabab;
-  color: white;
-  width: 150px;
-  height: 35px;
-  padding-top: 3%;
+.registerLabel {
+    background-color: var(--first-background);
+    color: white;
+    width: 150px;
+    height: 45px;
+    padding: 3% 3% 3% 3%;
+    font-size: 15pt;
 }
 
-.profilePic{
-  margin-top: 5%;
-  width: 150px;
-  height: 150px;
-  border-radius: 500px;
-  border-width: 3px;
-  border-color: white;
-  border-style: solid;
+.middleRow {
+    margin: 10% 5% 10% 5%;
 }
 
-.registerForm{
-  margin: 5% 0% 5% 0%;
+.profilePic {
+    width: 150px;
+    height: 150px;
+    margin-left: 6%;
+    padding: 0;
+    border-radius: 500px;
+    border-width: 3px;
+    border-color: white;
+    border-style: solid;
+    cursor: pointer;
 }
 
-a{
-  text-decoration: none;
-  color: wheat;
+.uploadButton {
+    background-color: transparent;
+    border: none;
+    margin: auto 0 0 0;
+    padding: 0 0 0 0;
+    height: 100%;
+}
+
+.uploadButton:hover {
+    background-color: transparent;
+    border: none;
+}
+
+.uploadButtonIcon {
+    width: 25px;
+    height: 25px;
+}
+
+.registerForm {
+    margin: 5% 0 5% 0;
+}
+
+.primaryButton {
+    background-color: var(--primary-buttons);
+    margin-top: 10%;
+    padding: 2% 6% 2% 6%;
+}
+
+.loginLinkContainer {
+    width: max-content;
+    margin-left: auto;
+}
+
+.loginLink {
+    text-decoration: underline;
+    color: var(--site-background);
 }
