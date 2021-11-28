@@ -10,7 +10,6 @@ import editImg from '../images/edit.svg'
 import '../App.css';
 import TopNavigationBar from './TopNavigationBar'
 import Alert from 'react-bootstrap/Alert';
-import { Modal } from 'react-bootstrap';
 
 function fileUpload() {
     // not yet implemented
