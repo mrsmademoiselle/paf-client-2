@@ -1,92 +1,95 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React from 'react';
+import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import placeHolderImg from '../images/100.jpg'
 import TopNavigationBar from './TopNavigationBar'
-import '../App.css';
+import '../css/Register.css';
+import {Link} from "react-router-dom";
+import Alert from "react-bootstrap/Alert";
 
-async function handleSubmit() {
-    /**
-     * Get information from the form and write into json
-     * then fetch the endpoint with the json
-     * Handle if server response is not 200 or if anything else, e.g. network error, occurs
-     */
-    var userName = (document.getElementById("userName")! as HTMLInputElement).value!;
-    var userPW = (document.getElementById("userPassword")! as HTMLInputElement).value!;
-    const requestBody = {
-        userName: userName,
-        userPassword: userPW
-    }
-    try {
-        await fetch('localhost:9090/registrieren', {
-            method: 'POST',
-            body: JSON.stringify(requestBody),
-            headers: { 'Content-Type': 'application/json' }
+
+function Login() {
+    const [inputs, setInputs] = useState({username: '', password: ''});
+    const [banner, setBanner] = React.useState<boolean | undefined>();
+
+    // input listener
+    const adjustInput = (e: any) => {
+        setInputs({
+            ...inputs,
+            [e.target.name]: e.target.value
         })
-            .then(serverResponse => {
-                if (!serverResponse.ok) {
-                    alert("Es gab ein Problem mit dem Server");
-                }
-            });
-    } catch (exception) {
-        alert("Es gab ein Problem beim registrieren! " + exception);
     }
-}
 
-
-function Register() {
-    //TODO: Rework to be a Login
+    async function handleSubmission(e: any) {
+        e.preventDefault();
+        try {
+            await fetch('http://localhost:9090/user/login', {
+                method: 'POST',
+                body: JSON.stringify(inputs),
+                headers: {'Content-Type': 'application/json'}
+            })
+                .then(serverResponse => {
+                    if (!serverResponse.ok) {
+                        return (setBanner(false));
+                    }
+                });
+        } catch (exception) {
+            return (setBanner(false));
+        }
+    }
 
     return (
         <div className="App">
-            <TopNavigationBar />
+            <TopNavigationBar/>
+            {/* Setzen des Banners */}
+            {typeof banner == "undefined" ? null :
+                <Alert variant="danger">Login fehlgeschlagen!</Alert>}
             <Container>
                 <Row>
-                    <Col>
-                    </Col>
+                    <Col/>
                     <Col>
                         <div className="formContainer">
                             <Container>
-                                <Row>
-                                    <Col></Col>
-                                    <Col><div className="registerLabel">Registrieren</div></Col>
-                                    <Col></Col>
+                                <Row className="justify-content-center">
+                                    <div className="registerLabel">Login</div>
                                 </Row>
 
-                                <Row>
-                                    <Col></Col>
-                                    <Col><img className="profilePic" src={placeHolderImg}></img></Col>
-                                    <Col></Col>
-                                </Row>
-
+                                {/* User Input */}
                                 <Row>
                                     <Col>
-                                        <Form className="registerForm" onSubmit={handleSubmit}>
+                                        <Form className="registerForm" onSubmit={handleSubmission}>
                                             <Form.Group className="mb-3" controlId="userName">
-                                                <Form.Control type="text" placeholder="Benutzername" />
+                                                <Form.Control name="username" onChange={adjustInput}
+                                                              type="text" placeholder="Benutzername" required/>
                                             </Form.Group>
                                             <Form.Group className="mb-3" controlId="userPassword">
-                                                <Form.Control type="password" placeholder="Passwort" />
+                                                <Form.Control onChange={adjustInput}
+                                                              name="password" type="password" placeholder="Passwort"/>
                                             </Form.Group>
-                                            <Button variant="primary" type="submit">
-                                                Registrieren
+                                            <Row className="loginLinkContainer">
+                                                <Col>
+                                                    <Link className="loginLink" to="/"
+                                                          title="Weiter zum Registrieren">
+                                                        Hast du noch keinen Account?</Link>
+                                                </Col>
+                                            </Row>
+                                            <Button className="primaryButton" type="submit">
+                                                Login
                                             </Button>
                                         </Form>
                                     </Col>
                                 </Row>
                             </Container>
-
                         </div>
                     </Col>
-                    <Col></Col>
+                    <Col/>
                 </Row>
             </Container>
         </div>
     );
 }
 
-export default Register;
+export default Login;

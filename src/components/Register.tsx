@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { Component, useEffect, useState } from 'react';
+import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
@@ -7,9 +7,10 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import placeHolderImg from '../images/100.jpg'
 import editImg from '../images/edit.svg'
-import '../App.css';
+import '../css/Register.css';
 import TopNavigationBar from './TopNavigationBar'
 import Alert from 'react-bootstrap/Alert';
+import {Link} from "react-router-dom";
 
 function fileUpload() {
     // not yet implemented
@@ -31,31 +32,24 @@ function setCurrentPic() {
 
 function Register() {
     const [banner, setBanner] = React.useState<boolean | undefined>();
-    
-    const onSubmit = (e: { preventDefault: () => void; }) => {
+    const [inputs, setInputs] = useState({username: '', password: ''});
+
+    // input listener
+    const adjustInput = (e: any) => {
+        setInputs({
+            ...inputs,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    async function handleSubmit(e: any) {
         e.preventDefault();
-        handleSubmit();
-    };
 
-    async function handleSubmit() {
-        /**
-         * Get information from the form and write into json
-         * then fetch the endpoint with the json
-         * Handle if server response is not 200 or if anything else, e.g. network error, occurs
-         * Create Banner based on server response or if an exception happens
-         */
-        var userName = (document.getElementById("userName")! as HTMLInputElement).value!;
-        var userPW = (document.getElementById("userPassword")! as HTMLInputElement).value!;
-
-        const requestBody = {
-            username: userName,
-            userpassword: userPW,
-        }
         try {
             await fetch('http://localhost:9090/user/register/', {
                 method: 'POST',
-                body: JSON.stringify(requestBody),
-                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(inputs),
+                headers: {'Content-Type': 'application/json'},
                 mode: 'cors',
             })
                 .then(serverResponse => {
@@ -64,7 +58,6 @@ function Register() {
                     } else {
                         return (setBanner(true))
                     }
-
                 });
         } catch (exception) {
             return (setBanner(false))
@@ -73,14 +66,14 @@ function Register() {
 
     return (
         <div className="App">
-            <TopNavigationBar />
-            {/* Setzten des Banners */}
+            <TopNavigationBar/>
+            {/* Setzen des Banners */}
             {typeof banner == "undefined" ? null :
-                banner ? <Alert variant="success">Registrieren erfolgreich!</Alert> : <Alert variant="danger">Registrieren fehlgeschlagen!</Alert>}
+                banner ? <Alert variant="success">Registrieren erfolgreich!</Alert> :
+                    <Alert variant="danger">Registrieren fehlgeschlagen!</Alert>}
             <Container>
                 <Row>
-                    <Col>
-                    </Col>
+                    <Col/>
                     <Col>
                         <div className="formContainer">
                             <Container>
@@ -91,29 +84,32 @@ function Register() {
                                 {/* Profilbild */}
                                 <Row className="d-flex justify-content-center middleRow">
                                     <img alt="Standard Anzeigebild" className="col-auto profilePic"
-                                        onClick={fileUpload} src={placeHolderImg} title="Bild hochladen"
-                                        onMouseEnter={hoverEffect} onMouseLeave={setCurrentPic} />
+                                         onClick={fileUpload} src={placeHolderImg} title="Bild hochladen"
+                                         onMouseEnter={hoverEffect} onMouseLeave={setCurrentPic}/>
 
                                     <Button className="col-auto uploadButton">
                                         <img className="uploadButtonIcon"
-                                            src={editImg} title="Bild hochladen" />
+                                             src={editImg} title="Bild hochladen"/>
                                     </Button>
                                 </Row>
 
                                 {/* User Input */}
                                 <Row>
                                     <Col>
-                                        <Form className="registerForm" onSubmit={onSubmit}>
+                                        <Form className="registerForm" onSubmit={handleSubmit}>
                                             <Form.Group className="mb-3" controlId="userName">
-                                                <Form.Control type="text" placeholder="Benutzername" required />
+                                                <Form.Control type="text" placeholder="Benutzername" name="username"
+                                                              onChange={adjustInput} required/>
                                             </Form.Group>
                                             <Form.Group className="mb-3" controlId="userPassword">
-                                                <Form.Control type="password" placeholder="Passwort" required />
+                                                <Form.Control type="password" placeholder="Passwort" name="password"
+                                                              onChange={adjustInput} required/>
                                             </Form.Group>
                                             <Row className="loginLinkContainer">
                                                 <Col>
-                                                    <a className="loginLink" href="" title="Weiter zum Login">Hast du
-                                                        bereits einen Account?</a><br />
+                                                    <Link className="loginLink" to="/login"
+                                                          title="Weiter zum Login">
+                                                        Hast du bereits einen Account?</Link>
                                                 </Col>
                                             </Row>
                                             <Button className="primaryButton" type="submit">
@@ -126,7 +122,7 @@ function Register() {
 
                         </div>
                     </Col>
-                    <Col></Col>
+                    <Col/>
                 </Row>
             </Container>
         </div>
