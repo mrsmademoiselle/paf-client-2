@@ -1,5 +1,5 @@
 import Navbar from "react-bootstrap/Navbar";
-import Logo from '../images/logo.svg'
+import Logo from '../images/logo/logo.svg'
 
 function TopNavigationBar() {
     return (
@@ -15,5 +15,5 @@ function TopNavigationBar() {
         </Navbar>
     )
 }
- 
+
 export default TopNavigationBar;

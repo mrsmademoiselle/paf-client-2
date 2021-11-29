@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/RegisterLogin.css';
 import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -6,12 +7,23 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import TopNavigationBar from './TopNavigationBar'
-import '../css/Register.css';
-import {Link} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 
+/**
+ * Testmethode zum Setzen von Token und testen von Routing
+ */
+function setJwtToken() {
+    const now = new Date();
+    const item = {
+        value: "12345",
+        // für 5 Sekunden nach dem Login erreichbar, danach nicht mehr
+        expiry: now.getTime() + 5000,
+    }
+    localStorage.setItem("tolles_jwt_token", JSON.stringify(item));
+}
 
-function Login() {
+export default function Login() {
     const [inputs, setInputs] = useState({username: '', password: ''});
     const [banner, setBanner] = React.useState<boolean | undefined>();
 
@@ -23,9 +35,15 @@ function Login() {
         })
     }
 
+    // submission handler
     async function handleSubmission(e: any) {
         e.preventDefault();
+
         try {
+            // zum Testen der Routen während Server Request noch nicht funktioniert,
+            // darf später natürlich nicht genau hier geschehen
+            setJwtToken();
+
             await fetch('http://localhost:9090/user/login', {
                 method: 'POST',
                 body: JSON.stringify(inputs),
@@ -35,12 +53,16 @@ function Login() {
                     if (!serverResponse.ok) {
                         return (setBanner(false));
                     }
+                    // to be fixed
+                    return <Navigate to="/dashboard"/>;
+
                 });
         } catch (exception) {
             return (setBanner(false));
         }
     }
 
+    // layout
     return (
         <div className="App">
             <TopNavigationBar/>
@@ -71,7 +93,7 @@ function Login() {
                                             </Form.Group>
                                             <Row className="loginLinkContainer">
                                                 <Col>
-                                                    <Link className="loginLink" to="/"
+                                                    <Link className="loginLink" to="/register"
                                                           title="Weiter zum Registrieren">
                                                         Hast du noch keinen Account?</Link>
                                                 </Col>
@@ -91,5 +113,3 @@ function Login() {
         </div>
     );
 }
-
-export default Login;

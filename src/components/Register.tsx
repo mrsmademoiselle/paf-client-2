@@ -5,13 +5,16 @@ import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import placeHolderImg from '../images/100.jpg'
-import editImg from '../images/edit.svg'
-import '../css/Register.css';
+import placeHolderImg from '../images/painting.png'
+import editImg from '../images/buttons/edit.svg'
+import '../css/RegisterLogin.css';
 import TopNavigationBar from './TopNavigationBar'
 import Alert from 'react-bootstrap/Alert';
 import {Link} from "react-router-dom";
 
+/**
+ *
+ */
 function fileUpload() {
     // not yet implemented
 }
@@ -53,11 +56,7 @@ function Register() {
                 mode: 'cors',
             })
                 .then(serverResponse => {
-                    if (!serverResponse.ok) {
-                        return (setBanner(false))
-                    } else {
-                        return (setBanner(true))
-                    }
+                    return !serverResponse.ok ? setBanner(false) : setBanner(true);
                 });
         } catch (exception) {
             return (setBanner(false))
