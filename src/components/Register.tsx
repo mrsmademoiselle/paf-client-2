@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/Col';
 import placeHolderImg from '../images/painting.png'
 import editImg from '../images/buttons/edit.svg'
 import '../css/RegisterLogin.css';
-import TopNavigationBar from './TopNavigationBar'
+import TopNav from './TopNav'
 import Alert from 'react-bootstrap/Alert';
 import {Link} from "react-router-dom";
 
@@ -65,7 +65,7 @@ function Register() {
 
     return (
         <div className="App">
-            <TopNavigationBar/>
+            <TopNav/>
             {/* Setzen des Banners */}
             {typeof banner == "undefined" ? null :
                 banner ? <Alert variant="success">Registrieren erfolgreich!</Alert> :

@@ -6,21 +6,23 @@ import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import TopNavigationBar from './TopNavigationBar'
+import TopNav from './TopNav'
 import {Link, Navigate} from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 
 /**
  * Testmethode zum Setzen von Token und testen von Routing
  */
-function setJwtToken() {
+function setJwtToken(json: any) {
+
     const now = new Date();
-    const item = {
-        value: "12345",
-        // für 5 Sekunden nach dem Login erreichbar, danach nicht mehr
-        expiry: now.getTime() + 5000,
+    const sessionStorageItem = {
+        value: JSON.stringify(json),
+        // für 8h nach dem Login erreichbar
+        expiry: now.getTime() + 28800000,
     }
-    localStorage.setItem("tolles_jwt_token", JSON.stringify(item));
+    // SessionStorage, weil wir dann 2 Tabs mit 2 Accounts offen haben und so das Spiel testen können
+    sessionStorage.setItem("tolles_jwt_token", JSON.stringify(sessionStorageItem));
 }
 
 export default function Login() {
@@ -40,32 +42,39 @@ export default function Login() {
         e.preventDefault();
 
         try {
-            // zum Testen der Routen während Server Request noch nicht funktioniert,
-            // darf später natürlich nicht genau hier geschehen
-            setJwtToken();
-
             await fetch('http://localhost:9090/user/login', {
                 method: 'POST',
                 body: JSON.stringify(inputs),
                 headers: {'Content-Type': 'application/json'}
             })
-                .then(serverResponse => {
-                    if (!serverResponse.ok) {
-                        return (setBanner(false));
+                .then(response => {
+                    if (response.ok) {
+                        return response.text()
+                    } else {
+                        setBanner(false);
+                        return Promise.reject("Es gab ein Problem mit dem Server. Der Login konnte nicht verarbeitet werden.");
                     }
-                    // to be fixed
-                    return <Navigate to="/dashboard"/>;
-
-                });
-        } catch (exception) {
+                })
+                .then(data => {
+                        setJwtToken(data);
+                        // to be fixed
+                        // & User als Param an Dashboard mit übergeben, anstatt den User auch im SessionStorage zu speichern?
+                        return <Navigate to="/dashboard"/>;
+                    }
+                ).catch(function (e) {
+                    console.log(e);
+                    alert(e);
+                })
+        } catch
+            (exception) {
             return (setBanner(false));
         }
     }
 
-    // layout
+// layout
     return (
         <div className="App">
-            <TopNavigationBar/>
+            <TopNav/>
             {/* Setzen des Banners */}
             {typeof banner == "undefined" ? null :
                 <Alert variant="danger">Login fehlgeschlagen!</Alert>}

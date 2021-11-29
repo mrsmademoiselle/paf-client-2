@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import './css/RegisterLogin.css';
+import './css/index.css';
 import Login from "./components/Login";
 import Register from "./components/Register";
 import {BrowserRouter as Router, Navigate, Outlet, Route, Routes} from "react-router-dom";
@@ -14,13 +15,14 @@ function checkAuthentication() {
     let authenticated: boolean = false;
 
     let token_key = "tolles_jwt_token";
-    let token = localStorage.getItem(token_key);
+    let token = sessionStorage.getItem(token_key);
 
     if (token != null) {
         let json = JSON.parse(token);
 
+        // müssen noch andere Daten des Users geprüft werden?
         if (new Date().getTime() > json.expiry) {
-            localStorage.removeItem(token_key)
+            sessionStorage.removeItem(token_key)
         } else {
             authenticated = true;
         }
