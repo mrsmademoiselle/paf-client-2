@@ -7,7 +7,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import TopNav from './TopNav'
-import {Link, Navigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 
 /**
@@ -28,6 +28,7 @@ function setJwtToken(json: any) {
 export default function Login() {
     const [inputs, setInputs] = useState({username: '', password: ''});
     const [banner, setBanner] = React.useState<boolean | undefined>();
+    let navigate = useNavigate();
 
     // input listener
     const adjustInput = (e: any) => {
@@ -57,9 +58,8 @@ export default function Login() {
                 })
                 .then(data => {
                         setJwtToken(data);
-                        // to be fixed
-                        // & User als Param an Dashboard mit übergeben, anstatt den User auch im SessionStorage zu speichern?
-                        return <Navigate to="/dashboard"/>;
+                        // TODO User vor Redirect global speichern?
+                        navigate("/dashboard");
                     }
                 ).catch(function (e) {
                     console.log(e);

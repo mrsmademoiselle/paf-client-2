@@ -1,8 +1,14 @@
+import TopNav from "./TopNav";
+import React from "react";
+
 /**
  * Dummy Seite, um Routing zu testen
  */
 export default function Dashboard() {
     return (
-        <div>Ich bin ein protected Dashboard</div>
+        <>
+            <TopNav/>
+            <div>Ich bin ein protected Dashboard</div>
+        </>
     );
 }
