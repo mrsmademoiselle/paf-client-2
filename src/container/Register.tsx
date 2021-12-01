@@ -5,9 +5,9 @@ import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import placeHolderImg from '../images/painting.png'
-import editImg from '../images/buttons/edit.svg'
-import '../css/RegisterLogin.css';
+import placeHolderImg from '../styling/images/painting.png'
+import editImg from '../styling/images/buttons/edit.svg'
+import '../styling/css/RegisterLogin.css';
 import TopNav from '../components/TopNav'
 import Alert from 'react-bootstrap/Alert';
 import {Link, useNavigate} from "react-router-dom";

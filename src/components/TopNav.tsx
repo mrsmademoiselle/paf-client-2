@@ -1,6 +1,6 @@
 import Navbar from "react-bootstrap/Navbar";
-import Logo from '../images/logo/logo.svg';
-import logoutImg from '../images/buttons/logout.svg';
+import Logo from '../styling/images/logo/logo.svg';
+import logoutImg from '../styling/images/buttons/logout.svg';
 import {Link} from "react-router-dom";
 import React from "react";
 
