@@ -36,7 +36,6 @@ export default function Login() {
         setBanner(false);
     }
 
-
     return (
         <div className="App">
             <TopNav/>

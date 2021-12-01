@@ -2,11 +2,11 @@ export class TokenManager {
 
     private static TOKEN_KEY: string = "tolles_jwt_token";
 
-    static setToken(token: any): void {
+    static setToken(json: any): void {
         const now = new Date();
 
         const sessionStorageItem = {
-            value: JSON.stringify(token),
+            value: json.token,
             // für 8h nach dem Login erreichbar
             expiry: now.getTime() + 28800000,
         }
@@ -17,8 +17,8 @@ export class TokenManager {
     static getToken(): string {
         let token = sessionStorage.getItem(this.TOKEN_KEY);
         if (token == null) return "";
-
         let json = JSON.parse(token);
+
         // müssen noch andere Daten des Users geprüft werden?
         if (new Date().getTime() > json.expiry) {
             sessionStorage.removeItem(this.TOKEN_KEY)

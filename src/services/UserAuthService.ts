@@ -9,7 +9,7 @@ export class UserAuthService {
             const response = await HttpConnector.post(inputs, 'user/login')
 
             if (response.ok) {
-                await response.text().then(data => TokenManager.setToken(data));
+                await response.json().then(data => TokenManager.setToken(data));
                 return true;
             } else {
                 console.log("Der Login konnte nicht verarbeitet werden.");
