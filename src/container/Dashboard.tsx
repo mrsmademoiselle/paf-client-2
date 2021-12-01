@@ -1,4 +1,4 @@
-import TopNav from "./TopNav";
+import TopNav from "../components/TopNav";
 import React from "react";
 
 /**

@@ -8,9 +8,10 @@ import Col from 'react-bootstrap/Col';
 import placeHolderImg from '../images/painting.png'
 import editImg from '../images/buttons/edit.svg'
 import '../css/RegisterLogin.css';
-import TopNav from './TopNav'
+import TopNav from '../components/TopNav'
 import Alert from 'react-bootstrap/Alert';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {UserAuthService} from "../services/UserAuthService";
 
 /**
  *
@@ -34,6 +35,8 @@ function setCurrentPic() {
 }
 
 function Register() {
+    let navigate = useNavigate();
+
     const [banner, setBanner] = React.useState<boolean | undefined>();
     const [inputs, setInputs] = useState({username: '', password: ''});
 
@@ -47,20 +50,11 @@ function Register() {
 
     async function handleSubmit(e: any) {
         e.preventDefault();
+        const status = await UserAuthService.register(inputs);
 
-        try {
-            await fetch('http://localhost:9090/user/register/', {
-                method: 'POST',
-                body: JSON.stringify(inputs),
-                headers: {'Content-Type': 'application/json'},
-                mode: 'cors',
-            })
-                .then(serverResponse => {
-                    return !serverResponse.ok ? setBanner(false) : setBanner(true);
-                });
-        } catch (exception) {
-            return (setBanner(false))
-        }
+        // TBD Banner übergeben "du kannst dich nun einloggen" oder sogar direktes Einloggen -> dafür JWT-Authentifizierung nötig
+        if (status) return navigate("/login")
+        setBanner(false);
     }
 
     return (

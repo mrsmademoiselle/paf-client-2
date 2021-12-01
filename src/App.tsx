@@ -2,16 +2,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import './css/RegisterLogin.css';
 import './css/index.css';
-import Login from "./components/Login";
-import Register from "./components/Register";
+import Login from "./container/Login";
+import Register from "./container/Register";
 import {BrowserRouter as Router, Navigate, Outlet, Route, Routes} from "react-router-dom";
 import {useLocation} from "react-router";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./container/Dashboard";
 
 /**
  * Erstentwurf von JWT Check zum Testen von Routing
  */
 function checkAuthentication() {
+
     let authenticated: boolean = false;
 
     let token_key = "tolles_jwt_token";
@@ -27,6 +28,7 @@ function checkAuthentication() {
             authenticated = true;
         }
     }
+
     return authenticated;
 }
 
@@ -57,6 +59,7 @@ export default function App() {
                     <Route path="/dashboard" element={<Dashboard/>}/>
                 </Route>
             </Routes>
-        </Router>);
+        </Router>
+    );
 
 }
