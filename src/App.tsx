@@ -1,43 +1,28 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
-import './css/RegisterLogin.css';
-import './css/index.css';
+import './styling/css/RegisterLogin.css';
+import './styling/css/index.css';
 import Login from "./container/Login";
 import Register from "./container/Register";
 import {BrowserRouter as Router, Navigate, Outlet, Route, Routes} from "react-router-dom";
 import {useLocation} from "react-router";
 import Dashboard from "./container/Dashboard";
-
-/**
- * Erstentwurf von JWT Check zum Testen von Routing
- */
-function checkAuthentication() {
-
-    let authenticated: boolean = false;
-
-    let token_key = "tolles_jwt_token";
-    let token = sessionStorage.getItem(token_key);
-
-    if (token != null) {
-        let json = JSON.parse(token);
-
-        // müssen noch andere Daten des Users geprüft werden?
-        if (new Date().getTime() > json.expiry) {
-            sessionStorage.removeItem(token_key)
-        } else {
-            authenticated = true;
-        }
-    }
-
-    return authenticated;
-}
+import {TokenManager} from "./services/TokenManager";
+import {swap} from "@dbeining/react-atom";
+import {authentication} from "./states/UserStates";
 
 export default function App() {
-    function RequireAuth() {
-        let authenticated = checkAuthentication();
 
+    function RequireAuth() {
         /* previous location to resume action after authentication */
         let location = useLocation();
+
+        /* update authentication state */
+        let authenticated = TokenManager.isUserAuthenticated();
+        swap(authentication, state => ({
+            ...state,
+            isAuthenticated: authenticated
+        }));
 
         if (!authenticated) {
             return <Navigate to="/login" state={{from: location}}/>;

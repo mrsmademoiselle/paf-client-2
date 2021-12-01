@@ -1,4 +1,5 @@
 import {HttpConnector} from "./HttpConnector";
+import {TokenManager} from "./TokenManager";
 
 export class UserAuthService {
 
@@ -8,7 +9,7 @@ export class UserAuthService {
             const response = await HttpConnector.post(inputs, 'user/login')
 
             if (response.ok) {
-                response.text().then(data => this.setJwtToken(data));
+                await response.text().then(data => TokenManager.setToken(data));
                 return true;
             } else {
                 console.log("Der Login konnte nicht verarbeitet werden.");
@@ -30,18 +31,4 @@ export class UserAuthService {
         }
     }
 
-    /**
-     * Testmethode zum Setzen von Token und testen von Routing
-     */
-    private static setJwtToken(json: any) {
-
-        const now = new Date();
-        const sessionStorageItem = {
-            value: JSON.stringify(json),
-            // für 8h nach dem Login erreichbar
-            expiry: now.getTime() + 28800000,
-        }
-        // SessionStorage, weil wir dann 2 Tabs mit 2 Accounts offen haben und so das Spiel testen können
-        sessionStorage.setItem("tolles_jwt_token", JSON.stringify(sessionStorageItem));
-    }
 }
