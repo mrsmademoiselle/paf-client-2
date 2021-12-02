@@ -25,7 +25,7 @@ export class UserAuthService {
     static async register(inputs: any) {
         try {
             const serverResponse = await HttpConnector.post(inputs, "user/register");
-            return serverResponse.ok ? true : false;
+            return serverResponse.ok;
         } catch (exception) {
             return false;
         }

@@ -18,15 +18,13 @@ export default function Login() {
     const [inputs, setInputs] = useState({username: '', password: ''});
     const [banner, setBanner] = React.useState<boolean | undefined>();
 
-    // input listener
     const adjustInput = (e: any) => {
         setInputs({
             ...inputs,
             [e.target.name]: e.target.value
         })
     }
-
-    // submission handler
+    
     async function handleSubmission(e: any) {
         e.preventDefault();
 

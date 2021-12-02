@@ -13,7 +13,7 @@ export class HttpConnector {
     static async get(url: string): Promise<Response> {
         return await fetch(this.PATH + url, {
             method: 'GET',
-            // ...? tbd when needed
+            // ...? tbd wenn gebraucht
         });
     }
 }

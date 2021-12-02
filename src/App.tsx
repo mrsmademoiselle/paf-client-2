@@ -14,10 +14,10 @@ import {authentication} from "./states/UserStates";
 export default function App() {
 
     function RequireAuth() {
-        /* previous location to resume action after authentication */
+        /* vorherige Location um Aktion nach Authentifizierung wieder aufzunehmen */
         let location = useLocation();
 
-        /* update authentication state */
+        /*  Authentifizierung-State aktualisieren */
         let authenticated = TokenManager.isUserAuthenticated();
         swap(authentication, state => ({
             ...state,
@@ -31,15 +31,14 @@ export default function App() {
         return <Outlet/>;
     }
 
-    // evtl in eigene Datei auslagern
     return (
         <Router>
             <Routes>
-                {/* public routes */}
+                {/* öffentliche Routen */}
                 <Route path="/" element={<Register/>}/>
                 <Route path="/register" element={<Register/>}/>
                 <Route path="/login" element={<Login/>}/>
-                {/* private routes */}
+                {/* private Routen */}
                 <Route element={<RequireAuth/>}>
                     <Route path="/dashboard" element={<Dashboard/>}/>
                 </Route>

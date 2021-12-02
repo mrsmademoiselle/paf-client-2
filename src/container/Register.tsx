@@ -17,21 +17,21 @@ import {UserAuthService} from "../services/UserAuthService";
  *
  */
 function fileUpload() {
-    // not yet implemented
+    // noch nicht implementiert
 }
 
 /**
  * Wenn der Benutzer über das Bild hovert, erscheint eine Drag and Drop Anzeige (siehe FX-Client)
  */
 function hoverEffect() {
-    // not yet implemented
+    // noch nicht implementiert
 }
 
 /**
  * Wenn der Benutzer aufhört über das Bild zu hovern, erscheint das von ihm gesetzte Bild wieder
  */
 function setCurrentPic() {
-    // not yet implemented
+    // noch nicht implementiert
 }
 
 function Register() {
@@ -40,7 +40,6 @@ function Register() {
     const [banner, setBanner] = React.useState<boolean | undefined>();
     const [inputs, setInputs] = useState({username: '', password: ''});
 
-    // input listener
     const adjustInput = (e: any) => {
         setInputs({
             ...inputs,

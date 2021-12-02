@@ -10,7 +10,7 @@ function deleteJwtToken() {
 }
 
 function TopNav() {
-    /* To be replaced with state management */
+    /* zu ersetzen mit state management */
     const isAuthenticated = TokenManager.isUserAuthenticated();
 
     return (
