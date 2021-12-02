@@ -49,6 +49,14 @@ export default function Register() {
 
     async function handleSubmit(e: any) {
         e.preventDefault();
+        /* Eventuell bereits beim Tippen überprüfen, damit Livefeedback gegeben werden kann */
+        let regex = /(\W)/;
+        let usernameInvalid = regex.test(inputs.username);
+
+        if (usernameInvalid) {
+            setBanner(false);
+            return;
+        }
         const status = await UserAuthService.register(inputs);
 
         // TBD Banner übergeben "du kannst dich nun einloggen" oder sogar direktes Einloggen -> dafür JWT-Authentifizierung nötig
