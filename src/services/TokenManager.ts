@@ -28,6 +28,10 @@ export class TokenManager {
         }
     }
 
+    static removeToken(): void {
+        sessionStorage.removeItem(this.TOKEN_KEY);
+    }
+
     static isUserAuthenticated(): boolean {
         const token = this.getToken();
 

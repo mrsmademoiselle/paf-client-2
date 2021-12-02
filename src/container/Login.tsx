@@ -24,10 +24,9 @@ export default function Login() {
             [e.target.name]: e.target.value
         })
     }
-    
+
     async function handleSubmission(e: any) {
         e.preventDefault();
-
         const status = await UserAuthService.login(inputs);
 
         if (status) return navigate("/dashboard");
