@@ -34,7 +34,7 @@ function setCurrentPic() {
     // noch nicht implementiert
 }
 
-function Register() {
+export default function Register() {
     let navigate = useNavigate();
 
     const [banner, setBanner] = React.useState<boolean | undefined>();
@@ -120,5 +120,3 @@ function Register() {
         </div>
     );
 }
-
-export default Register;

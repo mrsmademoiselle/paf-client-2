@@ -9,13 +9,13 @@ function deleteJwtToken() {
     sessionStorage.removeItem("tolles_jwt_token");
 }
 
-function TopNav() {
+export default function TopNav() {
     /* zu ersetzen mit state management */
     const isAuthenticated = TokenManager.isUserAuthenticated();
 
     return (
         <Navbar className="topNav w-100">
-            <Navbar.Brand href="#home">
+            <Navbar.Brand href="/dashboard">
                 <img src={Logo} width="150px"
                      className="navLogo d-inline-block align-top" alt="Memor.io"/>
             </Navbar.Brand>
@@ -29,5 +29,3 @@ function TopNav() {
         </Navbar>
     )
 }
-
-export default TopNav;
