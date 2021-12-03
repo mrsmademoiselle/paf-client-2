@@ -12,7 +12,7 @@ export class HttpConnector {
         });
 
         /* Nach Einigung an den ResponseStatus anpassen, der bei einem ungültigen Token zurückgegeben wird */
-        if (!response.ok) TokenManager.removeToken();
+        if (response.status == 401) TokenManager.removeToken();
 
         return response;
     }
@@ -22,9 +22,9 @@ export class HttpConnector {
             method: 'GET',
             // ...? tbd wenn gebraucht
         });
-        
+
         /* Nach Einigung an den ResponseStatus anpassen, der bei einem ungültigen Token zurückgegeben wird */
-        if (!response.ok) TokenManager.removeToken();
+        if (response.status == 401) TokenManager.removeToken();
 
         return response;
     }
