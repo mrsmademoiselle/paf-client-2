@@ -9,7 +9,7 @@ function deleteJwtToken() {
     sessionStorage.removeItem("tolles_jwt_token");
 }
 
-export default function TopNav() {
+export default function TopNav(): React.ReactElement {
     /* zu ersetzen mit state management */
     const isAuthenticated = TokenManager.isUserAuthenticated();
 

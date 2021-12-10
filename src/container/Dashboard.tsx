@@ -1,14 +1,16 @@
-import TopNav from "../components/TopNav";
 import React from "react";
+import { UserAuthService } from "../services/UserAuthService";
+import MainLayout from '../layouts/MainLayout';
+import {Link, useNavigate} from "react-router-dom";
 
-/**
- * Dummy Seite, um Routing zu testen
- */
-export default function Dashboard() {
+export default function Dashboard(): React.ReactElement {
+    let navigate = useNavigate();
+    let response = UserAuthService.check()
+    console.log(response);
+
     return (
-        <>
-            <TopNav/>
+	<MainLayout>
             <div>Ich bin ein protected Dashboard</div>
-        </>
+	</MainLayout>
     );
 }

@@ -6,10 +6,11 @@ import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import TopNav from '../components/TopNav'
 import {Link, useNavigate} from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 import {UserAuthService} from "../services/UserAuthService";
+import MainLayout from '../layouts/MainLayout';
+import {closeBanner, showBanner} from '../states/UserStates';
 
 
 export default function Login() {
@@ -25,20 +26,17 @@ export default function Login() {
         })
     }
 
+    closeBanner();
+
     async function handleSubmission(e: any) {
         e.preventDefault();
         const status = await UserAuthService.login(inputs);
 
         if (status) return navigate("/dashboard");
-        setBanner(false);
     }
 
     return (
-        <div className="App">
-            <TopNav/>
-            {/* Setzen des Banners */}
-            {typeof banner == "undefined" ? null :
-                <Alert variant="danger">Login fehlgeschlagen!</Alert>}
+	<MainLayout>
             <Container>
                 <Row>
                     <Col/>
@@ -81,6 +79,6 @@ export default function Login() {
                     <Col/>
                 </Row>
             </Container>
-        </div>
+	</MainLayout>
     );
 }

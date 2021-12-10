@@ -8,30 +8,27 @@ import Col from 'react-bootstrap/Col';
 import placeHolderImg from '../styling/images/default.png'
 import editImg from '../styling/images/buttons/edit.svg'
 import '../styling/css/RegisterLogin.css';
-import TopNav from '../components/TopNav'
 import Alert from 'react-bootstrap/Alert';
 import {Link, useNavigate} from "react-router-dom";
 import {UserAuthService} from "../services/UserAuthService";
+import MainLayout from '../layouts/MainLayout';
+import {showBanner} from '../states/UserStates';
 
-/**
- *
- */
-function fileUpload() {
-    // noch nicht implementiert
+function fileUpload(ref:any) {
+    if (ref !== undefined){
+    	ref.current.click();
+    }
 }
-
 /**
  * Wenn der Benutzer über das Bild hovert, erscheint eine Drag and Drop Anzeige (siehe FX-Client)
  */
 function hoverEffect() {
-    // noch nicht implementiert
 }
 
 /**
  * Wenn der Benutzer aufhört über das Bild zu hovern, erscheint das von ihm gesetzte Bild wieder
  */
 function setCurrentPic() {
-    // noch nicht implementiert
 }
 
 export default function Register() {
@@ -39,12 +36,57 @@ export default function Register() {
 
     const [banner, setBanner] = React.useState<boolean | undefined>();
     const [inputs, setInputs] = useState({username: '', password: ''});
+    const [selectedImg, setSelectedImg] = useState();
+    const [livePwText, setLivePwText] = useState("");
+    const [liveUserText, setUserText] = useState("");
+    const [registerActive, setRegisterActive] = useState(false);
+    const hiddenFileInput = React.useRef(null);
+
+    const checkPW = (val: string) => {
+	if(val.length <= 6){
+	    setLivePwText("too short");
+	    setRegisterActive(false);
+	} else if(!/\d/.test(val)) {
+	    setLivePwText("should contain numbers");
+	    setRegisterActive(false);
+	} else if(!/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(val)){
+	    setLivePwText("should at least contain one special character");
+	    setRegisterActive(false);
+	} else {
+	    setLivePwText("");
+	    setRegisterActive(true);
+	}
+    }
+    const checkUserName = (val:string) => {
+	if(val.length <= 0){
+	    setUserText("should not be empty");
+	    setRegisterActive(false);
+	} else if(/\s/.test(val)){
+	    setUserText("should not contain spaces");
+	    setRegisterActive(false);
+	} else {
+	    setUserText("");
+	    setRegisterActive(true);
+	}
+    }
 
     const adjustInput = (e: any) => {
+	const val = e.target.value;
+	if(e.target.name === "password"){
+	    checkPW(val);
+	}
+	if(e.target.name === "username"){
+	    checkUserName(val);
+	}
         setInputs({
             ...inputs,
-            [e.target.name]: e.target.value
+            [e.target.name]: val
         })
+    }
+
+    function onChangeHandler(event:any) {
+	const file = event.target.files[0];
+	setSelectedImg(file);
     }
 
     async function handleSubmit(e: any) {
@@ -54,23 +96,22 @@ export default function Register() {
         let usernameInvalid = regex.test(inputs.username);
 
         if (usernameInvalid) {
-            setBanner(false);
             return;
         }
-        const status = await UserAuthService.register(inputs);
 
-        // TBD Banner übergeben "du kannst dich nun einloggen" oder sogar direktes Einloggen -> dafür JWT-Authentifizierung nötig
-        if (status) return navigate("/login")
-        setBanner(false);
+        //const status: boolean = await UserAuthService.register(inputs);
+        const reg_status: any = await UserAuthService.register(inputs);
+	// if login was successfull
+	if(reg_status){
+	    // upload img
+	    await UserAuthService.uploadImg(selectedImg);
+	    return navigate("/login")
+	} 
     }
 
     return (
-        <div className="App">
-            <TopNav/>
-            {/* Setzen des Banners */}
-            {typeof banner == "undefined" ? null :
-                banner ? <Alert variant="success">Registrieren erfolgreich!</Alert> :
-                    <Alert variant="danger">Registrieren fehlgeschlagen!</Alert>}
+	<MainLayout>
+	<div>
             <Container>
                 <Row>
                     <Col/>
@@ -83,11 +124,13 @@ export default function Register() {
 
                                 {/* Profilbild */}
                                 <Row className="d-flex justify-content-center middleRow">
+				
+				    <input onChange={onChangeHandler} style={{display: 'none'}} ref={hiddenFileInput} type="file" accept=".jpg, .jpeg, .png" name="file"/>
                                     <img alt="Standard Anzeigebild" className="col-auto profilePic"
-                                         onClick={fileUpload} src={placeHolderImg} title="Bild hochladen"
+                                         onClick={()=>fileUpload(hiddenFileInput)} src={placeHolderImg} title="Bild hochladen"
                                          onMouseEnter={hoverEffect} onMouseLeave={setCurrentPic}/>
 
-                                    <Button className="col-auto uploadButton">
+                                    <Button className="col-auto uploadButton" onClick={() => fileUpload(hiddenFileInput)}>
                                         <img className="uploadButtonIcon"
                                              src={editImg} title="Bild hochladen"/>
                                     </Button>
@@ -98,10 +141,12 @@ export default function Register() {
                                     <Col>
                                         <Form className="registerForm" onSubmit={handleSubmit}>
                                             <Form.Group className="mb-3" controlId="userName">
+						<div className="text-danger">{liveUserText}</div>
                                                 <Form.Control type="text" placeholder="Benutzername" name="username"
                                                               onChange={adjustInput} required/>
                                             </Form.Group>
                                             <Form.Group className="mb-3" controlId="userPassword">
+						<div className="text-danger">{livePwText}</div>
                                                 <Form.Control type="password" placeholder="Passwort" name="password"
                                                               onChange={adjustInput} required/>
                                             </Form.Group>
@@ -112,7 +157,7 @@ export default function Register() {
                                                         Hast du bereits einen Account?</Link>
                                                 </Col>
                                             </Row>
-                                            <Button className="primaryButton" type="submit">
+                                            <Button className="primaryButton" type="submit" disabled={!registerActive}>
                                                 Registrieren
                                             </Button>
                                         </Form>
@@ -125,6 +170,7 @@ export default function Register() {
                     <Col/>
                 </Row>
             </Container>
-        </div>
+	</div>
+	</MainLayout>
     );
 }

@@ -6,7 +6,7 @@ export class TokenManager {
         const now = new Date();
 
         const sessionStorageItem = {
-            value: json.token,
+            value: json.jwttoken,
             // für 8h nach dem Login erreichbar
             expiry: now.getTime() + 28800000,
         }

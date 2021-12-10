@@ -12,20 +12,19 @@ export class HttpConnector {
         });
 
         /* Nach Einigung an den ResponseStatus anpassen, der bei einem ungültigen Token zurückgegeben wird */
-        if (response.status == 401) TokenManager.removeToken();
-
+        if (response.status === 401) TokenManager.removeToken();
         return response;
     }
 
     static async get(url: string): Promise<Response> {
+	console.log(JSON.parse(TokenManager.getToken()).value);
         const response = await fetch(this.PATH + url, {
             method: 'GET',
-            // ...? tbd wenn gebraucht
+            headers: {'Content-Type': 'application/json', 'authorization': JSON.parse(TokenManager.getToken()).value},
         });
 
         /* Nach Einigung an den ResponseStatus anpassen, der bei einem ungültigen Token zurückgegeben wird */
-        if (response.status == 401) TokenManager.removeToken();
-
+        if (response.status === 401) TokenManager.removeToken();
         return response;
     }
 }
