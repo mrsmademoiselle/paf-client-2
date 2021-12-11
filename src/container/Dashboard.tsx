@@ -1,12 +1,18 @@
 import React from "react";
 import { UserAuthService } from "../services/UserAuthService";
 import MainLayout from '../layouts/MainLayout';
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import {TokenManager} from '../services/TokenManager';
 
 export default function Dashboard(): React.ReactElement {
     let navigate = useNavigate();
-    let response = UserAuthService.check()
-    console.log(response);
+    UserAuthService.check().then(data => {
+	if(!data){
+	    TokenManager.removeToken();
+	    navigate('/login');	
+	}
+    });
+
 
     return (
 	<MainLayout>

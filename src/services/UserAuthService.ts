@@ -13,10 +13,9 @@ export class UserAuthService {
 
             if (response.ok) {
                 await response.json().then(data => TokenManager.setToken(data));
-		console.log(TokenManager.getToken());
                 return true;
             } else {
-                console.log("Der Login konnte nicht verarbeitet werden. Response Status " + response.status);
+		showBanner("danger", "Der Login konnte nicht verarbeitet werden. Response Status " + response.status);
                 return false;
             }
             // TODO User vor Redirect global speichern?
@@ -33,13 +32,13 @@ export class UserAuthService {
 		await serverResponse.json().then(data => TokenManager.setToken(data));
 		return true;
 	    } else {
-		console.log(serverResponse);
 		showBanner("danger", "could not create user");
 		return false;
 	    }
 
         } catch (exception) {
             console.log(exception);
+	    showBanner("danger", "could not create user");
             return false;
         }
     }
@@ -53,14 +52,11 @@ export class UserAuthService {
     static async uploadImg(img: any): Promise<any>{
 	try {
 	    const reader = new FileReader();
-	    let result;
-	    reader.readAsArrayBuffer(img)
+	    reader.readAsDataURL(img)
 	    let res = await this.onLoad(reader);
-	    console.log("img loaded ", res);
-	    const serverResponse = HttpConnector.post(result, this.URL_PREFIX + "image/upload");
+	    const serverResponse = HttpConnector.postImage(res, this.URL_PREFIX + "image/upload");
 	    return false;
 	} catch (e) {
-	    console.log(e);
 	    return false;
 	}
     }

@@ -8,11 +8,9 @@ import Col from 'react-bootstrap/Col';
 import placeHolderImg from '../styling/images/default.png'
 import editImg from '../styling/images/buttons/edit.svg'
 import '../styling/css/RegisterLogin.css';
-import Alert from 'react-bootstrap/Alert';
 import {Link, useNavigate} from "react-router-dom";
 import {UserAuthService} from "../services/UserAuthService";
 import MainLayout from '../layouts/MainLayout';
-import {showBanner} from '../states/UserStates';
 
 function fileUpload(ref:any) {
     if (ref !== undefined){
@@ -41,6 +39,8 @@ export default function Register() {
     const [liveUserText, setUserText] = useState("");
     const [registerActive, setRegisterActive] = useState(false);
     const hiddenFileInput = React.useRef(null);
+    const [preview, setPreview] = useState<String | ArrayBuffer | null>();
+    const [imgSelected, setImgSelected] = useState(false);
 
     const checkPW = (val: string) => {
 	if(val.length <= 6){
@@ -86,6 +86,13 @@ export default function Register() {
 
     function onChangeHandler(event:any) {
 	const file = event.target.files[0];
+	let reader = new FileReader();
+	reader.readAsDataURL(file);
+	reader.onload = function () {
+	    if(reader.result !== null){
+	    	setPreview(reader.result);
+	    }
+	}
 	setSelectedImg(file);
     }
 
@@ -104,9 +111,16 @@ export default function Register() {
 	// if login was successfull
 	if(reg_status){
 	    // upload img
-	    await UserAuthService.uploadImg(selectedImg);
-	    return navigate("/login")
+	    if(selectedImg !== null || selectedImg !== undefined){
+	    	await UserAuthService.uploadImg(selectedImg);
+	    }
+	    return navigate("/dashboard")
 	} 
+    }
+
+    let src: any = placeHolderImg;
+    if(preview !== null || preview !== undefined){
+	src = preview;
     }
 
     return (
@@ -127,7 +141,7 @@ export default function Register() {
 				
 				    <input onChange={onChangeHandler} style={{display: 'none'}} ref={hiddenFileInput} type="file" accept=".jpg, .jpeg, .png" name="file"/>
                                     <img alt="Standard Anzeigebild" className="col-auto profilePic"
-                                         onClick={()=>fileUpload(hiddenFileInput)} src={placeHolderImg} title="Bild hochladen"
+                                         onClick={()=>fileUpload(hiddenFileInput)} src={src} title="Bild hochladen"
                                          onMouseEnter={hoverEffect} onMouseLeave={setCurrentPic}/>
 
                                     <Button className="col-auto uploadButton" onClick={() => fileUpload(hiddenFileInput)}>

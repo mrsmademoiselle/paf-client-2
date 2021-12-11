@@ -8,7 +8,7 @@ export default function MainLayout(children: any): React.ReactElement{
 
     const {variant, text, show} = useAtom(bannerState);
     let banner: React.ReactElement = (<></>);
-    if(!show){
+    if(show){
 	banner = (<Banner variant={variant} text={text} show={show}/>);
     } else {
   	banner = (<></>);

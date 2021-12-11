@@ -6,7 +6,7 @@ import React from "react";
 import {TokenManager} from "../services/TokenManager";
 
 function deleteJwtToken() {
-    sessionStorage.removeItem("tolles_jwt_token");
+    TokenManager.removeToken();
 }
 
 export default function TopNav(): React.ReactElement {

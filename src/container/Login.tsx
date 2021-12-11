@@ -10,7 +10,7 @@ import {Link, useNavigate} from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 import {UserAuthService} from "../services/UserAuthService";
 import MainLayout from '../layouts/MainLayout';
-import {closeBanner, showBanner} from '../states/UserStates';
+import {showBanner} from '../states/UserStates';
 
 
 export default function Login() {
@@ -26,13 +26,16 @@ export default function Login() {
         })
     }
 
-    closeBanner();
-
     async function handleSubmission(e: any) {
         e.preventDefault();
-        const status = await UserAuthService.login(inputs);
+        UserAuthService.login(inputs).then(data => {
+	    if (data){
+		return navigate("/dashboard");
+	    } else {
+		showBanner("danger", "form cant be empty");
+	    }
+	});
 
-        if (status) return navigate("/dashboard");
     }
 
     return (

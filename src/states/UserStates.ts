@@ -14,7 +14,7 @@ export default interface bannerStateInterface {
 export const bannerState = Atom.of({
     variant : "success",
     text : "test",
-    show: true,
+    show: false,
 });
 
 export function showBanner(variant: string, text: string): void{
@@ -22,14 +22,14 @@ export function showBanner(variant: string, text: string): void{
 	...state,
 	variant: variant,
 	text: text,
-	show: false,
+	show: true,
     }));
 }
 
 export function closeBanner(): void {
     return swap(bannerState, state => ({
 	...state,
-	show: true,
+	show: false,
     }));
 }
 

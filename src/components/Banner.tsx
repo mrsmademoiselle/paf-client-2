@@ -7,7 +7,7 @@ const BANNER_TIMEOUT: number = 5000;
 
 export default function Banner(props: bannerStateInterface): React.ReactElement {
     useEffect(()=>{
-	if(!props.show){
+	if(props.show){
 	    const timer = setTimeout(()=>{
 		closeBanner();
 	    }, BANNER_TIMEOUT);
@@ -16,7 +16,7 @@ export default function Banner(props: bannerStateInterface): React.ReactElement 
     }, []);
 
     let val: React.ReactElement = (<></>);
-    if(!props.show){
+    if(props.show){
 	val = (<Alert variant={props.variant}>{props.text}</Alert>);
     }
     return (
