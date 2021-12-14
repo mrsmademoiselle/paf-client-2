@@ -10,6 +10,7 @@ import Dashboard from "./container/Dashboard";
 import {TokenManager} from "./services/TokenManager";
 import {swap} from "@dbeining/react-atom";
 import {authentication} from "./states/UserStates";
+import Userprofil from './container/Userprofil';
 
 export default function App() {
 
@@ -41,6 +42,7 @@ export default function App() {
                 {/* private Routen */}
                 <Route element={<RequireAuth/>}>
                     <Route path="/dashboard" element={<Dashboard/>}/>
+                    <Route path="/userprofil" element={<Userprofil/>}/>
                 </Route>
             </Routes>
         </Router>
