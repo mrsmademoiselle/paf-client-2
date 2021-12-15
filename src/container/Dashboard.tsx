@@ -17,6 +17,7 @@ export default function Dashboard(): React.ReactElement {
     return (
 	<MainLayout>
             <div>Ich bin ein protected Dashboard</div>
-	</MainLayout>
+            <div>Wilkommen zurück, </div>
+    </MainLayout>
     );
 }
