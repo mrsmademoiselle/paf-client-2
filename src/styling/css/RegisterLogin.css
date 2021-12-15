@@ -46,6 +46,13 @@
     cursor: pointer;
 }
 
+.hoverText{
+    text-align: center;
+    margin-top: 60px;
+    font-size: 24px;
+}
+
+
 .uploadButton {
     background-color: transparent;
     border: none;
