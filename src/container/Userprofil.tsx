@@ -131,7 +131,6 @@ export default function Userprofil() {
                     <Col>
                     </Col>
                     {/*Buttons*/}
-
                     <Col>
                         {/*TODO: FIX BUTTON Behavouir and layout*/}
                         <Stack>
@@ -152,24 +151,28 @@ export default function Userprofil() {
                         <Col>
                             <Form.Group className="mb-3" controlId="userName">
                                 <div className="text-danger">{liveUserText}</div>
+                                <Form.Label>Benutzername</Form.Label>
                                 <Form.Control type="text" placeholder="Benutzername" name="username"
                                               onChange={adjustInput} required/>
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="userPassword">
                                 <div className="text-danger">{livePwText}</div>
+                                <Form.Label>Passwort</Form.Label>
                                 <Form.Control type="password" placeholder="Passwort" name="password"
                                               onChange={adjustInput} required/>
                             </Form.Group>
                         </Col>
                     </Form>
                     {/*Fehlerhandling*/}
-                    <Col className="userProfilTextinput">
+                    <Col>
                     </Col>
                     {/*Buttons*/}
-                    <Col className="userProfilTextinput">
-                        <Button variant="primary" type="submit">
-                            Speichern
-                        </Button>
+                    <Col>
+                        <Stack>
+                            <Button variant="primary" type="submit">
+                                Speichern
+                            </Button>
+                        </Stack>
                     </Col>
                 </Row>
             </Container>
