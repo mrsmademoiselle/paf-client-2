@@ -36,6 +36,8 @@ export default function Userprofil() {
     });
 
     //States
+    //Inputfelder
+    const [loadedUsername, setloadedUsername] = useState();
     //Profilbild
     const [selectedImg, setSelectedImg] = useState();
     const [preview, setPreview] = useState<String | ArrayBuffer | null>();
@@ -45,6 +47,9 @@ export default function Userprofil() {
     const [registerActive, setRegisterActive] = useState(false);
     const [inputs, setInputs] = useState({username: '', password: ''});
     const [livePwText, setLivePwText] = useState("");
+
+    // Laden des usernamens in den State
+    UserAuthService.loadUsername().then(res => setloadedUsername(res))
 
 
     //TODO: REFACTOREN
@@ -110,7 +115,6 @@ export default function Userprofil() {
         }
         setSelectedImg(file);
     }
-
     return (
         <MainLayout>
             <Container>
@@ -152,12 +156,12 @@ export default function Userprofil() {
                             <Form.Group className="mb-3" controlId="userName">
                                 <div className="text-danger">{liveUserText}</div>
                                 <Form.Label>Benutzername</Form.Label>
-                                <Form.Control type="text" placeholder="Benutzername" name="username"
+                                <Form.Control type="text" placeholder={loadedUsername} name="username"
                                               onChange={adjustInput} required/>
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="userPassword">
                                 <div className="text-danger">{livePwText}</div>
-                                <Form.Label>Passwort</Form.Label>
+                                <Form.Label>Neues Passwort</Form.Label>
                                 <Form.Control type="password" placeholder="Passwort" name="password"
                                               onChange={adjustInput} required/>
                             </Form.Group>
@@ -169,7 +173,7 @@ export default function Userprofil() {
                     {/*Buttons*/}
                     <Col>
                         <Stack>
-                            <Button variant="primary" type="submit">
+                            <Button className="mb-3" variant="primary" type="submit">
                                 Speichern
                             </Button>
                         </Stack>

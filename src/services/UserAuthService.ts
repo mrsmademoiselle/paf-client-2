@@ -78,4 +78,23 @@ export class UserAuthService {
 	}
     }
 
+    static async loadUsername() {
+		/* Laden des Benutzernames ueber den Server */
+		try {
+			const serverResponse = await HttpConnector.post("", this.URL_PREFIX + "username");
+			const usernameRespone =  serverResponse.json().then(data => {return data.username})
+			return usernameRespone
+		} catch (e) {
+			console.log(e)
+			}
+		}
+
+	static async loadUserImage(){
+    	/* Laden des Benutzerbildes ueber den Server */
+		try{
+			const serverResponse = await HttpConnector.post("", this.URL_PREFIX + "image");
+		}catch(e){
+
+		}
+	}
 }
