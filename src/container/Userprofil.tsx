@@ -1,5 +1,6 @@
 import MainLayout from "../layouts/MainLayout"
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../styling/css/Userprofil.css';
 import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -15,7 +16,7 @@ import {TokenManager} from "../services/TokenManager";
 import {Stack} from "react-bootstrap";
 
 
-export default function Userprofil(){
+export default function Userprofil() {
     /*TODO:
     * - Benutzerinfos vom Server holen
     *   - leerer Post request auf endpoint mit auth token
@@ -28,21 +29,21 @@ export default function Userprofil(){
     * */
     let navigate = useNavigate();
     UserAuthService.check().then(data => {
-        if(!data){
+        if (!data) {
             TokenManager.removeToken();
             navigate('/login');
         }
     });
 
     //States
-        //Profilbild
+    //Profilbild
     const [selectedImg, setSelectedImg] = useState();
     const [preview, setPreview] = useState<String | ArrayBuffer | null>();
     const hiddenFileInput = React.useRef(null);
-        //regex
+    //regex
     const [liveUserText, setUserText] = useState("");
     const [registerActive, setRegisterActive] = useState(false);
-    const [inputs, setInputs] = useState({ username: '', password: '' });
+    const [inputs, setInputs] = useState({username: '', password: ''});
     const [livePwText, setLivePwText] = useState("");
 
 
@@ -110,7 +111,7 @@ export default function Userprofil(){
         setSelectedImg(file);
     }
 
-    return(
+    return (
         <MainLayout>
             <Container>
                 <Row>
@@ -120,7 +121,8 @@ export default function Userprofil(){
                 <Row>
                     {/*Profilbild*/}
                     <Col>
-                        <input onChange={onChangeHandler} style={{ display: 'none' }} ref={hiddenFileInput} type="file" accept=".jpg, .jpeg, .png" name="file" />
+                        <input onChange={onChangeHandler} style={{display: 'none'}} ref={hiddenFileInput} type="file"
+                               accept=".jpg, .jpeg, .png" name="file"/>
                         <img alt="Standard Anzeigebild" className="col-auto profilePic"
                              onClick={() => fileUpload(hiddenFileInput)} src={src} title="Bild hochladen"
                         />
@@ -133,43 +135,42 @@ export default function Userprofil(){
                     <Col>
                         {/*TODO: FIX BUTTON Behavouir and layout*/}
                         <Stack>
-                        <Button variant="primary"
-                                onClick={() => fileUpload(hiddenFileInput)}>
-                            Bild hochladen
-                        </Button>
-                        <Button variant="danger">
-                            Bild entfernen
-                        </Button>
+                            <Button className="mb-3" variant="primary"
+                                    onClick={() => fileUpload(hiddenFileInput)}>
+                                Bild hochladen
+                            </Button>
+                            <Button variant="danger">
+                                Bild entfernen
+                            </Button>
                         </Stack>
                     </Col>
                 </Row>
                 <hr/>
                 <Row>
-                    <Form>
-                    {/*Inputfelder*/}
-                    <Col>
-                        <Form.Group className="mb-3" controlId="userName">
-                            <div className="text-danger">{liveUserText}</div>
-                            <Form.Control type="text" placeholder="Benutzername" name="username"
-                                          onChange={adjustInput} required />
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="userPassword">
-                            <div className="text-danger">{livePwText}</div>
-                            <Form.Control type="password" placeholder="Passwort" name="password"
-                                          onChange={adjustInput} required />
-                        </Form.Group>
-                    </Col>
+                    <Form className="userProfilTextinput">
+                        {/*Inputfelder*/}
+                        <Col>
+                            <Form.Group className="mb-3" controlId="userName">
+                                <div className="text-danger">{liveUserText}</div>
+                                <Form.Control type="text" placeholder="Benutzername" name="username"
+                                              onChange={adjustInput} required/>
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="userPassword">
+                                <div className="text-danger">{livePwText}</div>
+                                <Form.Control type="password" placeholder="Passwort" name="password"
+                                              onChange={adjustInput} required/>
+                            </Form.Group>
+                        </Col>
+                    </Form>
                     {/*Fehlerhandling*/}
-                    <Col>
-                        Errors
+                    <Col className="userProfilTextinput">
                     </Col>
                     {/*Buttons*/}
-                    <Col>
+                    <Col className="userProfilTextinput">
                         <Button variant="primary" type="submit">
                             Speichern
                         </Button>
                     </Col>
-                    </Form>
                 </Row>
             </Container>
         </MainLayout>
