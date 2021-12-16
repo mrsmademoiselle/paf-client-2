@@ -38,6 +38,7 @@ export default function Userprofil() {
     //States
     //Inputfelder
     const [loadedUsername, setloadedUsername] = useState();
+
     //Profilbild
     const [selectedImg, setSelectedImg] = useState();
     const [preview, setPreview] = useState<String | ArrayBuffer | null>();
@@ -48,9 +49,11 @@ export default function Userprofil() {
     const [inputs, setInputs] = useState({username: '', password: ''});
     const [livePwText, setLivePwText] = useState("");
 
-    // Laden des usernamens in den State
+    // Laden des user in den State
     UserAuthService.loadUsername().then(res => setloadedUsername(res))
-
+    // @ts-ignore
+    UserAuthService.loadUserImage().then(res => setSelectedImg(res))
+    console.log('Image: ', selectedImg)
 
     //TODO: REFACTOREN
     // regex check vom username
@@ -95,9 +98,26 @@ export default function Userprofil() {
         })
     }
 
-    //Bild
-    let src: any = placeHolderImg;
+    async function handleSubmit(e: any) {
+        console.log('submit abfeuern')
+        console.log(inputs.username)
 
+        e.preventDefault();
+        /* Eventuell bereits beim Tippen überprüfen, damit Livefeedback gegeben werden kann */
+        let regex = /(\W)/;
+        let usernameInvalid = regex.test(inputs.username);
+
+        if (usernameInvalid) {
+            return;
+        }
+
+            // upload img
+            if (selectedImg !== null || selectedImg !== undefined) {
+                await UserAuthService.uploadImg(selectedImg);
+            }
+    }
+
+    //Bild
     function fileUpload(ref: any) {
         if (ref !== undefined) {
             ref.current.click();
@@ -115,6 +135,19 @@ export default function Userprofil() {
         }
         setSelectedImg(file);
     }
+
+    function clearImage(){
+        //Loeschen des Bildes und abspeichern des Defaultbildes vom Server
+        UserAuthService.clearUserImage().then(res => setSelectedImg(res))
+    }
+
+
+    if (preview !== null && preview !== undefined) {
+        let src:any = preview;
+    }
+
+
+    // @ts-ignore
     return (
         <MainLayout>
             <Container>
@@ -128,7 +161,7 @@ export default function Userprofil() {
                         <input onChange={onChangeHandler} style={{display: 'none'}} ref={hiddenFileInput} type="file"
                                accept=".jpg, .jpeg, .png" name="file"/>
                         <img alt="Standard Anzeigebild" className="col-auto profilePic"
-                             onClick={() => fileUpload(hiddenFileInput)} src={src} title="Bild hochladen"
+                             onClick={() => fileUpload(hiddenFileInput)} src={selectedImg} title="Bild hochladen"
                         />
                     </Col>
                     {/*Fehlerhandling*/}
@@ -142,7 +175,7 @@ export default function Userprofil() {
                                     onClick={() => fileUpload(hiddenFileInput)}>
                                 Bild hochladen
                             </Button>
-                            <Button variant="danger">
+                            <Button onClick={() => clearImage()} variant="danger">
                                 Bild entfernen
                             </Button>
                         </Stack>
@@ -173,9 +206,11 @@ export default function Userprofil() {
                     {/*Buttons*/}
                     <Col>
                         <Stack>
-                            <Button className="mb-3" variant="primary" type="submit">
-                                Speichern
-                            </Button>
+                            <Form onSubmit={handleSubmit}>
+                                <Button className="" variant="primary" type="submit">
+                                    Speichern
+                                </Button>
+                            </Form>
                         </Stack>
                     </Col>
                 </Row>

@@ -81,7 +81,7 @@ export class UserAuthService {
     static async loadUsername() {
 		/* Laden des Benutzernames ueber den Server */
 		try {
-			const serverResponse = await HttpConnector.post("", this.URL_PREFIX + "username");
+			const serverResponse = await HttpConnector.get(this.URL_PREFIX + "info");
 			const usernameRespone =  serverResponse.json().then(data => {return data.username})
 			return usernameRespone
 		} catch (e) {
@@ -89,12 +89,25 @@ export class UserAuthService {
 			}
 		}
 
-	static async loadUserImage(){
+		static async loadUserImage(){
     	/* Laden des Benutzerbildes ueber den Server */
 		try{
-			const serverResponse = await HttpConnector.post("", this.URL_PREFIX + "image");
+			const serverResponse = await HttpConnector.get(this.URL_PREFIX + "info");
+			const imageRespone =  serverResponse.json().then(data => {return atob(data.profileImage)})
+			return imageRespone
 		}catch(e){
+			console.log(e)
+		}
+	}
 
+	static async clearUserImage(){
+		/* Loeschen des Benutzerbildes und setzden des Defaultbildes */
+		try{
+			const serverResponse = await HttpConnector.get(this.URL_PREFIX + "image/remove");
+			const imageRespone =  serverResponse.json().then(data => {return data.profileImage})
+			return imageRespone
+		}catch(e){
+			console.log(e)
 		}
 	}
 }
