@@ -9,9 +9,9 @@ export default function Dashboard(): React.ReactElement {
 
 
     return (
-	<MainLayout>
+	<MainLoggedInLayout>
             <div>Ich bin ein protected Dashboard</div>
             <div>Wilkommen zurück, </div>
-    </MainLayout>
+    </MainLoggedInLayout>
     );
 }
