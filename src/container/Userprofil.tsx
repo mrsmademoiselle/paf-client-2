@@ -185,7 +185,9 @@ export default function Userprofil() {
                 <Row>
                     <Form className="userProfilTextinput">
                         {/*Inputfelder*/}
+
                         <Col>
+                            {/*
                             <Form.Group className="mb-3" controlId="userName">
                                 <div className="text-danger">{liveUserText}</div>
                                 <Form.Label>Benutzername</Form.Label>
@@ -198,6 +200,13 @@ export default function Userprofil() {
                                 <Form.Control type="password" placeholder="Passwort" name="password"
                                               onChange={adjustInput} required/>
                             </Form.Group>
+                            */}
+                            <Form.Label>Benutzername</Form.Label>
+                            <TextInputFieldComp variant="text" placeholder={loadedUsername}>
+                                </TextInputFieldComp>
+                            <Form.Label>Neues Passwort</Form.Label>
+                            <TextInputFieldComp variant="password">
+                            </TextInputFieldComp>
                         </Col>
                     </Form>
                     {/*Fehlerhandling*/}

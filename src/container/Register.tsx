@@ -177,6 +177,7 @@ export default function Register() {
                                     <Row>
                                         <Col>
                                             <Form className="registerForm" onSubmit={handleSubmit}>
+                                                {/**/}
                                                 <Form.Group className="mb-3" controlId="userName">
                                                     <div className="text-danger">{liveUserText}</div>
                                                     <Form.Control type="text" placeholder="Benutzername" name="username"
