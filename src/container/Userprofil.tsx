@@ -14,6 +14,8 @@ import {Link, useNavigate} from "react-router-dom";
 import {UserAuthService} from "../services/UserAuthService";
 import {TokenManager} from "../services/TokenManager";
 import {Stack} from "react-bootstrap";
+import MainLoggedInLayout from "../layouts/MainLoggedInLayout";
+import TextInputFieldComp from "../components/TextInputFieldComp";
 
 
 export default function Userprofil() {
@@ -27,13 +29,7 @@ export default function Userprofil() {
     *   - Ein Submit fuer username/pw
     * - Refactoren da absurd viel redundant
     * */
-    let navigate = useNavigate();
-    UserAuthService.check().then(data => {
-        if (!data) {
-            TokenManager.removeToken();
-            navigate('/login');
-        }
-    });
+
 
     //States
     //Inputfelder
@@ -43,6 +39,7 @@ export default function Userprofil() {
     const [selectedImg, setSelectedImg] = useState();
     const [preview, setPreview] = useState<String | ArrayBuffer | null>();
     const hiddenFileInput = React.useRef(null);
+
     //regex
     const [liveUserText, setUserText] = useState("");
     const [registerActive, setRegisterActive] = useState(false);
@@ -52,7 +49,7 @@ export default function Userprofil() {
     // Laden des user in den State
     UserAuthService.loadUsername().then(res => setloadedUsername(res))
     // @ts-ignore
-    UserAuthService.loadUserImage().then(res => setSelectedImg(res))
+    UserAuthService.loadUserImage().then(res => setPreview(res))
     console.log('Image: ', selectedImg)
 
     //TODO: REFACTOREN
@@ -101,55 +98,58 @@ export default function Userprofil() {
     async function handleSubmit(e: any) {
         console.log('submit abfeuern')
         console.log(inputs.username)
+        console.log(inputs.password)
 
         e.preventDefault();
         /* Eventuell bereits beim Tippen überprüfen, damit Livefeedback gegeben werden kann */
+        //TODO: FIX REGEX UND CHECK CLIENTSEITIG NACH DEM NAMEN
         let regex = /(\W)/;
         let usernameInvalid = regex.test(inputs.username);
+        console.log(usernameInvalid)
+        await UserAuthService.update(inputs)
 
-        if (usernameInvalid) {
-            return;
-        }
-
-            // upload img
-            if (selectedImg !== null || selectedImg !== undefined) {
-                await UserAuthService.uploadImg(selectedImg);
-            }
     }
 
     //Bild
     function fileUpload(ref: any) {
+        console.log('fileupload', ref)
         if (ref !== undefined) {
             ref.current.click();
+            UserAuthService.uploadImg(selectedImg);
         }
     }
 
     function onChangeHandler(event: any) {
         const file = event.target.files[0];
+        console.log('reading files', file)
         let reader = new FileReader();
         reader.readAsDataURL(file);
+        console.log('data url', reader)
         reader.onload = function () {
             if (reader.result !== null) {
                 setPreview(reader.result);
+                console.log("reader ist nicht null")
             }
         }
+        console.log('FOOBAR UPLOAD')
         setSelectedImg(file);
+        UserAuthService.uploadImg(selectedImg);
     }
 
     function clearImage(){
         //Loeschen des Bildes und abspeichern des Defaultbildes vom Server
-        UserAuthService.clearUserImage().then(res => setSelectedImg(res))
+        UserAuthService.clearUserImage().then(res => setPreview(res))
     }
 
 
+    let src: any = placeHolderImg;
     if (preview !== null && preview !== undefined) {
-        let src:any = preview;
+        src = preview;
     }
-
 
     // @ts-ignore
     return (
-        <MainLayout>
+        <MainLoggedInLayout>
             <Container>
                 <Row>
                     Profil aktualisieren
@@ -161,7 +161,7 @@ export default function Userprofil() {
                         <input onChange={onChangeHandler} style={{display: 'none'}} ref={hiddenFileInput} type="file"
                                accept=".jpg, .jpeg, .png" name="file"/>
                         <img alt="Standard Anzeigebild" className="col-auto profilePic"
-                             onClick={() => fileUpload(hiddenFileInput)} src={selectedImg} title="Bild hochladen"
+                             onClick={() => fileUpload(hiddenFileInput)} src={src} title="Bild hochladen"
                         />
                     </Col>
                     {/*Fehlerhandling*/}
@@ -215,6 +215,6 @@ export default function Userprofil() {
                     </Col>
                 </Row>
             </Container>
-        </MainLayout>
+        </MainLoggedInLayout>
     )
 }

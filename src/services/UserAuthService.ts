@@ -50,7 +50,8 @@ export class UserAuthService {
     }
 
     static async uploadImg(img: any): Promise<any>{
-	try {
+		console.log('LADE HOCh')
+		try {
 	    const reader = new FileReader();
 	    reader.readAsDataURL(img)
 	    let res = await this.onLoad(reader);
@@ -92,7 +93,7 @@ export class UserAuthService {
 		static async loadUserImage(){
     	/* Laden des Benutzerbildes ueber den Server */
 		try{
-			const serverResponse = await HttpConnector.get(this.URL_PREFIX + "info");
+			const serverResponse = await HttpConnector.get(this.URL_PREFIX + "info/image");
 			const imageRespone =  serverResponse.json().then(data => {return atob(data.profileImage)})
 			return imageRespone
 		}catch(e){
@@ -104,10 +105,26 @@ export class UserAuthService {
 		/* Loeschen des Benutzerbildes und setzden des Defaultbildes */
 		try{
 			const serverResponse = await HttpConnector.get(this.URL_PREFIX + "image/remove");
-			const imageRespone =  serverResponse.json().then(data => {return data.profileImage})
+			const imageRespone =  serverResponse.json().then(data => {return atob(data.profileImage)})
 			return imageRespone
 		}catch(e){
 			console.log(e)
 		}
 	}
+
+	static async update(inputs: any) {
+		try {
+			const response = await HttpConnector.post(inputs, this.URL_PREFIX + "update")
+			if (response.ok) {
+				await response.json().then(data => TokenManager.setToken(data));
+				showBanner("succecss", "Daten wurden geändert");
+			} else {
+				showBanner("danger", "Es gab ein Problem mit dem Server");
+			}
+		} catch (e) {
+			console.log(e);
+		}
+	}
+
+
 }

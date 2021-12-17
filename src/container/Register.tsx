@@ -49,7 +49,6 @@ export default function Register() {
      * Wenn der Benutzer über das Bild hovert, erscheint eine Drag and Drop Anzeige (siehe FX-Client)
      */
     function hoverEffect() {
-        //TODO: HOVEREFFEKT
         setHoverEffect(hoverStyle)
     }
 

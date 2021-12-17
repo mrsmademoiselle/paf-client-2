@@ -6,9 +6,17 @@ import {bannerState} from '../states/UserStates';
 import {useNavigate} from "react-router-dom";
 import {UserAuthService} from "../services/UserAuthService";
 import {TokenManager} from "../services/TokenManager";
+import SideNav from "../components/SideNav";
 
 export default function MainLayout(children: any): React.ReactElement {
-
+    let navigate = useNavigate();
+    UserAuthService.check().then(data => {
+        console.log('checking user auth')
+        if (!data) {
+            TokenManager.removeToken();
+            navigate('/login');
+        }
+    });
 
     const {variant, text, show} = useAtom(bannerState);
     let banner: React.ReactElement = (<></>);
@@ -21,6 +29,7 @@ export default function MainLayout(children: any): React.ReactElement {
         <div className="App">
             <TopNav/>
             {banner}
+            <SideNav/>
             <main>{children.children}</main>
         </div>
     );
