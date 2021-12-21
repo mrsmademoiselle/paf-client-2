@@ -29,34 +29,6 @@ code {
     monospace;
 }
 
-.topNav {
-    background-color: var(--navbar);
-}
-
-.topNav .navLogo {
-    margin-left: 10%;
-}
-
-.topNav .logoutButton {
-    margin-left: auto;
-    margin-right: 1%;
-    background-color: white;
-    border-color: black;
-    color: black;
-}
-
-.topNav .logoutButton:hover, .logoutButton:focus {
-    background-color: var(--first-background);
-    color: black;
-    border-color: black;
-}
-
-.logoutIcon {
-    width: 20px;
-    height: 20px;
-    margin: 0 10px 0 0;
-}
-
 @font-face {
     font-family: 'Wendy-One';
     src: local('Wendy-One'), url(../fonts/WendyOne-Regular.ttf) format('truetype');
