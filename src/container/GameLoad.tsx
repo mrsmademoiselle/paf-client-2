@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from "react";
 import MainLoggedInLayout from "../layouts/MainLoggedInLayout";
-import {Container,Row,Col} from "react-bootstrap";
+import {Container, Row, Col} from "react-bootstrap";
 import ReactLoading from "react-loading"
 import LoadingComponent from "../components/LoadingComponent";
 import {useNavigate} from "react-router-dom";
 import '../styling/css/Loadinganimation.css';
 
 
-export default function GameLoad(){
+export default function GameLoad() {
     let navigate = useNavigate()
 
     /* Bimmde hier Spielladedinge maken*/
@@ -24,27 +24,32 @@ export default function GameLoad(){
     const [isLoading, setLoading] = useState<boolean | undefined>(true);
     const [data, setData] = useState<boolean | undefined>(undefined);
 
+    let ws = new WebSocket("ws://localhost:44558/sockettest")
 
-   useEffect(() =>{
-       fetch("https://swapi.dev/api/people/1")
-           .then((response) => response.json())
-           .then((json) => {
-               console.log(json);
-               setData(json);
-               // ^bis hier Socketdinge
-               //setLoading(false);
-           })
-       }
-   , [])
+    // Testen der Komponenten, Socketdinge...
+    useEffect(() => {
+            ws.onopen = () => {
+                console.log('Verbunden')
+            }
+            ws.onmessage = ev => {
+                console.log(JSON.parse(ev.data))
+            }
+            ws.onclose = () => {
+                console.log('Dicht maken')
+            }
+            // ^bis hier Socketdinge
+            // Setzen des Fertiggeladen States
+            //setLoading(false);
+        }
+        , [])
 
 
-
-        return(
+    return (
         <MainLoggedInLayout>
             <Container>
                 {/* Textblock */}
-                <Row >
-                    <Col style={{marginTop:'10%'}}>
+                <Row>
+                    <Col style={{marginTop: '10%'}}>
                         Foobar Gameload
                     </Col>
                 </Row>
@@ -52,10 +57,10 @@ export default function GameLoad(){
                 <Row>
                     <Col/>
                     <Col>
-                        {isLoading ?  (
-                            <> Suche nach Spielern
-                                <ReactLoading className="reactLoader" type={"spokes"} color={"grey"} width={"100px"} />
-                            </>)
+                        {isLoading ? (
+                                <> Suche nach Spielern
+                                    <ReactLoading className="reactLoader" type={"spokes"} color={"grey"} width={"100px"}/>
+                                </>)
                             :
                             (<>{navigate("/game")}</>)
                         }
