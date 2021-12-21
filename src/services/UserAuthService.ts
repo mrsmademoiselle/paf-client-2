@@ -94,7 +94,12 @@ export class UserAuthService {
     	/* Laden des Benutzerbildes ueber den Server */
 		try{
 			const serverResponse = await HttpConnector.get(this.URL_PREFIX + "info/image");
-			const imageRespone =  serverResponse.json().then(data => {return atob(data.profileImage)})
+			const imageRespone =  serverResponse.json().then(data => {
+				console.log('Raw response ohne decode: ', data.profileImage)
+				console.log('Decoded response: ', atob(data.profileImage))
+
+				return atob(data.profileImage)
+			})
 			return imageRespone
 		}catch(e){
 			console.log(e)
@@ -105,7 +110,9 @@ export class UserAuthService {
 		/* Loeschen des Benutzerbildes und setzden des Defaultbildes */
 		try{
 			const serverResponse = await HttpConnector.get(this.URL_PREFIX + "image/remove");
-			const imageRespone =  serverResponse.json().then(data => {return atob(data.profileImage)})
+			const imageRespone =  serverResponse.json().then(data => {
+				console.log('DATA: ', data.profileImage)
+				return data.profileImage})
 			return imageRespone
 		}catch(e){
 			console.log(e)

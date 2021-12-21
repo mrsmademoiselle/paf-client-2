@@ -7,7 +7,6 @@ import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import placeHolderImg from '../styling/images/default.png'
 import editImg from '../styling/images/buttons/edit.svg'
 import '../styling/css/RegisterLogin.css';
 import {Link, useNavigate} from "react-router-dom";
@@ -49,7 +48,10 @@ export default function Userprofil() {
     // Laden des user in den State
     UserAuthService.loadUsername().then(res => setloadedUsername(res))
     // @ts-ignore
-    UserAuthService.loadUserImage().then(res => setPreview(res))
+    UserAuthService.loadUserImage().then(res => {
+        console.log('setze preview!')
+        setPreview(res)})
+    console.log('Image in preview:', preview)
     console.log('Image: ', selectedImg)
 
     //TODO: REFACTOREN
@@ -69,6 +71,7 @@ export default function Userprofil() {
             setRegisterActive(true);
         }
     }
+
     const checkUserName = (val: string) => {
         if (val.length <= 0) {
             setUserText("should not be empty");
@@ -81,6 +84,7 @@ export default function Userprofil() {
             setRegisterActive(true);
         }
     }
+
     const adjustInput = (e: any) => {
         const val = e.target.value;
         if (e.target.name === "password") {
@@ -139,10 +143,11 @@ export default function Userprofil() {
     function clearImage(){
         //Loeschen des Bildes und abspeichern des Defaultbildes vom Server
         UserAuthService.clearUserImage().then(res => setPreview(res))
+        console.log("Bild geraeumt:", preview)
     }
 
 
-    let src: any = placeHolderImg;
+    let src: any;
     if (preview !== null && preview !== undefined) {
         src = preview;
     }
