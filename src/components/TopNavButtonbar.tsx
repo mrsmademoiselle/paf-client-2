@@ -30,11 +30,11 @@ export default function TopNavButtonbar(){
                       className="logoutButton btn btn-outline-primary d-flex align-items-center">
                     <img src={logoutImg} className="logoutIcon" alt="Logout Symbol" title="Ausloggen"/>
                     Profil</Link>
-                <Link to="/historie"
+                <Link to="/history"
                       className="logoutButton btn btn-outline-primary d-flex align-items-center">
                     <img src={logoutImg} className="logoutIcon" alt="Logout Symbol" title="Ausloggen"/>
                     Historie</Link>
-                <Link to="/spiel"
+                <Link to="/gameloading"
                       className="logoutButton btn btn-outline-primary d-flex align-items-center">
                     <img src={logoutImg} className="logoutIcon" alt="Logout Symbol" title="Ausloggen"/>
                     Spielen</Link>

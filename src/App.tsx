@@ -11,6 +11,10 @@ import {TokenManager} from "./services/TokenManager";
 import {swap} from "@dbeining/react-atom";
 import {authentication} from "./states/UserStates";
 import Userprofil from './container/Userprofil';
+import GameLoad from "./container/GameLoad";
+import History from "./container/History";
+import Game from "./container/Game";
+
 
 export default function App() {
 
@@ -39,10 +43,13 @@ export default function App() {
                 <Route path="/" element={<Register/>}/>
                 <Route path="/register" element={<Register/>}/>
                 <Route path="/login" element={<Login/>}/>
-                {/* private Routen */}
+                {/* private Routen mit Auth-check */}
                 <Route element={<RequireAuth/>}>
                     <Route path="/dashboard" element={<Dashboard/>}/>
                     <Route path="/userprofil" element={<Userprofil/>}/>
+                    <Route path="/gameloading" element={<GameLoad/>}/>
+                    <Route path="/history" element={<History/>}/>
+                    <Route path="/game" element={<Game/>}/>
                 </Route>
             </Routes>
         </Router>

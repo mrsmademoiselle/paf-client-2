@@ -7,10 +7,7 @@ import React from "react";
 import {TokenManager} from "../services/TokenManager";
 import TopNavButtonbar from "./TopNavButtonbar";
 
-function deleteJwtToken() {
-    TokenManager.removeToken();
-}
-
+/* TopNav - wrappt diverse weitere Komponenten nach unten hin */
 export default function TopNav(): React.ReactElement {
     /* zu ersetzen mit state management */
     const isAuthenticated = TokenManager.isUserAuthenticated();
