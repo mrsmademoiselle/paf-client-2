@@ -14,10 +14,10 @@ export default function GameLoad() {
     /*
      TODO: - Wenn der User auf die Seite geht, anzeigen der Animation+text da snach
        spielern gesucht wird
-     - Oeffnen eines Sockets zum server
-     - sobald server signal sendet das ein weitere spieler da ist, daten emfpangen
-     - ggf. speichern im state
-     - weiterleiten an game
+     - Oeffnen eines Sockets zum server - done
+     - sobald server signal sendet das ein weitere spieler da ist, daten emfpangen - todo: server fehlt
+     - ggf. speichern im state - todo: server fehlt
+     - weiterleiten an game - done, wird ueber state gesteuert
     * */
 
     /*States*/
