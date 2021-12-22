@@ -32,7 +32,7 @@ export default function Login() {
 	    if (data){
 		return navigate("/dashboard");
 	    } else {
-		showBanner("danger", "form cant be empty");
+		showBanner("danger", "Die Felder dürfen nicht leer sein");
 	    }
 	});
 

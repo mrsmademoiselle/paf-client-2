@@ -59,15 +59,16 @@ export default function Register() {
         setHoverEffect(undefined)
     }
 
+    //TODO: Rework passwortchecks
     const checkPW = (val: string) => {
         if (val.length <= 6) {
-            setLivePwText("too short");
+            setLivePwText("Password ist zu kurz");
             setRegisterActive(false);
         } else if (!/\d/.test(val)) {
-            setLivePwText("should contain numbers");
+            setLivePwText("Das Passwort sollte eine Zahl enthalten");
             setRegisterActive(false);
         } else if (!/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(val)) {
-            setLivePwText("should at least contain one special character");
+            setLivePwText("Das Passwort sollte mindestens ein Sonderzeichen enthalten");
             setRegisterActive(false);
         } else {
             setLivePwText("");
@@ -76,10 +77,10 @@ export default function Register() {
     }
     const checkUserName = (val: string) => {
         if (val.length <= 0) {
-            setUserText("should not be empty");
+            setUserText("Der Benutzername darf nicht leer sein");
             setRegisterActive(false);
         } else if (/\s/.test(val)) {
-            setUserText("should not contain spaces");
+            setUserText("Der Benutzername darf keine Leerzeichen enthalten");
             setRegisterActive(false);
         } else {
             setUserText("");
