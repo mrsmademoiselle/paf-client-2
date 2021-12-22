@@ -19,14 +19,14 @@ import TextInputFieldComp from "../components/TextInputFieldComp";
 
 export default function Userprofil() {
     /*TODO:
-    * - Benutzerinfos vom Server holen
+    * - Benutzerinfos vom Server holen - Done ausser Bild- siehe Kommentar in GetImageComponent
     *   - leerer Post request auf endpoint mit auth token
     *   - auslesen des Bodys
-    * - Infos in Felder rein bringen
+    * - Infos in Felder rein bringen - Done fuer username - Bild siehe Kommentar drueber
     * - Bei aenderungen an Server senden
     *   - Profilbild getrennt von username
-    *   - Ein Submit fuer username/pw
-    * - Refactoren da absurd viel redundant
+    *   - Ein Submit fuer username/pw - Done
+    * - Refactoren da absurd viel redundant - bis auf Bild done
     * */
 
 
