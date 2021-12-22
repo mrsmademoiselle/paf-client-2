@@ -35,17 +35,12 @@ export default function Userprofil() {
     const [loadedUsername, setloadedUsername] = useState();
     const [stateUsername, setStateUsername] = useState();
     const [statePassword, setStatePassword] = useState();
+    const [inputs, setInputs] = useState({username: '', password: ''});
 
     //Profilbild
     const [selectedImg, setSelectedImg] = useState();
     const [preview, setPreview] = useState<String | ArrayBuffer | null>();
     const hiddenFileInput = React.useRef(null);
-
-    //regex
-    const [liveUserText, setUserText] = useState("");
-    const [registerActive, setRegisterActive] = useState(false);
-    const [inputs, setInputs] = useState({username: '', password: ''});
-    const [livePwText, setLivePwText] = useState("");
 
     // Laden des Usernamens in den State um ihn als Placeholder anzeigen zu koennen
     UserAuthService.loadUsername().then(res => setloadedUsername(res))

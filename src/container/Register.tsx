@@ -23,17 +23,12 @@ function fileUpload(ref: any) {
 export default function Register() {
     let navigate = useNavigate();
     // States
-    const [banner, setBanner] = React.useState<boolean | undefined>();
     const [inputs, setInputs] = useState({ username: '', password: '' });
     const [stateUsername, setStateUsername] = useState();
     const [statePassword, setStatePassword] = useState();
     const [selectedImg, setSelectedImg] = useState();
-    const [livePwText, setLivePwText] = useState("");
-    const [liveUserText, setUserText] = useState("");
-    const [registerActive, setRegisterActive] = useState(false);
     const hiddenFileInput = React.useRef(null);
     const [preview, setPreview] = useState<String | ArrayBuffer | null>();
-    const [imgSelected, setImgSelected] = useState(false);
     const [hoverFx, setHoverEffect] = useState<any>();
 
     // Styling fuer das Hover im State
