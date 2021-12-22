@@ -14,6 +14,7 @@ export default function TextInputFieldComp(props:any) {
     const [inputs, setInputs] = useState({username: '', password: ''});
 
     // regex check vom username
+    /* Erstmal auskommentiert falls spaeter noch notwendig
     const checkPW = (val: string) => {
         if (val.length <= 6) {
             setLiveText("Das Passwort ist zu kurz");
@@ -21,6 +22,15 @@ export default function TextInputFieldComp(props:any) {
             setLiveText("Das Passwort sollte eine Zahl enthalten");
         } else if (!/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(val)) {
             setLiveText("Das Passwort sollte mindestens ein Sonderzeichen enthalten\"");
+        } else {
+            setLiveText("");
+        }
+    }
+    */
+
+    const checkPW = (val: string) => {
+        if (/\W/.test(val)) {
+            setLiveText("Darf nur alphanumerische Zeichen haben");
         } else {
             setLiveText("");
         }
