@@ -61,11 +61,6 @@ export default function Userprofil() {
         console.log(inputs.password)
 
         e.preventDefault();
-        /* Eventuell bereits beim Tippen überprüfen, damit Livefeedback gegeben werden kann */
-        //TODO: FIX REGEX UND CHECK CLIENTSEITIG NACH DEM NAMEN
-        let regex = /(\W)/;
-        let usernameInvalid = regex.test(inputs.username);
-        console.log(usernameInvalid)
         await UserAuthService.update(inputs)
 
     }

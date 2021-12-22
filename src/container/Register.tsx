@@ -85,7 +85,6 @@ export default function Register() {
         e.preventDefault();
         /* Eventuell bereits beim Tippen überprüfen, damit Livefeedback gegeben werden kann */
         //Das ist der eignetliche regex test der in die comp gekapselt werden muss
-        let regex = /(\W)/;
         // @ts-ignore
         setInputs(inputs.username = stateUsername)
         // @ts-ignore
@@ -94,14 +93,6 @@ export default function Register() {
         console.log(inputs.username)
         console.log(inputs.password)
         console.log(inputs)
-
-
-        let usernameInvalid = regex.test(inputs.username);
-
-
-        if (usernameInvalid) {
-            return;
-        }
 
         //const status: boolean = await UserAuthService.register(inputs);
         const reg_status: any = await UserAuthService.register(inputs);
