@@ -33,6 +33,8 @@ export default function Userprofil() {
     //States
     //Inputfelder
     const [loadedUsername, setloadedUsername] = useState();
+    const [stateUsername, setStateUsername] = useState();
+    const [statePassword, setStatePassword] = useState();
 
     //Profilbild
     const [selectedImg, setSelectedImg] = useState();
@@ -45,7 +47,7 @@ export default function Userprofil() {
     const [inputs, setInputs] = useState({username: '', password: ''});
     const [livePwText, setLivePwText] = useState("");
 
-    // Laden des user in den State
+    // Laden des Usernamens in den State um ihn als Placeholder anzeigen zu koennen
     UserAuthService.loadUsername().then(res => setloadedUsername(res))
     // @ts-ignore
     UserAuthService.loadUserImage().then(res => {
@@ -54,52 +56,11 @@ export default function Userprofil() {
     console.log('Image in preview:', preview)
     console.log('Image: ', selectedImg)
 
-    //TODO: REFACTOREN
-    // regex check vom username
-    const checkPW = (val: string) => {
-        if (val.length <= 6) {
-            setLivePwText("Das Passwort sollte eine Zahl enthalten");
-            setRegisterActive(false);
-        } else if (!/\d/.test(val)) {
-            setLivePwText("Das Passwort sollte eine Zahl enthalten");
-            setRegisterActive(false);
-        } else if (!/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(val)) {
-            setLivePwText("Das Passwort sollte mindestens ein Sonderzeichen enthalten");
-            setRegisterActive(false);
-        } else {
-            setLivePwText("");
-            setRegisterActive(true);
-        }
-    }
-
-    const checkUserName = (val: string) => {
-        if (val.length <= 0) {
-            setUserText("Der Benutzername darf nicht leer sein");
-            setRegisterActive(false);
-        } else if (/\s/.test(val)) {
-            setUserText("Der Benutzername darf keine Leerzeichen enthalten");
-            setRegisterActive(false);
-        } else {
-            setUserText("");
-            setRegisterActive(true);
-        }
-    }
-
-    const adjustInput = (e: any) => {
-        const val = e.target.value;
-        if (e.target.name === "password") {
-            checkPW(val);
-        }
-        if (e.target.name === "username") {
-            checkUserName(val);
-        }
-        setInputs({
-            ...inputs,
-            [e.target.name]: val
-        })
-    }
-
     async function handleSubmit(e: any) {
+        // @ts-ignore
+        setInputs(inputs.username = stateUsername)
+        // @ts-ignore
+        setInputs(inputs.password = statePassword)
         console.log('submit abfeuern')
         console.log(inputs.username)
         console.log(inputs.password)
@@ -152,6 +113,16 @@ export default function Userprofil() {
         src = preview;
     }
 
+    //Notwendig um den Input aus dem Child TextFieldComp abzugreifen
+    function stateTransportUsername(val : any){
+        setStateUsername(val)
+        console.log("Im Parent state Username: ", stateUsername)
+    }
+    function stateTransportPassword(val : any){
+        setStatePassword(val)
+        console.log("Im Parent state Username: ", statePassword)
+    }
+
     // @ts-ignore
     return (
         <MainLoggedInLayout>
@@ -192,25 +163,11 @@ export default function Userprofil() {
                         {/*Inputfelder*/}
 
                         <Col>
-                            {/*
-                            <Form.Group className="mb-3" controlId="userName">
-                                <div className="text-danger">{liveUserText}</div>
-                                <Form.Label>Benutzername</Form.Label>
-                                <Form.Control type="text" placeholder={loadedUsername} name="username"
-                                              onChange={adjustInput} required/>
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="userPassword">
-                                <div className="text-danger">{livePwText}</div>
-                                <Form.Label>Neues Passwort</Form.Label>
-                                <Form.Control type="password" placeholder="Passwort" name="password"
-                                              onChange={adjustInput} required/>
-                            </Form.Group>
-                            */}
                             <Form.Label>Benutzername</Form.Label>
-                            <TextInputFieldComp variant="text" placeholder={loadedUsername}>
+                            <TextInputFieldComp variant="text" placeholder={loadedUsername} onChange={stateTransportUsername}>
                                 </TextInputFieldComp>
                             <Form.Label>Neues Passwort</Form.Label>
-                            <TextInputFieldComp variant="password">
+                            <TextInputFieldComp variant="password" onChange={stateTransportPassword}>
                             </TextInputFieldComp>
                         </Col>
                     </Form>

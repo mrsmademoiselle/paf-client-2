@@ -11,6 +11,7 @@ import '../styling/css/RegisterLogin.css';
 import { Link, useNavigate } from "react-router-dom";
 import { UserAuthService } from "../services/UserAuthService";
 import MainLayout from '../layouts/MainLayout';
+import TextInputFieldComp from "../components/TextInputFieldComp";
 
 function fileUpload(ref: any) {
     if (ref !== undefined) {
@@ -24,6 +25,8 @@ export default function Register() {
     // States
     const [banner, setBanner] = React.useState<boolean | undefined>();
     const [inputs, setInputs] = useState({ username: '', password: '' });
+    const [stateUsername, setStateUsername] = useState();
+    const [statePassword, setStatePassword] = useState();
     const [selectedImg, setSelectedImg] = useState();
     const [livePwText, setLivePwText] = useState("");
     const [liveUserText, setUserText] = useState("");
@@ -59,48 +62,6 @@ export default function Register() {
         setHoverEffect(undefined)
     }
 
-    //TODO: Rework passwortchecks
-    const checkPW = (val: string) => {
-        if (val.length <= 6) {
-            setLivePwText("Password ist zu kurz");
-            setRegisterActive(false);
-        } else if (!/\d/.test(val)) {
-            setLivePwText("Das Passwort sollte eine Zahl enthalten");
-            setRegisterActive(false);
-        } else if (!/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(val)) {
-            setLivePwText("Das Passwort sollte mindestens ein Sonderzeichen enthalten");
-            setRegisterActive(false);
-        } else {
-            setLivePwText("");
-            setRegisterActive(true);
-        }
-    }
-    const checkUserName = (val: string) => {
-        if (val.length <= 0) {
-            setUserText("Der Benutzername darf nicht leer sein");
-            setRegisterActive(false);
-        } else if (/\s/.test(val)) {
-            setUserText("Der Benutzername darf keine Leerzeichen enthalten");
-            setRegisterActive(false);
-        } else {
-            setUserText("");
-            setRegisterActive(true);
-        }
-    }
-
-    const adjustInput = (e: any) => {
-        const val = e.target.value;
-        if (e.target.name === "password") {
-            checkPW(val);
-        }
-        if (e.target.name === "username") {
-            checkUserName(val);
-        }
-        setInputs({
-            ...inputs,
-            [e.target.name]: val
-        })
-    }
 
     function onChangeHandler(event: any) {
         const file = event.target.files[0];
@@ -114,11 +75,34 @@ export default function Register() {
         setSelectedImg(file);
     }
 
+    //Notwendig um den Input aus dem Child TextFieldComp abzugreifen
+    function stateTransportUsername(val : any){
+        setStateUsername(val)
+        console.log("Im Parent state Username: ", stateUsername)
+    }
+    function stateTransportPassword(val : any){
+        setStatePassword(val)
+        console.log("Im Parent state Username: ", statePassword)
+    }
+
+
     async function handleSubmit(e: any) {
         e.preventDefault();
         /* Eventuell bereits beim Tippen überprüfen, damit Livefeedback gegeben werden kann */
+        //Das ist der eignetliche regex test der in die comp gekapselt werden muss
         let regex = /(\W)/;
+        // @ts-ignore
+        setInputs(inputs.username = stateUsername)
+        // @ts-ignore
+        setInputs(inputs.password = statePassword)
+
+        console.log(inputs.username)
+        console.log(inputs.password)
+        console.log(inputs)
+
+
         let usernameInvalid = regex.test(inputs.username);
+
 
         if (usernameInvalid) {
             return;
@@ -178,17 +162,13 @@ export default function Register() {
                                     <Row>
                                         <Col>
                                             <Form className="registerForm" onSubmit={handleSubmit}>
-                                                {/**/}
-                                                <Form.Group className="mb-3" controlId="userName">
-                                                    <div className="text-danger">{liveUserText}</div>
-                                                    <Form.Control type="text" placeholder="Benutzername" name="username"
-                                                        onChange={adjustInput} required />
-                                                </Form.Group>
-                                                <Form.Group className="mb-3" controlId="userPassword">
-                                                    <div className="text-danger">{livePwText}</div>
-                                                    <Form.Control type="password" placeholder="Passwort" name="password"
-                                                        onChange={adjustInput} required />
-                                                </Form.Group>
+                                                {/*Inputfelder*/}
+                                                <Form.Label>Benutzername</Form.Label>
+                                                <TextInputFieldComp variant="text" onChange={stateTransportUsername}>
+                                                </TextInputFieldComp>
+                                                <Form.Label>Passwort</Form.Label>
+                                                <TextInputFieldComp variant="password" onChange={stateTransportPassword}>
+                                                </TextInputFieldComp>
                                                 <Row className="loginLinkContainer">
                                                     <Col>
                                                         <Link className="loginLink" to="/login"
@@ -196,7 +176,7 @@ export default function Register() {
                                                             Hast du bereits einen Account?</Link>
                                                     </Col>
                                                 </Row>
-                                                <Button className="primaryButton" type="submit" disabled={!registerActive}>
+                                                <Button className="primaryButton" type="submit">
                                                     Registrieren
                                                 </Button>
                                             </Form>

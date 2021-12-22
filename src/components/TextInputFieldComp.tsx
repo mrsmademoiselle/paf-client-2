@@ -13,13 +13,14 @@ export default function TextInputFieldComp(props:any) {
     const [liveText, setLiveText] = useState("");
     const [inputs, setInputs] = useState({username: '', password: ''});
 
+    // regex check vom username
     const checkPW = (val: string) => {
         if (val.length <= 6) {
-            setLiveText("too short");
+            setLiveText("Das Passwort ist zu kurz");
         } else if (!/\d/.test(val)) {
-            setLiveText("should contain numbers");
+            setLiveText("Das Passwort sollte eine Zahl enthalten");
         } else if (!/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(val)) {
-            setLiveText("should at least contain one special character");
+            setLiveText("Das Passwort sollte mindestens ein Sonderzeichen enthalten\"");
         } else {
             setLiveText("");
         }
@@ -27,9 +28,9 @@ export default function TextInputFieldComp(props:any) {
 
     const checkUserName = (val: string) => {
         if (val.length <= 0) {
-            setLiveText("should not be empty");
+            setLiveText("Der Benutzername darf nicht leer sein");
         } else if (/\s/.test(val)) {
-            setLiveText("should not contain spaces");
+            setLiveText("Der Benutzername darf keine Leerzeichen enthalten");
         } else {
             setLiveText("");
         }
@@ -43,10 +44,14 @@ export default function TextInputFieldComp(props:any) {
         if (props.variant === 'text'){
             checkUserName(val);
         }
+
+        console.log(val)
         setInputs({
             ...inputs,
             [e.target.name]: val
         })
+
+        props.onChange(val)
     }
 
     return (
