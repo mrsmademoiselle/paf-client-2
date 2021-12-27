@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
@@ -8,8 +8,8 @@ import Col from 'react-bootstrap/Col';
 import placeHolderImg from '../styling/images/default.png';
 import editImg from '../styling/images/buttons/edit.svg';
 import '../styling/css/RegisterLogin.css';
-import { Link, useNavigate } from "react-router-dom";
-import { UserAuthService } from "../services/UserAuthService";
+import {Link, useNavigate} from "react-router-dom";
+import {UserAuthService} from "../services/UserAuthService";
 import MainLayout from '../layouts/MainLayout';
 import TextInputFieldComp from "../components/TextInputFieldComp";
 
@@ -23,7 +23,7 @@ function fileUpload(ref: any) {
 export default function Register() {
     let navigate = useNavigate();
     // States
-    const [inputs, setInputs] = useState({ username: '', password: '' });
+    const [inputs, setInputs] = useState({username: '', password: ''});
     const [stateUsername, setStateUsername] = useState();
     const [statePassword, setStatePassword] = useState();
     const [selectedImg, setSelectedImg] = useState();
@@ -40,8 +40,6 @@ export default function Register() {
         opacity: '0.5',
         borderRadius: '30px'
     }
-    // Zuruecksetzten des States
-    const unHover = {}
 
     /**
      * Wenn der Benutzer über das Bild hovert, erscheint eine Drag and Drop Anzeige (siehe FX-Client)
@@ -71,11 +69,12 @@ export default function Register() {
     }
 
     //Notwendig um den Input aus dem Child TextFieldComp abzugreifen
-    function stateTransportUsername(val : any){
+    function stateTransportUsername(val: any) {
         setStateUsername(val)
         console.log("Im Parent state Username: ", stateUsername)
     }
-    function stateTransportPassword(val : any){
+
+    function stateTransportPassword(val: any) {
         setStatePassword(val)
         console.log("Im Parent state Username: ", statePassword)
     }
@@ -116,7 +115,7 @@ export default function Register() {
             <div>
                 <Container>
                     <Row>
-                        <Col />
+                        <Col/>
                         <Col>
                             <div className="formContainer">
                                 <Container>
@@ -125,22 +124,27 @@ export default function Register() {
                                     </Row>
 
                                     {/* Profilbild */}
-                                    <Row className="d-flex justify-content-center middleRow" onMouseEnter={hoverEffect} onMouseLeave={setCurrentPic} >
+                                    <Row className="d-flex justify-content-center middleRow" onMouseEnter={hoverEffect}
+                                         onMouseLeave={setCurrentPic}>
                                         <div className="hoverBlock" style={hoverFx}>
                                             {hoverFx != undefined ? (
                                                 <p className="hoverText">
-                                                Bild wählen
+                                                    Bild wählen
                                                 </p>
                                             ) : null}
-                                            </div>
-                                        <input onChange={onChangeHandler} style={{ display: 'none' }} ref={hiddenFileInput} type="file" accept=".jpg, .jpeg, .png" name="file" />
+                                        </div>
+                                        <input onChange={onChangeHandler} style={{display: 'none'}}
+                                               ref={hiddenFileInput} type="file" accept=".jpg, .jpeg, .png"
+                                               name="file"/>
                                         <img alt="Standard Anzeigebild" className="col-auto profilePic"
-                                            onClick={() => fileUpload(hiddenFileInput)} src={src} title="Bild hochladen"
-                                            />
+                                             onClick={() => fileUpload(hiddenFileInput)} src={src}
+                                             title="Bild hochladen"
+                                        />
 
-                                        <Button className="col-auto uploadButton" onClick={() => fileUpload(hiddenFileInput)}>
+                                        <Button className="col-auto uploadButton"
+                                                onClick={() => fileUpload(hiddenFileInput)}>
                                             <img className="uploadButtonIcon"
-                                                src={editImg} title="Bild hochladen" />
+                                                 src={editImg} title="Bild hochladen"/>
                                         </Button>
                                     </Row>
 
@@ -153,12 +157,13 @@ export default function Register() {
                                                 <TextInputFieldComp variant="text" onChange={stateTransportUsername}>
                                                 </TextInputFieldComp>
                                                 <Form.Label>Passwort</Form.Label>
-                                                <TextInputFieldComp variant="password" onChange={stateTransportPassword}>
+                                                <TextInputFieldComp variant="password"
+                                                                    onChange={stateTransportPassword}>
                                                 </TextInputFieldComp>
                                                 <Row className="loginLinkContainer">
                                                     <Col>
                                                         <Link className="loginLink" to="/login"
-                                                            title="Weiter zum Login">
+                                                              title="Weiter zum Login">
                                                             Hast du bereits einen Account?</Link>
                                                     </Col>
                                                 </Row>
@@ -172,7 +177,7 @@ export default function Register() {
 
                             </div>
                         </Col>
-                        <Col />
+                        <Col/>
                     </Row>
                 </Container>
             </div>

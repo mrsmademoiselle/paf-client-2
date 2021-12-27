@@ -1,8 +1,5 @@
 import Navbar from "react-bootstrap/Navbar";
 import Logo from '../styling/images/logo/logo.svg';
-import logoutImg from '../styling/images/buttons/logout.svg';
-import {Link} from "react-router-dom";
-import {Stack} from "react-bootstrap";
 import React from "react";
 import {TokenManager} from "../services/TokenManager";
 import TopNavButtonbar from "./TopNavButtonbar";
@@ -20,7 +17,7 @@ export default function TopNav(): React.ReactElement {
             </Navbar.Brand>
             {/* "authenticated" aus App.tsx als globalen State festhalten und diesen Button davon abhängig machen */}
             {isAuthenticated ?
-            <TopNavButtonbar/> : null
+                <TopNavButtonbar/> : null
             }
         </Navbar>
     )

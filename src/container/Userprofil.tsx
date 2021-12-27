@@ -1,4 +1,3 @@
-import MainLayout from "../layouts/MainLayout"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styling/css/Userprofil.css';
 import React, {useState} from 'react';
@@ -7,11 +6,8 @@ import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import editImg from '../styling/images/buttons/edit.svg'
 import '../styling/css/RegisterLogin.css';
-import {Link, useNavigate} from "react-router-dom";
 import {UserAuthService} from "../services/UserAuthService";
-import {TokenManager} from "../services/TokenManager";
 import {Stack} from "react-bootstrap";
 import MainLoggedInLayout from "../layouts/MainLoggedInLayout";
 import TextInputFieldComp from "../components/TextInputFieldComp";
@@ -47,7 +43,8 @@ export default function Userprofil() {
     // @ts-ignore
     UserAuthService.loadUserImage().then(res => {
         console.log('setze preview!')
-        setPreview(res)})
+        setPreview(res)
+    })
     console.log('Image in preview:', preview)
     console.log('Image: ', selectedImg)
 
@@ -91,7 +88,7 @@ export default function Userprofil() {
         UserAuthService.uploadImg(selectedImg);
     }
 
-    function clearImage(){
+    function clearImage() {
         //Loeschen des Bildes und abspeichern des Defaultbildes vom Server
         UserAuthService.clearUserImage().then(res => setPreview(res))
         console.log("Bild geraeumt:", preview)
@@ -104,11 +101,12 @@ export default function Userprofil() {
     }
 
     //Notwendig um den Input aus dem Child TextFieldComp abzugreifen
-    function stateTransportUsername(val : any){
+    function stateTransportUsername(val: any) {
         setStateUsername(val)
         console.log("Im Parent state Username: ", stateUsername)
     }
-    function stateTransportPassword(val : any){
+
+    function stateTransportPassword(val: any) {
         setStatePassword(val)
         console.log("Im Parent state Username: ", statePassword)
     }
@@ -154,8 +152,9 @@ export default function Userprofil() {
 
                         <Col>
                             <Form.Label>Benutzername</Form.Label>
-                            <TextInputFieldComp variant="text" placeholder={loadedUsername} onChange={stateTransportUsername}>
-                                </TextInputFieldComp>
+                            <TextInputFieldComp variant="text" placeholder={loadedUsername}
+                                                onChange={stateTransportUsername}>
+                            </TextInputFieldComp>
                             <Form.Label>Neues Passwort</Form.Label>
                             <TextInputFieldComp variant="password" onChange={stateTransportPassword}>
                             </TextInputFieldComp>

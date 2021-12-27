@@ -7,7 +7,6 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import {Link, useNavigate} from "react-router-dom";
-import Alert from "react-bootstrap/Alert";
 import {UserAuthService} from "../services/UserAuthService";
 import MainLayout from '../layouts/MainLayout';
 import {showBanner} from '../states/UserStates';
@@ -29,17 +28,17 @@ export default function Login() {
     async function handleSubmission(e: any) {
         e.preventDefault();
         UserAuthService.login(inputs).then(data => {
-	    if (data){
-		return navigate("/dashboard");
-	    } else {
-		showBanner("danger", "Die Felder dürfen nicht leer sein");
-	    }
-	});
+            if (data) {
+                return navigate("/dashboard");
+            } else {
+                showBanner("danger", "Die Felder dürfen nicht leer sein");
+            }
+        });
 
     }
 
     return (
-	<MainLayout>
+        <MainLayout>
             <Container>
                 <Row>
                     <Col/>
@@ -82,6 +81,6 @@ export default function Login() {
                     <Col/>
                 </Row>
             </Container>
-	</MainLayout>
+        </MainLayout>
     );
 }

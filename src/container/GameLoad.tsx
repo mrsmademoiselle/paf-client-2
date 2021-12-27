@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from "react";
 import MainLoggedInLayout from "../layouts/MainLoggedInLayout";
-import {Container, Row, Col} from "react-bootstrap";
+import {Col, Container, Row} from "react-bootstrap";
 import ReactLoading from "react-loading"
-import LoadingComponent from "../components/LoadingComponent";
 import {useNavigate} from "react-router-dom";
 import '../styling/css/Loadinganimation.css';
 

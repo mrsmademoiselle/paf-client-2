@@ -6,7 +6,6 @@ import {bannerState} from '../states/UserStates';
 import {useNavigate} from "react-router-dom";
 import {UserAuthService} from "../services/UserAuthService";
 import {TokenManager} from "../services/TokenManager";
-import SideNav from "../components/SideNav";
 
 export default function MainLayout(children: any): React.ReactElement {
     let navigate = useNavigate();
@@ -17,7 +16,7 @@ export default function MainLayout(children: any): React.ReactElement {
             navigate('/login');
         }
     });
-
+ 
     const {variant, text, show} = useAtom(bannerState);
     let banner: React.ReactElement = (<></>);
     if (show) {
@@ -29,7 +28,6 @@ export default function MainLayout(children: any): React.ReactElement {
         <div className="App">
             <TopNav/>
             {banner}
-            <SideNav/>
             <main>{children.children}</main>
         </div>
     );

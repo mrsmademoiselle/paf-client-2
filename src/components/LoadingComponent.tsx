@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import '../styling/css/Loadinganimation.css';
 import {useNavigate} from "react-router-dom";
 
@@ -23,13 +23,12 @@ export default function LoadingComponent() {
                     setLoading(true);
                     setTimeout(() => {
                         setCompleted(true);
-                        // Dauer des Haeckchens, abgestimmt mit frames im Styling
+                        // Dauer des Haekchens, abgestimmt mit frames im Styling
                     }, 1000);
                 });
             // Dauer der Animation zum laden
         }, 2000);
     }, []);
-
 
 
     return (
@@ -51,4 +50,3 @@ export default function LoadingComponent() {
         </>
     );
 }
-

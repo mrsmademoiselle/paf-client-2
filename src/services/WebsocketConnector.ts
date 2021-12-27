@@ -9,7 +9,7 @@ export class WebsocketConnector {
         this.ws.onerror = this.onError;
         this.ws.onclose = this.onClose;
     }
-
+ 
     onOpen(event: any): void {
         console.log("connected");
     }

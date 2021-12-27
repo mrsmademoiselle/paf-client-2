@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
-import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 
 
-export default function TextInputFieldComp(props:any) {
+export default function TextInputFieldComp(props: any) {
     /*Textinputfield Component fuer Formulare mit Inputvalidierung
     * Wurde erstellt um das rerendern von anderen Komponenten zu Kapseln
     * */
@@ -12,21 +11,6 @@ export default function TextInputFieldComp(props:any) {
     //regex
     const [liveText, setLiveText] = useState("");
     const [inputs, setInputs] = useState({username: '', password: ''});
-
-    // regex check vom username
-    /* Erstmal auskommentiert falls spaeter noch notwendig
-    const checkPW = (val: string) => {
-        if (val.length <= 6) {
-            setLiveText("Das Passwort ist zu kurz");
-        } else if (!/\d/.test(val)) {
-            setLiveText("Das Passwort sollte eine Zahl enthalten");
-        } else if (!/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(val)) {
-            setLiveText("Das Passwort sollte mindestens ein Sonderzeichen enthalten\"");
-        } else {
-            setLiveText("");
-        }
-    }
-    */
 
     const checkPW = (val: string) => {
         if (/\W/.test(val)) {
@@ -48,10 +32,10 @@ export default function TextInputFieldComp(props:any) {
 
     const adjustInput = (e: any) => {
         const val = e.target.value;
-        if (props.variant === 'password'){
+        if (props.variant === 'password') {
             checkPW(val);
         }
-        if (props.variant === 'text'){
+        if (props.variant === 'text') {
             checkUserName(val);
         }
 
@@ -67,11 +51,12 @@ export default function TextInputFieldComp(props:any) {
     return (
         <>
             {/* Inputfeld */}
-                <Form.Group className="mb-3">
-                    <div className="text-danger">{liveText}</div>
-                    <Form.Control type={props.variant} placeholder={props.placeholder} name="input" onChange={adjustInput} required>
-                    </Form.Control>
-                </Form.Group>
+            <Form.Group className="mb-3">
+                <div className="text-danger">{liveText}</div>
+                <Form.Control type={props.variant} placeholder={props.placeholder} name="input" onChange={adjustInput}
+                              required>
+                </Form.Control>
+            </Form.Group>
         </>
     );
 }

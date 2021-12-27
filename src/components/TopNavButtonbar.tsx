@@ -1,19 +1,18 @@
-import MainLayout from "../layouts/MainLayout"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styling/css/Topnav.css';
-import React, {useState} from 'react';
-import {Link, useNavigate} from "react-router-dom";
+import React from 'react';
+import {Link} from "react-router-dom";
 import {TokenManager} from "../services/TokenManager";
 import {Stack} from "react-bootstrap";
 import logoutImg from "../styling/images/buttons/logout.svg";
 
 
-export default function TopNavButtonbar(){
+export default function TopNavButtonbar() {
     function deleteJwtToken() {
         TokenManager.removeToken();
     }
 
-    return(
+    return (
         <>
             {/* Buttonstack fuer Navigation */}
             <Stack className="ButtonBarBlock" direction="horizontal" gap={5}>
