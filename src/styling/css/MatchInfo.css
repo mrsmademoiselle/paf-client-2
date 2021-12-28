@@ -1,0 +1,14 @@
+.match-info {
+    background-color: lightgray;
+    margin: 0 10px 0 10px;
+}
+
+.padding {
+    padding: 20px;
+}
+
+.score {
+    padding: 5px;
+    color: white;
+    font-size: 30px;
+}

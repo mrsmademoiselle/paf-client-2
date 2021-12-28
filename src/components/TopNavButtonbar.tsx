@@ -25,6 +25,9 @@ export default function TopNavButtonbar() {
                 <Link to="/gameloading"
                       className="logoutButton btn btn-outline-primary d-flex align-items-center">
                     Spielen</Link>
+                <Link to="/game"
+                      className="logoutButton btn btn-outline-primary d-flex align-items-center">
+                    Game</Link>
             </Stack>
             {/* Logout */}
             <Link to="/login" onClick={deleteJwtToken}
