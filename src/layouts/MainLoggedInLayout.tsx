@@ -10,13 +10,12 @@ import {TokenManager} from "../services/TokenManager";
 export default function MainLayout(children: any): React.ReactElement {
     let navigate = useNavigate();
     UserAuthService.check().then(data => {
-        console.log('checking user auth')
         if (!data) {
             TokenManager.removeToken();
             navigate('/login');
         }
     });
- 
+
     const {variant, text, show} = useAtom(bannerState);
     let banner: React.ReactElement = (<></>);
     if (show) {

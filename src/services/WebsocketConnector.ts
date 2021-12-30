@@ -2,10 +2,10 @@ export class WebsocketConnector {
 
     public ws?: WebSocket;
 
-    connect(): void {
-
+    connect(callbackOnOpen: any, callbackOnMessage: any): void {
         this.ws = new WebSocket("ws://127.0.0.1:8888");
-        this.ws.onmessage = this.onMessage;
+        this.ws.onopen = callbackOnOpen;
+        this.ws.onmessage = callbackOnMessage;
         this.ws.onerror = this.onError;
         this.ws.onclose = this.onClose;
     }
@@ -16,13 +16,10 @@ export class WebsocketConnector {
 
     onError(event: any): void {
         console.log("error: {}", JSON.stringify(event.data));
-
-        console.error("Socket Error: ", event.message, "Socket wird geschlossen");
-        this.ws?.close();
     }
 
     onClose(event: any): void {
-        console.log("closed: ", JSON.stringify(event));
+        console.log("websocket closed");
     }
 
     sendData(data: any): void {
@@ -32,5 +29,11 @@ export class WebsocketConnector {
         } catch (error) {
             console.log("Fehler beim Senden der Nachricht: ", error);
         }
+    }
+
+    isOpen(): boolean {
+        console.log("websocket ist offen? ", this.ws?.readyState === WebSocket.OPEN)
+
+        return this.ws?.readyState === WebSocket.OPEN;
     }
 }

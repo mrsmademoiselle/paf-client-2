@@ -45,8 +45,6 @@ export default function Userprofil() {
         console.log('setze preview!')
         setPreview(res)
     })
-    console.log('Image in preview:', preview)
-    console.log('Image: ', selectedImg)
 
     async function handleSubmit(e: any) {
         // @ts-ignore

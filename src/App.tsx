@@ -14,9 +14,11 @@ import Userprofil from './container/Userprofil';
 import GameLoad from "./container/GameLoad";
 import History from "./container/History";
 import Game from "./container/Game";
-
+import {WebsocketConnector} from "./services/WebsocketConnector";
 
 export default function App() {
+
+    const websocketConnector: WebsocketConnector = new WebsocketConnector();
 
     function RequireAuth() {
         /* vorherige Location um Aktion nach Authentifizierung wieder aufzunehmen */
@@ -36,20 +38,38 @@ export default function App() {
         return <Outlet/>;
     }
 
+    /**
+     * Schließen der Websocketverbindung, wenn wir auf eine andere Seite navigieren
+     */
+    function CheckWebsocketSubscription() {
+        let location = useLocation();
+
+        let isIngameOrLobby = location.pathname === "/game" || location.pathname === "/lobby";
+
+        if (websocketConnector.isOpen() && !isIngameOrLobby) {
+            console.log("Navigation auf andere Seite: Websocketverbindung wird geschlossen.")
+            websocketConnector.ws?.close();
+        }
+
+        return <Outlet/>;
+    }
+
     return (
         <Router>
             <Routes>
-                {/* öffentliche Routen */}
-                <Route path="/" element={<Register/>}/>
-                <Route path="/register" element={<Register/>}/>
-                <Route path="/login" element={<Login/>}/>
-                {/* private Routen mit Auth-check */}
-                <Route element={<RequireAuth/>}>
-                    <Route path="/dashboard" element={<Dashboard/>}/>
-                    <Route path="/userprofil" element={<Userprofil/>}/>
-                    <Route path="/gameloading" element={<GameLoad/>}/>
-                    <Route path="/history" element={<History/>}/>
-                    <Route path="/game" element={<Game/>}/>
+                <Route element={<CheckWebsocketSubscription/>}>
+                    {/* öffentliche Routen */}
+                    <Route path="/" element={<Register/>}/>
+                    <Route path="/register" element={<Register/>}/>
+                    <Route path="/login" element={<Login/>}/>
+                    {/* private Routen mit Auth-check */}
+                    <Route element={<RequireAuth/>}>
+                        <Route path="/dashboard" element={<Dashboard/>}/>
+                        <Route path="/userprofil" element={<Userprofil/>}/>
+                        <Route path="/gameloading" element={<GameLoad/>}/>
+                        <Route path="/history" element={<History/>}/>
+                        <Route path="/game" element={<Game/>}/>
+                    </Route>
                 </Route>
             </Routes>
         </Router>
