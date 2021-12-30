@@ -15,7 +15,7 @@ function createDummyData(): MatchDto {
     let user = new UserDto("geilerUsername123", "imagebytes");
 
     let cardDtos: CardDto[] = [];
-    for (let i = 1; i <= 9; i++) {
+    for (let i = 1; i <= 16; i++) {
         cardDtos.push(new CardDto(i, i, "imgpath", false))
     }
     return new MatchDto("1", user, new BoardDto(cardDtos), [new UserScoreDto(user, 1), new UserScoreDto(user, 2)]);

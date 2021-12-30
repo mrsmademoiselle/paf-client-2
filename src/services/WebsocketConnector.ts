@@ -10,12 +10,8 @@ export class WebsocketConnector {
         this.ws.onclose = this.onClose;
     }
 
-    onMessage(event: any): void {
-        console.log("Nachricht empfangen ", JSON.stringify(event.data));
-    }
-
     onError(event: any): void {
-        console.log("error: {}", JSON.stringify(event.data));
+        console.log("error: ", JSON.stringify(event.data));
     }
 
     onClose(event: any): void {
