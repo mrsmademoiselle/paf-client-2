@@ -15,8 +15,10 @@ function createDummyData(): MatchDto {
     let user = new UserDto("geilerUsername123", "imagebytes");
 
     let cardDtos: CardDto[] = [];
-    for (let i = 1; i <= 16; i++) {
-        cardDtos.push(new CardDto(i, i, "imgpath", false))
+    // 2-17, damit die integer divison unten passt, weil 1/2 < 1 sind
+    for (let i = 2; i <= 17; i++) {
+        // math.floor um die pair id durch division zuzuweisen, kann später alles raus wenn wir die karten vom server empfangen
+        cardDtos.push(new CardDto(i, Math.floor(i / 2), "imgpath", false))
     }
     return new MatchDto("1", user, new BoardDto(cardDtos), [new UserScoreDto(user, 1), new UserScoreDto(user, 2)]);
 }
