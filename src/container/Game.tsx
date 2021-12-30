@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import MainLoggedInLayout from "../layouts/MainLoggedInLayout";
 import MatchInfo from "../components/MatchInfo";
 import Board from "../components/Board";
@@ -8,9 +8,9 @@ import {UserDto} from "../entities/UserDto";
 import {BoardDto} from "../entities/BoardDto";
 import {UserScoreDto} from "../entities/UserScoreDto";
 import {CardDto} from "../entities/CardDto";
+import {WebsocketConnector} from "../services/WebsocketConnector";
 
 
-// create cards from list
 function createDummyData(): MatchDto {
     let user = new UserDto("geilerUsername123", "imagebytes");
 
@@ -23,6 +23,16 @@ function createDummyData(): MatchDto {
 
 export default function Game() {
     let match: MatchDto = createDummyData();
+
+    // Todo: Später hier Daten vom Server empfangen, statt Daten zu verschicken
+    useEffect(() => {
+        let wsConnector = new WebsocketConnector();
+        wsConnector.connect();
+        wsConnector.ws?.addEventListener('open', function (event) {
+            wsConnector.sendData(JSON.stringify(match));
+        });
+    }, []);
+
 
     return (
         <MainLoggedInLayout>
