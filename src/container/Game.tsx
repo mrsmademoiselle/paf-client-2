@@ -31,13 +31,20 @@ export default function Game() {
     let match: MatchDto = createDummyData();
 
     useEffect(() => {
+        // Dient dem cleanup der websocket subscription
+        let isMounted = true;
+
         let wsConnector = new WebsocketConnector();
-
-        // Was wir schicken wollen und was wir mit der empfangenen Nachricht tun wollen
+        // Was wir an den Server schicken wollen
         let onOpen = () => wsConnector.sendData(JSON.stringify(match));
+        //  was wir mit der vom Server empfangenen Nachricht tun wollen
         let onMessage = (message: any) => parseMessage(message.data);
-
         wsConnector.connect(onOpen, onMessage);
+
+        // Dient dem cleanup der websocket subscription
+        return () => {
+            isMounted = false
+        };
     }, []);
 
 
