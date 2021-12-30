@@ -2,4 +2,12 @@
     padding: 30px;
     margin: 0 10px 0 10px;
     background-color: lightgray;
+
+    /* grid-layout */
+    display: grid;
+    grid-template-columns: 20vw 20vw 20vw;
+    grid-template-rows: 21vh 21vh 21vh;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+    justify-content: center;
 }

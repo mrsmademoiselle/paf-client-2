@@ -1,24 +1,23 @@
 import React from "react";
-import {Card} from "./Card";
+import Card from "./Card";
 import '../styling/css/Board.css';
-import {Row} from "react-bootstrap";
+import {CardDto} from "../entities/CardDto";
 
-function createCardRow(list: any) {
-    let cards = [];
-    // zu ersetzen: list.length
-    for (let count = 1; count <= 9; count++) {
-        cards.push(<Card cardId={count}/>);
-    }
-    return cards;
-
-}
 
 export default function Board(): React.ReactElement {
+    // Dummydaten
+    let cardDtos: CardDto[] = [];
+    for (let i = 1; i <= 9; i++) {
+        cardDtos.push(new CardDto(i, i, "imgpath/", false))
+    }
+
+    // todo: fetch cards from server (?)
+
     return (
-        <div className="board col-12 w-100 h-100">
-            <Row className="justify-content-between">
-                {createCardRow({})}
-            </Row>
+        <div className="board col-12 w-100 h-100 board">
+            {cardDtos.map((e: CardDto) => (
+                <Card cardId={e.cardId} imgPath={e.imgPath} pairId={e.pairId} isFlipped={e.isFlipped}/>
+            ))}
         </div>
     )
 }

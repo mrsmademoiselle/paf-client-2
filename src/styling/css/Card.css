@@ -1,6 +1,21 @@
 .rectangle {
     background-color: #2c2c2c;
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    font-size: 30px;
+    text-align: center;
     color: white;
-    margin: 20px;
-    height: 9vw;
+}
+
+.back {
+    background-color: #2c2c2c;
+}
+
+.front {
+    max-width: 100%;
+    max-height: 100%;
+    /* Falls die Bilder immer den Frame ausfüllen sollen (stretch-alarm)
+    height: 100%;
+    width: 100%;
+     */
 }
