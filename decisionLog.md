@@ -2,18 +2,39 @@
 
 Autor: Franzi
 
-### Hinweise
+### Ingame-View
 
-- aktuell kann man die Websocketverbindung nicht manuell schließen, bzw. reconnecten.
-    - stattdessen kommt: DOMException: An attempt was made to use an object that is not, or is no longer, usable
-        - Diese Nachricht kommt beim Zweiten mal des Game-Aufrufs, also nachdem man wegnavigiert hat. Es hat vermutlich
-          etwas mit close() zutun. Daher werde ich close() erstmal auskommentieren.
-            - Update: Das Problem ist, dass die Websocket einige Zeit braucht, bis sie sich vollends verbunden hat und
-              somit beim Connecten noch nicht offen für Nachrichten ist
+- Ingame-View umgesetzt.
+    - Bestehend aus Überkomponente "Game.tsx" mit den Unterkomponenten "Board.tsx (Card.tsx)" und "
+      MatchInfo.tsx".
+    - Einbauen von erstmaliger Websocketlogik für Datenübertragung vom Server.
+    - Die Bilder für die Karten werden über das src-Attribut vom Server geholt.
+    - Das Kartenlayout ist mit Grid im .css umgesetzt.
 
-### Fragen
+### WebsocketConnector
 
-- Warum ist die TopNav aufgeteilt in TopNav und TopNavButtonBar?
+- Hinzufügen einer WebsocketConnector-Klasse für Websocketverbindungen.
+    - Diese Klasse wird zu Beginn einmal als State (
+      UserStates.ts) festgehalten und dann für jede Websocketverbindung immer wieder als "State" verwendet.
+        - Somit ist die Instanz nicht neu setzbar und indirekt ein Singleton.
+
+- `waitForOpenSocketConnection()` existiert, damit die Websocketverbindung beim Senden von Messages an den Server auf
+  jeden Fall offen ist.
+    - Da wir die Websocketconnection beim Wegnavigieren schließen und dann beim Navigieren auf /game wieder öffnen, kann
+      es sein, dass sie zum Zeitpunkt der Datensendung an den Server noch nicht offen ist. Dann kommt die
+      Fehlermeldung `DOMException: An attempt was made to use an object that is not, or is no longer, usable`. Um das zu
+      umgehen, wurde in `waitForOpenSocketConnection()` ein rekursiver Methodenaufruf hinzugefügt, der so lange mit dem
+      Senden wartet, bis die Websocketconnection offen ist.
+
+### Lobby.tsx
+
+- Umbenennung von Lobby.tsx zu Lobby.tsx für Vereinheitlichung mit JavaFX Client.
+- Abändern der WebsocketKommunikation in der Lobby durch Verwendung des neuen WebsocketConnectors.
+
+### App.tsx
+
+- Hinzufügen von Websocket-Check bei Navigieren von Seiten, damit die Websocketverbindung beim Wegnavigieren von /game
+  geschlossen wird.
 
 <hr> 
 
@@ -37,7 +58,7 @@ Sockets:
 - Erstmal vanilla gebaut
 - schmeisst eine exception auf dem Testsocketserver, baut aber eine verbindung auf
 
-View GameLoad:
+View Lobby:
 
 - inline Style fuer einzelne elemente wie das margin top im text
 - bauen einer komponente fuer ladeanimation mit css

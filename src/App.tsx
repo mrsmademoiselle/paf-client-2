@@ -11,7 +11,7 @@ import {TokenManager} from "./services/TokenManager";
 import {swap, useAtom} from "@dbeining/react-atom";
 import {authentication, websocketState} from "./states/UserStates";
 import Userprofil from './container/Userprofil';
-import GameLoad from "./container/GameLoad";
+import Lobby from "./container/Lobby";
 import History from "./container/History";
 import Game from "./container/Game";
 
@@ -64,7 +64,7 @@ export default function App() {
                     <Route element={<RequireAuth/>}>
                         <Route path="/dashboard" element={<Dashboard/>}/>
                         <Route path="/userprofil" element={<Userprofil/>}/>
-                        <Route path="/gameloading" element={<GameLoad/>}/>
+                        <Route path="/gameloading" element={<Lobby/>}/>
                         <Route path="/history" element={<History/>}/>
                         <Route path="/game" element={<Game/>}/>
                     </Route>

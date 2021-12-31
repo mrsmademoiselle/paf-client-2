@@ -9,7 +9,7 @@ import {addMatchDto, websocketState} from "../states/UserStates";
 import {useAtom} from "@dbeining/react-atom";
 
 
-export default function GameLoad() {
+export default function Lobby() {
     let navigate = useNavigate()
 
     /* Bimmde hier Spielladedinge maken*/
@@ -30,6 +30,7 @@ export default function GameLoad() {
             let parseMessage = (message: string) => {
                 try {
                     let match: MatchDto = JSON.parse(message);
+                    // Match im Dto speichern, damit wir nach dem Redirect in /game Zugriff darauf haben
                     addMatchDto(match);
                 } catch (e) {
                     console.log("falsches json format: ", e)

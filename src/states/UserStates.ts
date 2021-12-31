@@ -52,7 +52,6 @@ function createWebsocketConnector(): WebsocketConnector {
     return wsConn;
 }
 
-// hoffentlich geht das so
 export const websocketState = Atom.of({
     websocketConnector: createWebsocketConnector()
 })
