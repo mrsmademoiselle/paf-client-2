@@ -39,7 +39,6 @@ export default function TextInputFieldComp(props: any) {
             checkUserName(val);
         }
 
-        console.log(val)
         setInputs({
             ...inputs,
             [e.target.name]: val

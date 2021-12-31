@@ -2,12 +2,28 @@ export class WebsocketConnector {
 
     public ws?: WebSocket;
 
-    connect(callbackOnOpen: any, callbackOnMessage: any): void {
+    connect(): void {
         this.ws = new WebSocket("ws://127.0.0.1:8888");
-        this.ws.onopen = callbackOnOpen;
-        this.ws.onmessage = callbackOnMessage;
+        this.ws.onopen = this.onOpen;
         this.ws.onerror = this.onError;
         this.ws.onclose = this.onClose;
+        console.log("on msg: ", this.ws.onmessage);
+    }
+
+    setOnMessage(callback: any): void {
+        if (!this.isOpen()) {
+            console.log("reconnecting in setOnMessage...")
+            this.connect();
+        }
+
+        if (this.ws !== undefined) {
+            console.log("setting new onMessage", callback)
+            this.ws.onmessage = callback;
+        }
+    }
+
+    onOpen(event: any): void {
+        console.log("websocket opened");
     }
 
     onError(event: any): void {
@@ -19,6 +35,10 @@ export class WebsocketConnector {
     }
 
     sendData(data: any): void {
+        if (!this.isOpen()) {
+            console.log("reconnecting in sendData...")
+            this.connect();
+        }
         try {
             this.ws?.send(data);
             console.log("Daten gesendet: ", data)
@@ -28,7 +48,7 @@ export class WebsocketConnector {
     }
 
     isOpen(): boolean {
-        console.log("websocket ist offen? ", this.ws?.readyState === WebSocket.OPEN)
+        console.log("websocket offen? ", this.ws?.readyState === WebSocket.OPEN)
 
         return this.ws?.readyState === WebSocket.OPEN;
     }

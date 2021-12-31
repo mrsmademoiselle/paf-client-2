@@ -101,12 +101,10 @@ export default function Userprofil() {
     //Notwendig um den Input aus dem Child TextFieldComp abzugreifen
     function stateTransportUsername(val: any) {
         setStateUsername(val)
-        console.log("Im Parent state Username: ", stateUsername)
     }
 
     function stateTransportPassword(val: any) {
         setStatePassword(val)
-        console.log("Im Parent state Username: ", statePassword)
     }
 
     // @ts-ignore

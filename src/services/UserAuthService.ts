@@ -52,7 +52,6 @@ export class UserAuthService {
     }
 
     static async uploadImg(img: any): Promise<any> {
-        console.log('LADE HOCh')
         try {
             const reader = new FileReader();
             reader.readAsDataURL(img)

@@ -17,8 +17,15 @@ export class TokenManager {
     static getToken(): string {
         let token = sessionStorage.getItem(this.TOKEN_KEY);
         if (token == null) return "";
-        let json = JSON.parse(token);
- 
+
+        let json;
+        try {
+            json = JSON.parse(token);
+        } catch (e) {
+            console.log("falsches json format in getToken: ", json)
+            return "";
+        }
+
         // müssen noch andere Daten des Users geprüft werden?
         if (new Date().getTime() > json.expiry) {
             sessionStorage.removeItem(this.TOKEN_KEY)

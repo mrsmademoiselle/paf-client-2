@@ -14,11 +14,8 @@ import Userprofil from './container/Userprofil';
 import GameLoad from "./container/GameLoad";
 import History from "./container/History";
 import Game from "./container/Game";
-import {WebsocketConnector} from "./services/WebsocketConnector";
 
 export default function App() {
-
-    const websocketConnector: WebsocketConnector = new WebsocketConnector();
 
     function RequireAuth() {
         /* vorherige Location um Aktion nach Authentifizierung wieder aufzunehmen */
@@ -43,14 +40,16 @@ export default function App() {
      */
     function CheckWebsocketSubscription() {
         let location = useLocation();
+        /* später wieder einkommentieren, wenn nicht mehr kaputt -> siehe log von Sprint #2
 
-        let isIngameOrLobby = location.pathname === "/game" || location.pathname === "/lobby";
+                let isIngameOrLobby = location.pathname === "/game" || location.pathname === "/gameloading";
+                const websocketConnector = useAtom(websocketState).websocketConnector;
 
-        if (websocketConnector.isOpen() && !isIngameOrLobby) {
-            console.log("Navigation auf andere Seite: Websocketverbindung wird geschlossen.")
-            websocketConnector.ws?.close();
-        }
-
+                if (websocketConnector.isOpen() && !isIngameOrLobby) {
+                    console.log("Navigation auf andere Seite: Websocketverbindung wird geschlossen.")
+                    websocketConnector.ws?.close();
+                }
+        */
         return <Outlet/>;
     }
 

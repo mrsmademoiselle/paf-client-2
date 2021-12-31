@@ -16,13 +16,18 @@ export class HttpConnector {
             });
 
         } else {
-            console.log("------->", TokenManager.getToken());
+            let json = "";
+            try {
+                json = JSON.parse(TokenManager.getToken()).value;
+            } catch (e) {
+                console.log("falsches json format in post: ", TokenManager.getToken());
+            }
             response = await fetch(this.PATH + url, {
                 method: 'POST',
                 body: JSON.stringify(inputs),
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': JSON.parse(TokenManager.getToken()).value
+                    'Authorization': json
                 },
                 mode: 'cors',
             });
@@ -35,19 +40,32 @@ export class HttpConnector {
 
     static async postImage(input: any, url: string): Promise<Response> {
         console.log("lade bild hoch: ", input);
+        let json = "";
+        try {
+            json = JSON.parse(TokenManager.getToken()).value;
+        } catch (e) {
+            console.log("falsches json format in post: ", TokenManager.getToken());
+        }
+
         const response = await fetch(this.PATH + url, {
             method: 'POST',
             body: input,
-            headers: {'Content-Type': 'application/json', 'Authorization': JSON.parse(TokenManager.getToken()).value},
+            headers: {'Content-Type': 'application/json', 'Authorization': json},
             mode: 'cors',
         });
         return response;
     }
 
     static async get(url: string): Promise<Response> {
+        let json = "";
+        try {
+            json = JSON.parse(TokenManager.getToken()).value;
+        } catch (e) {
+            console.log("falsches json format in post: ", TokenManager.getToken());
+        }
         const response = await fetch(this.PATH + url, {
             method: 'GET',
-            headers: {'Content-Type': 'application/json', 'authorization': JSON.parse(TokenManager.getToken()).value},
+            headers: {'Content-Type': 'application/json', 'authorization': json},
         });
 
         /* Nach Einigung an den ResponseStatus anpassen, der bei einem ungültigen Token zurückgegeben wird */

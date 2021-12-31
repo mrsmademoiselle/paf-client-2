@@ -8,7 +8,8 @@ import {UserDto} from "../entities/UserDto";
 import {BoardDto} from "../entities/BoardDto";
 import {UserScoreDto} from "../entities/UserScoreDto";
 import {CardDto} from "../entities/CardDto";
-import {WebsocketConnector} from "../services/WebsocketConnector";
+import {useAtom} from "@dbeining/react-atom";
+import {matchDtoState, websocketState} from "../states/UserStates";
 
 
 function createDummyData(): MatchDto {
@@ -25,23 +26,30 @@ function createDummyData(): MatchDto {
 
 function parseMessage(message: string) {
     console.log("received: ", message);
-    console.log("JSON: ", JSON.parse(message));
-    // TODO JSON Objekt in MatchDto mappen
+    try {
+        let json = JSON.parse(message);
+        console.log("json: ", json)
+    } catch (e) {
+        console.log("falsches json format: ", message);
+    }
 }
 
 export default function Game() {
-    let match: MatchDto = createDummyData();
+    let dummyMatch: MatchDto = createDummyData();
+    // todo später dieses match statt dem dummy-Match verwenden,
+    //  wenn der Server nach dem player-matching ein MatchObjekt zurückgibt
+    let {match} = useAtom(matchDtoState);
+    const websocketConnector = useAtom(websocketState).websocketConnector;
+    console.log(websocketConnector);
 
     useEffect(() => {
         // Dient dem cleanup der websocket subscription
         let isMounted = true;
 
-        let wsConnector = new WebsocketConnector();
-        // Was wir an den Server schicken wollen
-        let onOpen = () => wsConnector.sendData(JSON.stringify(match));
         //  was wir mit der vom Server empfangenen Nachricht tun wollen
-        let onMessage = (message: any) => parseMessage(message.data);
-        wsConnector.connect(onOpen, onMessage);
+        let onMessageCallback = (message: any) => parseMessage(message);
+        websocketConnector.setOnMessage(onMessageCallback);
+        websocketConnector.sendData("hi")
 
         // Dient dem cleanup der websocket subscription
         return () => {
@@ -55,10 +63,10 @@ export default function Game() {
             <div className="content">
                 <div className="row justify-content-center">
                     <div className="col-9">
-                        <Board cardSet={match.gameBoard.cardSet}/>
+                        <Board cardSet={dummyMatch.gameBoard.cardSet}/>
                     </div>
                     <div className="col-3">
-                        <MatchInfo match={match}/>
+                        <MatchInfo match={dummyMatch}/>
                     </div>
                 </div>
             </div>

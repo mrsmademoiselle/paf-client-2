@@ -4,6 +4,9 @@ import {Col, Container, Row} from "react-bootstrap";
 import ReactLoading from "react-loading"
 import {useNavigate} from "react-router-dom";
 import '../styling/css/Loadinganimation.css';
+import {MatchDto} from "../entities/MatchDto";
+import {addMatchDto, websocketState} from "../states/UserStates";
+import {useAtom} from "@dbeining/react-atom";
 
 
 export default function GameLoad() {
@@ -21,24 +24,23 @@ export default function GameLoad() {
 
     /*States*/
     const [isLoading, setLoading] = useState<boolean | undefined>(true);
-    const [data, setData] = useState<boolean | undefined>(undefined);
+    const websocketConnector = useAtom(websocketState).websocketConnector;
 
-    let ws = new WebSocket("ws://localhost:44558/sockettest")
-
-    // Testen der Komponenten, Socketdinge...
     useEffect(() => {
-            ws.onopen = () => {
-                console.log('Verbunden')
+            let parseMessage = (message: string) => {
+                try {
+                    let match: MatchDto = JSON.parse(message);
+                    addMatchDto(match);
+                } catch (e) {
+                    console.log("falsches json format: ", e)
+                }
+                console.log("msg ", message);
+                setLoading(false);
+                navigate("/game");
             }
-            ws.onmessage = ev => {
-                console.log(JSON.parse(ev.data))
-            }
-            ws.onclose = () => {
-                console.log('Dicht maken')
-            }
-            // ^bis hier Socketdinge
-            // Setzen des Fertiggeladen States
-            //setLoading(false);
+            //  was wir mit der vom Server empfangenen Nachricht tun wollen
+            let onMessage = (message: any) => parseMessage(message);
+            websocketConnector.setOnMessage(onMessage);
         }
         , [])
 

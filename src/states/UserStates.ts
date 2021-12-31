@@ -1,4 +1,6 @@
 import {Atom, swap} from "@dbeining/react-atom";
+import {MatchDto} from "../entities/MatchDto";
+import {WebsocketConnector} from "../services/WebsocketConnector";
 
 export const authentication = Atom.of({
     isAuthenticated: false
@@ -32,3 +34,27 @@ export function closeBanner(): void {
         show: false,
     }));
 }
+
+export const matchDtoState = Atom.of({
+    match: {}
+});
+
+export function addMatchDto(newMatch: MatchDto): void {
+    return swap(matchDtoState, state => ({
+        ...state,
+        match: newMatch
+    }));
+}
+
+function createWebsocketConnector(): WebsocketConnector {
+    console.log("creating atom state")
+
+    let wsConn: WebsocketConnector = new WebsocketConnector();
+    wsConn.connect();
+    return wsConn;
+}
+
+// hoffentlich geht das so
+export const websocketState = Atom.of({
+    websocketConnector: createWebsocketConnector()
+})
