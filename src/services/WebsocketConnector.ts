@@ -11,7 +11,6 @@ export class WebsocketConnector {
 
     setOnMessage(callback: any): void {
         if (this.ws !== undefined) {
-            console.log("setting new onMessage", callback)
             this.ws.onmessage = callback;
         }
     }
@@ -33,7 +32,7 @@ export class WebsocketConnector {
      * Achtung: Diese Funktion gibt nur zurück, ob eine Websocketverbindung offen ist, nicht, ob eine gerade aufgebaut wird.
      */
     isOpen(): boolean {
-        console.log("websocket offen? ", this.ws?.readyState === WebSocket.OPEN, this.ws?.readyState)
+        console.log("websocket offen? ", this.ws?.readyState === WebSocket.OPEN, "status", this.ws?.readyState)
 
         return this.ws?.readyState === WebSocket.OPEN;
     }
@@ -56,10 +55,14 @@ export class WebsocketConnector {
      */
     waitForOpenSocketConnection(callback: any): void {
         setTimeout(() => {
-            if (this.ws?.readyState === 1) {
-                console.log("Verbindung wurde aufgebaut")
+            if (this.ws?.readyState === WebSocket.OPEN) {
+                console.log("WS-Verbindung wurde erfolgreich aufgebaut")
                 if (callback != null) callback();
-            } else {
+            } else if (this.ws?.readyState === WebSocket.CLOSED) {
+                console.log("reconnecting to websocket to send data...")
+                this.connect();
+                this.waitForOpenSocketConnection(callback);
+            } else { // CONNECTING, CLOSING
                 console.log("auf Verbindungsaufbau warten...")
                 this.waitForOpenSocketConnection(callback);
             }

@@ -51,9 +51,6 @@ export default function Userprofil() {
         setInputs(inputs.username = stateUsername)
         // @ts-ignore
         setInputs(inputs.password = statePassword)
-        console.log('submit abfeuern')
-        console.log(inputs.username)
-        console.log(inputs.password)
 
         e.preventDefault();
         await UserAuthService.update(inputs)

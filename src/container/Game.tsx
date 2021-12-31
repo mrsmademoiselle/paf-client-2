@@ -46,7 +46,7 @@ export default function Game() {
         let isMounted = true;
 
         //  was wir mit der vom Server empfangenen Nachricht tun wollen
-        let onMessageCallback = (message: any) => parseMessage(message);
+        let onMessageCallback = (message: any) => parseMessage(message.data);
         websocketConnector.setOnMessage(onMessageCallback);
         websocketConnector.sendData("hi")
 

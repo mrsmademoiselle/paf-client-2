@@ -71,12 +71,10 @@ export default function Register() {
     //Notwendig um den Input aus dem Child TextFieldComp abzugreifen
     function stateTransportUsername(val: any) {
         setStateUsername(val)
-        console.log("Im Parent state Username: ", stateUsername)
     }
 
     function stateTransportPassword(val: any) {
         setStatePassword(val)
-        console.log("Im Parent state Username: ", statePassword)
     }
 
 
@@ -88,10 +86,6 @@ export default function Register() {
         setInputs(inputs.username = stateUsername)
         // @ts-ignore
         setInputs(inputs.password = statePassword)
-
-        console.log(inputs.username)
-        console.log(inputs.password)
-        console.log(inputs)
 
         //const status: boolean = await UserAuthService.register(inputs);
         const reg_status: any = await UserAuthService.register(inputs);
