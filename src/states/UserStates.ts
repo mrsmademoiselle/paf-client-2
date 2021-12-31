@@ -47,8 +47,6 @@ export function addMatchDto(newMatch: MatchDto): void {
 }
 
 function createWebsocketConnector(): WebsocketConnector {
-    console.log("creating atom state")
-
     let wsConn: WebsocketConnector = new WebsocketConnector();
     wsConn.connect();
     return wsConn;

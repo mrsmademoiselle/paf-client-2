@@ -8,6 +8,8 @@ Autor: Franzi
     - stattdessen kommt: DOMException: An attempt was made to use an object that is not, or is no longer, usable
         - Diese Nachricht kommt beim Zweiten mal des Game-Aufrufs, also nachdem man wegnavigiert hat. Es hat vermutlich
           etwas mit close() zutun. Daher werde ich close() erstmal auskommentieren.
+            - Update: Das Problem ist, dass die Websocket einige Zeit braucht, bis sie sich vollends verbunden hat und
+              somit beim Connecten noch nicht offen für Nachrichten ist
 
 ### Fragen
 

@@ -40,7 +40,6 @@ export default function Game() {
     //  wenn der Server nach dem player-matching ein MatchObjekt zurückgibt
     let {match} = useAtom(matchDtoState);
     const websocketConnector = useAtom(websocketState).websocketConnector;
-    console.log(websocketConnector);
 
     useEffect(() => {
         // Dient dem cleanup der websocket subscription

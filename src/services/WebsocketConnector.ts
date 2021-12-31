@@ -7,15 +7,9 @@ export class WebsocketConnector {
         this.ws.onopen = this.onOpen;
         this.ws.onerror = this.onError;
         this.ws.onclose = this.onClose;
-        console.log("on msg: ", this.ws.onmessage);
     }
 
     setOnMessage(callback: any): void {
-        if (!this.isOpen()) {
-            console.log("reconnecting in setOnMessage...")
-            this.connect();
-        }
-
         if (this.ws !== undefined) {
             console.log("setting new onMessage", callback)
             this.ws.onmessage = callback;
@@ -31,25 +25,44 @@ export class WebsocketConnector {
     }
 
     onClose(event: any): void {
+        this.ws = undefined;
         console.log("websocket closed");
     }
 
-    sendData(data: any): void {
-        if (!this.isOpen()) {
-            console.log("reconnecting in sendData...")
-            this.connect();
-        }
-        try {
-            this.ws?.send(data);
-            console.log("Daten gesendet: ", data)
-        } catch (error) {
-            console.log("Fehler beim Senden der Nachricht: ", error);
-        }
-    }
-
+    /**
+     * Achtung: Diese Funktion gibt nur zurück, ob eine Websocketverbindung offen ist, nicht, ob eine gerade aufgebaut wird.
+     */
     isOpen(): boolean {
-        console.log("websocket offen? ", this.ws?.readyState === WebSocket.OPEN)
+        console.log("websocket offen? ", this.ws?.readyState === WebSocket.OPEN, this.ws?.readyState)
 
         return this.ws?.readyState === WebSocket.OPEN;
+    }
+
+    sendData(message: string) {
+        this.waitForOpenSocketConnection(() => {
+            this.ws?.send(message);
+            console.log("nachricht gesendet: ", message)
+        });
+    }
+
+    /**
+     * Rekursive Warte-Funktion, bis die Verbindung da ist.
+     * Problem: Beim Wegnavigieren auf eine andere Seite wird die Verbindung zur Websocket abgebrochen (siehe App.tsx-Check).
+     * Wenn wir danach auf Game navigieren und die Verbindung aufbauen wollen, um Daten zu senden, fährt die Websocketverbindung
+     * zu langsam hoch und ist noch nicht bereit die Daten zu senden, wenn sendData() ausgeführt werden soll.
+     *
+     * Die Lösung ist diese rekursive Wartefunktion. Da wir uns in React ohnehin keine Sorgen wegen einfrieren/Threads machen müssen,
+     * ist das eine gute Alternativez.
+     */
+    waitForOpenSocketConnection(callback: any): void {
+        setTimeout(() => {
+            if (this.ws?.readyState === 1) {
+                console.log("Verbindung wurde aufgebaut")
+                if (callback != null) callback();
+            } else {
+                console.log("auf Verbindungsaufbau warten...")
+                this.waitForOpenSocketConnection(callback);
+            }
+        }, 5);
     }
 }
