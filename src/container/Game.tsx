@@ -4,26 +4,9 @@ import MatchInfo from "../components/MatchInfo";
 import Board from "../components/Board";
 import '../styling/css/Game.css';
 import {GameDto} from "../entities/GameDto";
-import {UserDto} from "../entities/UserDto";
-import {BoardDto} from "../entities/BoardDto";
-import {UserScoreDto} from "../entities/UserScoreDto";
-import {CardDto} from "../entities/CardDto";
 import {useAtom} from "@dbeining/react-atom";
 import {addMatchDto, matchDtoState, websocketState} from "../states/UserStates";
 import {EndScoreDto} from "../entities/EndScoreDto";
-
-
-function createDummyData(): GameDto {
-    let user = new UserDto("geilerUsername123", "imagebytes");
-
-    let cardDtos: CardDto[] = [];
-    // 2-17, damit die integer divison unten passt, weil 1/2 < 1 sind
-    for (let i = 2; i <= 17; i++) {
-        // math.floor um die pair id durch division zuzuweisen, kann später alles raus wenn wir die karten vom server empfangen
-        cardDtos.push(new CardDto(i, Math.floor(i / 2), "imgpath", false))
-    }
-    return new GameDto("1", user, new BoardDto(cardDtos), [new UserScoreDto(user, 1), new UserScoreDto(user, 2)]);
-}
 
 
 export default function Game() {

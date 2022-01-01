@@ -1,5 +1,5 @@
 export class CardDto {
 
-    constructor(public cardId?: number, public pairId?: number, public imgPath?: string, public isFlipped?: boolean) {
+    constructor(public id: string, public pairId: number, public flipStatus: string) {
     }
 }

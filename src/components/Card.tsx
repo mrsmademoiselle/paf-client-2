@@ -11,7 +11,7 @@ export default function Card(props: { card: CardDto, currentTurn: UserDto }) {
     const websocketConnector = useAtom(websocketState).websocketConnector;
 
     // Informationen zu einer Karte in Card-Component abspeichern
-    const [card, setCard] = useState(new CardDto(props.card.cardId, props.card.pairId, props.card.imgPath, props.card.isFlipped));
+    const [card, setCard] = useState(new CardDto(props.card.id, props.card.pairId, props.card.flipStatus));
     let CARD_URL = "http://localhost:9090/public/" + card.pairId + ".jpg";
 
     /**
@@ -20,22 +20,25 @@ export default function Card(props: { card: CardDto, currentTurn: UserDto }) {
     let flipCard = () => {
         setCard({
             ...card,
-            isFlipped: !card.isFlipped
-        })
+            // an Server enum anpassen
+            flipStatus: "flipped changed"
+        });
         console.log(card);
 
         // update matchDto
 
-        websocketConnector.sendData(JSON.stringify(match));
+        let cardIdString: string = card.id;
+        websocketConnector.sendData(JSON.stringify({"FLIPPED": cardIdString}));
     }
 
     return (
-        <div className="rectangle" onClick={props.currentTurn == props.currentTurn ? flipCard : undefined}>
-            {card.isFlipped ?
-                <img className="front" src={CARD_URL} alt={"karte " + card.cardId}/>
+        // to be fixed mit unserem user
+        <div className="rectangle" onClick={props.currentTurn === props.currentTurn ? flipCard : undefined}>
+            {card.flipStatus === "FLIPPED" ?
+                <img className="front" src={CARD_URL} alt={"karte " + card.id}/>
                 :
                 <div className="back">
-                    {card.cardId}
+                    {card.id}
                 </div>
             }
         </div>
