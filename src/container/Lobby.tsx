@@ -7,6 +7,7 @@ import '../styling/css/Loadinganimation.css';
 import {MatchDto} from "../entities/MatchDto";
 import {addMatchDto, websocketState} from "../states/UserStates";
 import {useAtom} from "@dbeining/react-atom";
+import {TokenManager} from "../services/TokenManager";
 
 
 export default function Lobby() {
@@ -28,10 +29,12 @@ export default function Lobby() {
 
     useEffect(() => {
             let parseMessage = (message: string) => {
+                console.log("received message: ", message);
                 try {
                     let match: MatchDto = JSON.parse(message);
                     // Match im Dto speichern, damit wir nach dem Redirect in /game Zugriff darauf haben
                     addMatchDto(match);
+                    console.log("saved match to state ", match);
                 } catch (e) {
                     console.log("falsches json format: ", e)
                 }
@@ -42,6 +45,9 @@ export default function Lobby() {
             //  was wir mit der vom Server empfangenen Nachricht tun wollen
             let onMessage = (message: any) => parseMessage(message);
             websocketConnector.setOnMessage(onMessage);
+            let data = {"LOGIN": TokenManager.getOnlyToken()};
+            console.log("jwt", data.LOGIN)
+            websocketConnector.sendData(JSON.stringify(data));
         }
         , [])
 

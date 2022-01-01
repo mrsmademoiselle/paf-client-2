@@ -5,7 +5,7 @@ export class HttpConnector {
 
     static async post(inputs: any, url: string): Promise<Response> {
         let response: any;
-        if (TokenManager.getToken() === null || TokenManager.getToken() === undefined || TokenManager.getToken().length < 2) {
+        if (TokenManager.getEntireTokenObject() === null || TokenManager.getEntireTokenObject() === undefined || TokenManager.getEntireTokenObject().length < 2) {
 
             console.log("sende Token ohne auth");
             response = await fetch(this.PATH + url, {
@@ -18,9 +18,9 @@ export class HttpConnector {
         } else {
             let json = "";
             try {
-                json = JSON.parse(TokenManager.getToken()).value;
+                json = JSON.parse(TokenManager.getEntireTokenObject()).value;
             } catch (e) {
-                console.log("falsches json format in post: ", TokenManager.getToken());
+                console.log("falsches json format in post: ", TokenManager.getEntireTokenObject());
             }
             response = await fetch(this.PATH + url, {
                 method: 'POST',
@@ -42,9 +42,9 @@ export class HttpConnector {
         console.log("lade bild hoch: ", input);
         let json = "";
         try {
-            json = JSON.parse(TokenManager.getToken()).value;
+            json = JSON.parse(TokenManager.getEntireTokenObject()).value;
         } catch (e) {
-            console.log("falsches json format in post: ", TokenManager.getToken());
+            console.log("falsches json format in post: ", TokenManager.getEntireTokenObject());
         }
 
         const response = await fetch(this.PATH + url, {
@@ -59,9 +59,9 @@ export class HttpConnector {
     static async get(url: string): Promise<Response> {
         let json = "";
         try {
-            json = JSON.parse(TokenManager.getToken()).value;
+            json = JSON.parse(TokenManager.getEntireTokenObject()).value;
         } catch (e) {
-            console.log("falsches json format in post: ", TokenManager.getToken());
+            console.log("falsches json format in post: ", TokenManager.getEntireTokenObject());
         }
         const response = await fetch(this.PATH + url, {
             method: 'GET',

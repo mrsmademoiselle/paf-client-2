@@ -14,7 +14,11 @@ export class TokenManager {
         sessionStorage.setItem(this.TOKEN_KEY, JSON.stringify(sessionStorageItem));
     }
 
-    static getToken(): string {
+    static getOnlyToken(): string {
+        return JSON.parse(this.getEntireTokenObject()).value;
+    }
+
+    static getEntireTokenObject(): string {
         let token = sessionStorage.getItem(this.TOKEN_KEY);
         if (token == null) return "";
 
@@ -40,7 +44,7 @@ export class TokenManager {
     }
 
     static isUserAuthenticated(): boolean {
-        const token = this.getToken();
+        const token = this.getEntireTokenObject();
 
         return token.length > 0;
     }

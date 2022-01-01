@@ -48,7 +48,6 @@ export default function Game() {
         //  was wir mit der vom Server empfangenen Nachricht tun wollen
         let onMessageCallback = (message: any) => parseMessage(message.data);
         websocketConnector.setOnMessage(onMessageCallback);
-        websocketConnector.sendData("hi")
 
         // Dient dem cleanup der websocket subscription
         return () => {
