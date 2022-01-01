@@ -1,6 +1,8 @@
 import {Atom, swap} from "@dbeining/react-atom";
 import {GameDto} from "../entities/GameDto";
 import {WebsocketConnector} from "../services/WebsocketConnector";
+import {UserDto} from "../entities/UserDto";
+import {BoardDto} from "../entities/BoardDto";
 
 export const authentication = Atom.of({
     isAuthenticated: false
@@ -36,7 +38,7 @@ export function closeBanner(): void {
 }
 
 export const matchDtoState = Atom.of({
-    match: {}
+    match: new GameDto("", new UserDto("", ""), new BoardDto([]), [])
 });
 
 export function addMatchDto(newMatch: GameDto): void {

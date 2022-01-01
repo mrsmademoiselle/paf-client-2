@@ -27,7 +27,6 @@ function createDummyData(): GameDto {
 
 
 export default function Game() {
-    let dummyMatch: GameDto = createDummyData();
     // todo später dieses match statt dem dummy-Match verwenden,
     //  wenn der Server nach dem player-matching ein MatchObjekt zurückgibt
     let {match} = useAtom(matchDtoState);
@@ -71,10 +70,10 @@ export default function Game() {
             <div className="content">
                 <div className="row justify-content-center">
                     <div className="col-9">
-                        <Board match={dummyMatch}/>
+                        <Board match={match}/>
                     </div>
                     <div className="col-3">
-                        <MatchInfo match={dummyMatch}/>
+                        <MatchInfo match={match}/>
                     </div>
                 </div>
             </div>
