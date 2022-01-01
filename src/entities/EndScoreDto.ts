@@ -6,6 +6,11 @@ export class EndScoreDto {
     }
 
     static isValidMatchDto(json: any): boolean {
-        return json.hasOwnProperty("winner") && json.hasOwnProperty("scoreListe");
+        try {
+            json = JSON.parse(json);
+            return json.hasOwnProperty("winner") && json.hasOwnProperty("scoreListe");
+        } catch (e) {
+            return false;
+        }
     }
 }

@@ -9,7 +9,7 @@ export default function Board(props: { match: GameDto }): React.ReactElement {
 
     return (
         <div className="board col-12 w-100 h-100 board">
-            {props.match.gameBoard.cardSet.map((card: CardDto) => (
+            {props.match.board.cardSet.map((card: CardDto) => (
                 <Card card={card} currentTurn={props.match.currentTurn}/>
             ))}
         </div>

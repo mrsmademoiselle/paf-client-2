@@ -33,10 +33,13 @@ export default function Lobby() {
             let parseMessage = (message: any) => {
                 console.log(new Date().getTime(), "received message: ", message);
                 try {
-                    let match: GameDto = JSON.parse(message);
-                    // Match im Dto speichern, damit wir nach dem Redirect in /game Zugriff darauf haben
-                    addMatchDto(match);
-                    console.log("saved match to state ", match);
+                    let gameDto: GameDto;
+                    if (GameDto.isValidMatchDto(message)) {
+                        console.log("ist ein valides GameDto");
+                        gameDto = JSON.parse(message);
+                        addMatchDto(gameDto); // Match im State speichern, damit wir nach dem Redirect in /game Zugriff darauf haben
+                        console.log("saved match to state ", gameDto);
+                    }
                 } catch (e) {
                     console.log("falsches json format: ", e)
                 }
@@ -44,7 +47,7 @@ export default function Lobby() {
                 setLoading(false);
             }
             //  was wir mit der vom Server empfangenen Nachricht tun wollen
-            let onMessage = (message: any) => parseMessage(message);
+            let onMessage = (message: any) => parseMessage(message.data);
             websocketConnector.setOnMessage(onMessage);
             let data = {"LOGIN": TokenManager.getOnlyToken()};
             console.log("jwt", data.LOGIN)
