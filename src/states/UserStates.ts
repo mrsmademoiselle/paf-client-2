@@ -1,5 +1,5 @@
 import {Atom, swap} from "@dbeining/react-atom";
-import {MatchDto} from "../entities/MatchDto";
+import {GameDto} from "../entities/GameDto";
 import {WebsocketConnector} from "../services/WebsocketConnector";
 
 export const authentication = Atom.of({
@@ -39,7 +39,7 @@ export const matchDtoState = Atom.of({
     match: {}
 });
 
-export function addMatchDto(newMatch: MatchDto): void {
+export function addMatchDto(newMatch: GameDto): void {
     return swap(matchDtoState, state => ({
         ...state,
         match: newMatch

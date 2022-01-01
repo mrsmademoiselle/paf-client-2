@@ -1,12 +1,12 @@
 import React from "react";
 import '../styling/css/MatchInfo.css';
-import {MatchDto} from "../entities/MatchDto";
+import {GameDto} from "../entities/GameDto";
 import placeHolderImg from '../styling/images/default.png';
 import {UserScoreDto} from "../entities/UserScoreDto";
 import {UserDto} from "../entities/UserDto";
 
 
-export default function MatchInfo(props: { match: MatchDto }): React.ReactElement {
+export default function MatchInfo(props: { match: GameDto }): React.ReactElement {
     let currentTurn = props.match.currentTurn.username;
 
     let userScores = props.match.userScores;
