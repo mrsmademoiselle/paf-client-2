@@ -40,7 +40,7 @@ export class WebsocketConnector {
     sendData(message: string) {
         this.waitForOpenSocketConnection(() => {
             this.ws?.send(message);
-            console.log("nachricht gesendet: ", message)
+            console.log(new Date().getTime(), " nachricht gesendet: ", message)
         });
     }
 

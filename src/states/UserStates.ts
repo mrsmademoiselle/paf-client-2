@@ -48,7 +48,6 @@ export function addMatchDto(newMatch: MatchDto): void {
 
 function createWebsocketConnector(): WebsocketConnector {
     let wsConn: WebsocketConnector = new WebsocketConnector();
-    wsConn.connect();
     return wsConn;
 }
 

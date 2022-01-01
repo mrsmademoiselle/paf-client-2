@@ -26,10 +26,12 @@ export default function Lobby() {
     /*States*/
     const [isLoading, setLoading] = useState<boolean | undefined>(true);
     const websocketConnector = useAtom(websocketState).websocketConnector;
+    websocketConnector.connect();
 
     useEffect(() => {
-            let parseMessage = (message: string) => {
-                console.log("received message: ", message);
+            setLoading(true);
+            let parseMessage = (message: any) => {
+                console.log(new Date().getTime(), "received message: ", message);
                 try {
                     let match: MatchDto = JSON.parse(message);
                     // Match im Dto speichern, damit wir nach dem Redirect in /game Zugriff darauf haben
@@ -40,7 +42,6 @@ export default function Lobby() {
                 }
                 console.log("msg ", message);
                 setLoading(false);
-                navigate("/game");
             }
             //  was wir mit der vom Server empfangenen Nachricht tun wollen
             let onMessage = (message: any) => parseMessage(message);
@@ -50,7 +51,6 @@ export default function Lobby() {
             websocketConnector.sendData(JSON.stringify(data));
         }
         , [])
-
 
     return (
         <MainLoggedInLayout>
