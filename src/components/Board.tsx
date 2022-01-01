@@ -2,15 +2,15 @@ import React from "react";
 import Card from "./Card";
 import '../styling/css/Board.css';
 import {CardDto} from "../entities/CardDto";
-import {BoardDto} from "../entities/BoardDto";
+import {GameDto} from "../entities/GameDto";
 
 
-export default function Board(props: BoardDto): React.ReactElement {
+export default function Board(props: { match: GameDto }): React.ReactElement {
+
     return (
         <div className="board col-12 w-100 h-100 board">
-            {props.cardSet.map((card: CardDto) => (
-                <Card key={card.cardId} cardId={card.cardId} imgPath={card.imgPath} pairId={card.pairId}
-                      isFlipped={card.isFlipped}/>
+            {props.match.gameBoard.cardSet.map((card: CardDto) => (
+                <Card card={card} currentTurn={props.match.currentTurn}/>
             ))}
         </div>
     )

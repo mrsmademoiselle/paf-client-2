@@ -71,7 +71,7 @@ export default function Game() {
             <div className="content">
                 <div className="row justify-content-center">
                     <div className="col-9">
-                        <Board cardSet={dummyMatch.gameBoard.cardSet}/>
+                        <Board match={dummyMatch}/>
                     </div>
                     <div className="col-3">
                         <MatchInfo match={dummyMatch}/>
