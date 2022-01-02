@@ -37,7 +37,7 @@ export default function Card(props: { card: CardDto, currentTurn: UserDto }) {
     let itsOurTurnToPick = props.currentTurn === props.currentTurn;
     let cardIsNotFlipped = props.card.flipStatus === FlipStatus.NOT_FLIPPED;
     let shouldHaveOnClickListener: boolean = itsOurTurnToPick && cardIsNotFlipped;
-
+ 
     console.log("isFlipped?", props.card.flipStatus);
     return (
         <div className="rectangle" onClick={shouldHaveOnClickListener ? flipCard : undefined}>

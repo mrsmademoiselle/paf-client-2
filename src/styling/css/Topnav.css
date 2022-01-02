@@ -1,6 +1,6 @@
 /* Styling fuer Dinge die mit der Topnav zu tun haben */
 .ButtonBarBlock {
-    margin-left: 600px;
+    margin-left: auto;
 }
 
 .topNav {
@@ -17,6 +17,7 @@
     background-color: white;
     border-color: black;
     color: black;
+
 }
 
 .topNav .logoutButton:hover, .logoutButton:focus {
