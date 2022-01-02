@@ -13,17 +13,7 @@ import {TokenManager} from "../services/TokenManager";
 export default function Lobby() {
     let navigate = useNavigate()
 
-    /* Bimmde hier Spielladedinge maken*/
-    /*
-     TODO: - Wenn der User auf die Seite geht, anzeigen der Animation+text da snach
-       spielern gesucht wird
-     - Oeffnen eines Sockets zum server - done
-     - sobald server signal sendet das ein weitere spieler da ist, daten emfpangen - todo: server fehlt
-     - ggf. speichern im state - todo: server fehlt
-     - weiterleiten an game - done, wird ueber state gesteuert
-    * */
-
-    /*States*/
+    /* States */
     const [isLoading, setLoading] = useState<boolean | undefined>(true);
     const websocketConnector = useAtom(websocketState).websocketConnector;
     websocketConnector.connect();

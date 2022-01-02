@@ -7,6 +7,15 @@ export class WebsocketConnector {
         this.ws.onopen = this.onOpen;
         this.ws.onerror = this.onError;
         this.ws.onclose = this.onClose;
+        this.heartbeat();
+    }
+
+    // test
+    heartbeat(): void {
+        if (this.ws === undefined) return;
+        if (this.ws.readyState !== 1) return;
+        this.ws.send("HEARTBEAT");
+        setTimeout(this.heartbeat, 500);
     }
 
     setOnMessage(callback: any): void {
@@ -26,6 +35,7 @@ export class WebsocketConnector {
     onClose(event: any): void {
         this.ws = undefined;
         console.log("websocket closed");
+        setTimeout(this.connect, 5000)
     }
 
     /**
@@ -56,7 +66,7 @@ export class WebsocketConnector {
     waitForOpenSocketConnection(callback: any): void {
         setTimeout(() => {
             if (this.ws?.readyState === WebSocket.OPEN) {
-                console.log("WS-Verbindung wurde erfolgreich aufgebaut")
+                console.log("WS-Verbindung ist offen")
                 if (callback != null) callback();
             } else if (this.ws?.readyState === WebSocket.CLOSED) {
                 console.log("reconnecting to websocket to send data...")
