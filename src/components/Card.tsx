@@ -5,6 +5,7 @@ import {UserDto} from "../entities/UserDto";
 import {useAtom} from "@dbeining/react-atom";
 import {websocketState} from "../states/UserStates";
 import {FlipStatus} from "../entities/FlipStatus";
+import {TokenManager} from "../services/TokenManager";
 
 
 function changeFlipStatus(card: CardDto): FlipStatus | undefined {
@@ -27,17 +28,16 @@ export default function Card(props: { card: CardDto, currentTurn: UserDto }) {
      */
     let flipCard = () => {
         let newFlipStatus: FlipStatus | undefined = changeFlipStatus(props.card);
-
         if (newFlipStatus === undefined) return;
 
         // sende Kartenupdate an Server. Die Response vom Server wird wiederum in Game.tsx behandelt und runtergereicht
-        websocketConnector.sendData(JSON.stringify({"FLIPPED": props.card.id}));
+        websocketConnector.sendData(JSON.stringify({"FLIPPED": props.card.id, "JWT": TokenManager.getOnlyToken()}));
     }
     // einen Teil der Bedingung mit unserer User-Id verheiraten
     let itsOurTurnToPick = props.currentTurn === props.currentTurn;
     let cardIsNotFlipped = props.card.flipStatus === FlipStatus.NOT_FLIPPED;
     let shouldHaveOnClickListener: boolean = itsOurTurnToPick && cardIsNotFlipped;
- 
+
     console.log("isFlipped?", props.card.flipStatus);
     return (
         <div className="rectangle" onClick={shouldHaveOnClickListener ? flipCard : undefined}>

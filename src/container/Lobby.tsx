@@ -39,9 +39,7 @@ export default function Lobby() {
             //  was wir mit der vom Server empfangenen Nachricht tun wollen
             let onMessage = (message: any) => parseMessage(message.data);
             websocketConnector.setOnMessage(onMessage);
-            let data = {"LOGIN": TokenManager.getOnlyToken()};
-            console.log("jwt", data.LOGIN)
-            websocketConnector.sendData(JSON.stringify(data));
+            websocketConnector.sendData(JSON.stringify({"LOGIN": null, "JWT": TokenManager.getOnlyToken()}));
         }
         , [])
 

@@ -16,7 +16,7 @@ export class WebsocketConnector {
     heartbeat(): void {
         if (this.ws === undefined) return;
         if (this.ws.readyState !== 1) return;
-        this.ws.send(JSON.stringify({"HEARTBEAT": TokenManager.getOnlyToken()}));
+        this.ws.send(JSON.stringify({"HEARTBEAT": null, "JWT": TokenManager.getOnlyToken()}));
         setTimeout(this.heartbeat, 500);
     }
 
