@@ -1,3 +1,5 @@
+import {TokenManager} from "./TokenManager";
+
 export class WebsocketConnector {
 
     public ws?: WebSocket;
@@ -14,7 +16,7 @@ export class WebsocketConnector {
     heartbeat(): void {
         if (this.ws === undefined) return;
         if (this.ws.readyState !== 1) return;
-        this.ws.send("HEARTBEAT");
+        this.ws.send(JSON.stringify({"HEARTBEAT": TokenManager.getOnlyToken()}));
         setTimeout(this.heartbeat, 500);
     }
 
