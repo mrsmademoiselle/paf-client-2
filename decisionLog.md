@@ -5,8 +5,7 @@ Autor: Franzi
 ### Ingame-View
 
 - Ingame-View umgesetzt.
-    - Bestehend aus Überkomponente "Game.tsx" mit den Unterkomponenten "Board.tsx (Card.tsx)" und "
-      MatchInfo.tsx".
+    - Bestehend aus Überkomponente "Game.tsx" mit den Unterkomponenten "Board.tsx (Card.tsx)" und "MatchInfo.tsx".
     - Einbauen von erstmaliger Websocketlogik für Datenübertragung vom Server.
     - Die Bilder für die Karten werden über das src-Attribut vom Server geholt.
     - Das Kartenlayout ist mit Grid im .css umgesetzt.

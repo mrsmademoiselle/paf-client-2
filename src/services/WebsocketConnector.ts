@@ -22,7 +22,10 @@ export class WebsocketConnector {
 
     setOnMessage(callback: any): void {
         if (this.ws !== undefined) {
-            this.ws.onmessage = callback;
+            this.ws.onmessage = null;
+            this.ws.onmessage = function (str) {
+                callback(str);
+            }
         }
     }
 

@@ -11,9 +11,10 @@ import {TokenManager} from "./services/TokenManager";
 import {swap} from "@dbeining/react-atom";
 import {authentication} from "./states/UserStates";
 import Userprofil from './container/Userprofil';
-import Lobby from "./container/Lobby";
 import History from "./container/History";
 import Game from "./container/Game";
+import Endscreen from "./container/EndScreen";
+import Lobby from "./container/Lobby";
 
 export default function App() {
 
@@ -67,6 +68,8 @@ export default function App() {
                         <Route path="/gameloading" element={<Lobby/>}/>
                         <Route path="/history" element={<History/>}/>
                         <Route path="/game" element={<Game/>}/>
+                        <Route path="/endscreen" element={<Endscreen/>}/>
+
                     </Route>
                 </Route>
             </Routes>

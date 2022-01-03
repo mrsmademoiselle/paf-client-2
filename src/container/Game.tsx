@@ -5,8 +5,9 @@ import Board from "../components/Board";
 import '../styling/css/Game.css';
 import {GameDto} from "../entities/GameDto";
 import {useAtom} from "@dbeining/react-atom";
-import {addMatchDto, matchDtoState, websocketState} from "../states/UserStates";
+import {addEndscoreDto, addMatchDto, matchDtoState, websocketState} from "../states/UserStates";
 import {EndScoreDto} from "../entities/EndScoreDto";
+import {useNavigate} from "react-router-dom";
 
 
 export default function Game() {
@@ -14,13 +15,14 @@ export default function Game() {
     //  wenn der Server nach dem player-matching ein MatchObjekt zurückgibt
     let {match} = useAtom(matchDtoState);
     const websocketConnector = useAtom(websocketState).websocketConnector;
+    let navigate = useNavigate()
 
     useEffect(() => {
         // Dient dem cleanup der websocket subscription
         let isMounted = true;
 
         // onMessage-Callback
-        let parseMessage = (message: string) => {
+        let parseResponse = (message: any) => {
             console.log("received: ", message);
             try {
                 // parse Objekt in Match- oder EndscoreDto
@@ -28,25 +30,27 @@ export default function Game() {
                     console.log("ist ein valides GameDto");
                     let matchDto: GameDto = JSON.parse(message);
                     addMatchDto(matchDto);
+
                 } else if (EndScoreDto.isValidMatchDto(message)) {
                     console.log("ist ein valides EndScoreDto");
                     let endScoreDto: EndScoreDto = JSON.parse(message);
-                    // endgame-Logik hier
+                    addEndscoreDto(endScoreDto);
+
+                    isMounted = false
+                    return navigate("/endscreen");
                 }
             } catch (e) {
                 console.log("falsches json format: ", message);
             }
         }
         //  was wir mit der vom Server empfangenen Nachricht tun wollen
-        let onMessageCallback = (message: any) => parseMessage(message.data);
+        let onMessageCallback = (message: any) => parseResponse(message.data);
         websocketConnector.setOnMessage(onMessageCallback);
-
         // Dient dem cleanup der websocket subscription
         return () => {
             isMounted = false
         };
     }, []);
-
 
     return (
         <MainLoggedInLayout>

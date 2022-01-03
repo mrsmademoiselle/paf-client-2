@@ -3,6 +3,7 @@ import {GameDto} from "../entities/GameDto";
 import {WebsocketConnector} from "../services/WebsocketConnector";
 import {UserDto} from "../entities/UserDto";
 import {BoardDto} from "../entities/BoardDto";
+import {EndScoreDto} from "../entities/EndScoreDto";
 
 export const authentication = Atom.of({
     isAuthenticated: false
@@ -45,6 +46,17 @@ export function addMatchDto(newMatch: GameDto): void {
     return swap(matchDtoState, state => ({
         ...state,
         match: newMatch
+    }));
+}
+
+export const endscoreDtoState = Atom.of({
+    endscore: new EndScoreDto(new UserDto("", ""), [])
+});
+
+export function addEndscoreDto(newEndscore: EndScoreDto): void {
+    return swap(endscoreDtoState, state => ({
+        ...state,
+        endscore: newEndscore
     }));
 }
 
