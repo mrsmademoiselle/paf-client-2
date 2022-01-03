@@ -39,7 +39,6 @@ export default function Card(props: { card: CardDto, currentTurn: UserDto }) {
         <div className="rectangle" onClick={shouldHaveOnClickListener ? flipCard : undefined}>
             {cardIsNotFlipped ?
                 <div className="back">
-                    {props.card.id}
                 </div>
                 :
                 <img className="front" src={CARD_URL} alt={"karte " + props.card.id}/>
