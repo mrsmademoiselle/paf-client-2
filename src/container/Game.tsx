@@ -8,6 +8,8 @@ import {useAtom} from "@dbeining/react-atom";
 import {addEndscoreDto, addMatchDto, matchDtoState, websocketState} from "../states/UserStates";
 import {EndScoreDto} from "../entities/EndScoreDto";
 import {useNavigate} from "react-router-dom";
+import {Button} from "react-bootstrap";
+import {TokenManager} from "../services/TokenManager";
 
 
 export default function Game() {
@@ -52,6 +54,13 @@ export default function Game() {
         };
     }, []);
 
+    function cancelGame() {
+        websocketConnector.sendData(JSON.stringify({
+            "CANCEL": "irgendein geiler Grund",
+            "JWT": TokenManager.getOnlyToken()
+        }));
+    }
+
     return (
         <MainLoggedInLayout>
             <div className="content">
@@ -63,6 +72,7 @@ export default function Game() {
                         <MatchInfo match={match}/>
                     </div>
                 </div>
+                <Button onClick={cancelGame}/>
             </div>
         </MainLoggedInLayout>
     )
