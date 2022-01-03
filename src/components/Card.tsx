@@ -27,9 +27,6 @@ export default function Card(props: { card: CardDto, currentTurn: UserDto }) {
      * Erstmalige Umsetzung von flipCard
      */
     let flipCard = () => {
-        let newFlipStatus: FlipStatus | undefined = changeFlipStatus(props.card);
-        if (newFlipStatus === undefined) return;
-
         // sende Kartenupdate an Server. Die Response vom Server wird wiederum in Game.tsx behandelt und runtergereicht
         websocketConnector.sendData(JSON.stringify({"FLIPPED": props.card.id, "JWT": TokenManager.getOnlyToken()}));
     }
@@ -38,7 +35,6 @@ export default function Card(props: { card: CardDto, currentTurn: UserDto }) {
     let cardIsNotFlipped = props.card.flipStatus === FlipStatus.NOT_FLIPPED;
     let shouldHaveOnClickListener: boolean = itsOurTurnToPick && cardIsNotFlipped;
 
-    console.log("isFlipped?", props.card.flipStatus);
     return (
         <div className="rectangle" onClick={shouldHaveOnClickListener ? flipCard : undefined}>
             {cardIsNotFlipped ?
