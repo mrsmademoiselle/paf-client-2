@@ -17,9 +17,12 @@ export class WebsocketConnector {
      */
     heartbeat = () => {
         if (this.continueHeartbeat) {
-            this.sendData(JSON.stringify({"HEARTBEAT": null, "JWT": TokenManager.getOnlyToken()}));
-            console.log("sent heartbeat")
-            setTimeout(this.heartbeat, 1000);
+            let token = TokenManager.getOnlyToken();
+            if (token != null && token.length > 0) {
+                this.sendData(JSON.stringify({"HEARTBEAT": null, "JWT": token}));
+                console.log("sent heartbeat")
+                setTimeout(this.heartbeat, 1000);
+            }
         }
     }
 

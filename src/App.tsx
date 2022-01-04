@@ -19,6 +19,8 @@ import Lobby from "./container/Lobby";
 export default function App() {
 
     function RequireAuth() {
+        const websocketConnector = useAtom(websocketState).websocketConnector;
+
         /* vorherige Location um Aktion nach Authentifizierung wieder aufzunehmen */
         let location = useLocation();
 
@@ -30,6 +32,9 @@ export default function App() {
         }));
 
         if (!authenticated) {
+            console.log("not authenticated, closing websocket");
+            websocketConnector.ws?.close();
+
             return <Navigate to="/login" state={{from: location}}/>;
         }
 
