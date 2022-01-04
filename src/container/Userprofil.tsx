@@ -40,9 +40,7 @@ export default function Userprofil() {
 
     // Laden des Usernamens in den State um ihn als Placeholder anzeigen zu koennen
     UserAuthService.loadUsername().then(res => setloadedUsername(res))
-    // @ts-ignore
     UserAuthService.loadUserImage().then(res => {
-        console.log('setze preview!')
         setPreview(res)
     })
 

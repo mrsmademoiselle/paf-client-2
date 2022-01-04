@@ -19,7 +19,6 @@ function changeFlipStatus(card: CardDto): FlipStatus | undefined {
 export default function Card(props: { card: CardDto, currentTurn: UserDto }) {
     const websocketConnector = useAtom(websocketState).websocketConnector;
 
-    console.log("carddto: ", props.card);
     // Informationen zu einer Karte in Card-Component abspeichern
     let CARD_URL = "http://localhost:9090/public/" + props.card.pairId + ".jpg";
 
@@ -31,12 +30,10 @@ export default function Card(props: { card: CardDto, currentTurn: UserDto }) {
         websocketConnector.sendData(JSON.stringify({"FLIPPED": props.card.id, "JWT": TokenManager.getOnlyToken()}));
     }
     // einen Teil der Bedingung mit unserer User-Id verheiraten
-    let itsOurTurnToPick = props.currentTurn === props.currentTurn;
     let cardIsNotFlipped = props.card.flipStatus === FlipStatus.NOT_FLIPPED;
-    let shouldHaveOnClickListener: boolean = itsOurTurnToPick && cardIsNotFlipped;
 
     return (
-        <div className="rectangle" onClick={shouldHaveOnClickListener ? flipCard : undefined}>
+        <div className="rectangle" onClick={cardIsNotFlipped ? flipCard : undefined}>
             {cardIsNotFlipped ?
                 <div className="back">
                 </div>

@@ -21,7 +21,6 @@ export default function Lobby() {
     useEffect(() => {
 
             let parseMessage = (message: any) => {
-                console.log(new Date().getTime(), "received message: ", message);
                 try {
                     let gameDto: GameDto;
                     if (GameDto.isValidMatchDto(message)) {
