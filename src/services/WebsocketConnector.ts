@@ -34,6 +34,9 @@ export class WebsocketConnector {
         this.heartbeat();
     }
 
+    isOpen = () => {
+        return this.ws !== undefined && this.ws?.readyState === WebSocket.OPEN;
+    }
     onError = (event: any) => {
         console.log("error: ", JSON.stringify(event.data));
     }

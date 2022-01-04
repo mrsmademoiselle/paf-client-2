@@ -8,8 +8,8 @@ import {BrowserRouter as Router, Navigate, Outlet, Route, Routes} from "react-ro
 import {useLocation} from "react-router";
 import Dashboard from "./container/Dashboard";
 import {TokenManager} from "./services/TokenManager";
-import {swap} from "@dbeining/react-atom";
-import {authentication} from "./states/UserStates";
+import {swap, useAtom} from "@dbeining/react-atom";
+import {authentication, websocketState} from "./states/UserStates";
 import Userprofil from './container/Userprofil';
 import History from "./container/History";
 import Game from "./container/Game";
@@ -41,15 +41,15 @@ export default function App() {
      */
     function CheckWebsocketSubscription() {
         let location = useLocation();
-        /*
-                let isIngameOrLobby = location.pathname === "/game" || location.pathname === "/gameloading";
-                const websocketConnector = useAtom(websocketState).websocketConnector;
 
-                if (websocketConnector.isOpen() && !isIngameOrLobby) {
-                    console.log("Navigation auf andere Seite: Websocketverbindung wird geschlossen.")
-                    websocketConnector.ws?.close();
-                }
-        */
+        let isIngameOrLobby = location.pathname === "/game" || location.pathname === "/gameloading";
+        const websocketConnector = useAtom(websocketState).websocketConnector;
+
+        if (websocketConnector.isOpen() && !isIngameOrLobby) {
+            console.log("Navigation auf andere Seite: Websocketverbindung wird geschlossen.")
+            websocketConnector.ws?.close();
+        }
+
         return <Outlet/>;
     }
 
