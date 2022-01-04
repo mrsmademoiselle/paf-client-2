@@ -3,6 +3,7 @@ import {TokenManager} from "./TokenManager";
 export class WebsocketConnector {
 
     public ws?: WebSocket;
+    private continueHeartbeat: boolean = true;
 
     connect = () => {
         this.ws = new WebSocket("ws://127.0.0.1:8888");
@@ -15,9 +16,11 @@ export class WebsocketConnector {
      * Sendet jede Sekunde einen Heartbeat an den Server, der bei einem Verbindungsabbruch die Verbindung des Nutzers neu setzt.
      */
     heartbeat = () => {
-        this.sendData(JSON.stringify({"HEARTBEAT": null, "JWT": TokenManager.getOnlyToken()}));
-        console.log("sent heartbeat")
-        setTimeout(this.heartbeat, 1000);
+        if (this.continueHeartbeat) {
+            this.sendData(JSON.stringify({"HEARTBEAT": null, "JWT": TokenManager.getOnlyToken()}));
+            console.log("sent heartbeat")
+            setTimeout(this.heartbeat, 1000);
+        }
     }
 
     setOnMessage = (callback: any) => {
@@ -37,6 +40,7 @@ export class WebsocketConnector {
     isOpen = () => {
         return this.ws !== undefined && this.ws?.readyState === WebSocket.OPEN;
     }
+
     onError = (event: any) => {
         console.log("error: ", JSON.stringify(event.data));
     }
@@ -44,6 +48,11 @@ export class WebsocketConnector {
     onClose = (event: any) => {
         this.ws = undefined;
         console.log("websocket closed");
+
+        // wenn normal geschlossen
+        if (event.code === 1000) {
+            this.continueHeartbeat = false;
+        }
         setTimeout(this.connect, 5000)
     }
 

@@ -15,7 +15,12 @@ export class TokenManager {
     }
 
     static getOnlyToken(): string {
-        return JSON.parse(this.getEntireTokenObject()).value;
+        try {
+            return JSON.parse(this.getEntireTokenObject()).value;
+        } catch (e) {
+            console.log("error beim parsen von json:", e);
+        }
+        return "";
     }
 
     static getEntireTokenObject(): string {
