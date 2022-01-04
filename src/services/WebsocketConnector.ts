@@ -34,6 +34,7 @@ export class WebsocketConnector {
 
     onOpen = (event: any) => {
         console.log("websocket opened");
+        this.continueHeartbeat = true;
         this.heartbeat();
     }
 
@@ -52,6 +53,7 @@ export class WebsocketConnector {
         // wenn normal geschlossen
         if (event.code === 1000) {
             this.continueHeartbeat = false;
+            return;
         }
         setTimeout(this.connect, 5000)
     }
