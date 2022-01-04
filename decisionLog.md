@@ -10,9 +10,17 @@ Autor: Franzi
 - GameDto
 - EndscoreDto -> Weiterleitung auf Endscreen-Seite
 - Bugfixing
-- Lobby isLoading-State rausgeworfen, weil dieser in keinem Fall ordentlich geschlossen werden konnte
-- Das hat dazu geführt, dass der zwar die Weiterleitung funktioniert hat, aber zB der WebsocketConnector.setOnMessage()
-  nicht überschrieben werden konnte*.
+    - Lobby isLoading-State rausgeworfen, weil dieser in keinem Fall ordentlich geschlossen werden konnte
+        - Das hat dazu geführt, dass der zwar die Weiterleitung funktioniert hat, aber zB der
+          WebsocketConnector.setOnMessage()
+          nicht überschrieben werden konnte*.
+    - WebsocketConnector-Funktionen als Arrow-Functions eingebaut (sie sind nun properties von der Klasse).
+        - Vorher hatten wir das Problem, dass der Context der Klasse in den Funktionen nicht beibehalten wurde, und
+          obwohl der Compiler problemlos durchläuft, gab es Errors wie "onOpen: this.heartbeat() is not a function"
+          oder "this.sendData() is not a function". Das liegt daran, dass JavaScript behindert ist und ursprünglich
+          nicht für Klassen ausgelegt war. Um das zu umgehen, könnte man auf die Funktionen im Prototype zugreifen, aber
+          ich fand es schöner, die Methoden durch Arrowfunctions in Properties zu konvertieren.
+            - https://stackoverflow.com/questions/40965400/typeerror-is-not-a-function-typescript-class
 
 <small>
 *Fehlermeldung:

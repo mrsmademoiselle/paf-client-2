@@ -32,7 +32,7 @@ export default function Game() {
                     console.log("ist ein valides GameDto");
                     let matchDto: GameDto = JSON.parse(message);
                     addMatchDto(matchDto);
-
+  
                 } else if (EndScoreDto.isValidMatchDto(message)) {
                     console.log("ist ein valides EndScoreDto");
                     let endScoreDto: EndScoreDto = JSON.parse(message);

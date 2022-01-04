@@ -4,23 +4,23 @@ export class WebsocketConnector {
 
     public ws?: WebSocket;
 
-    connect(): void {
+    connect = () => {
         this.ws = new WebSocket("ws://127.0.0.1:8888");
         this.ws.onopen = this.onOpen;
         this.ws.onerror = this.onError;
         this.ws.onclose = this.onClose;
-        this.heartbeat();
     }
 
-    // test
-    heartbeat(): void {
-        if (this.ws === undefined) return;
-        if (this.ws.readyState !== 1) return;
-        this.ws.send(JSON.stringify({"HEARTBEAT": null, "JWT": TokenManager.getOnlyToken()}));
-        setTimeout(this.heartbeat, 500);
+    /**
+     * Sendet jede Sekunde einen Heartbeat an den Server, der bei einem Verbindungsabbruch die Verbindung des Nutzers neu setzt.
+     */
+    heartbeat = () => {
+        this.sendData(JSON.stringify({"HEARTBEAT": null, "JWT": TokenManager.getOnlyToken()}));
+        console.log("sent heartbeat")
+        setTimeout(this.heartbeat, 1000);
     }
 
-    setOnMessage(callback: any): void {
+    setOnMessage = (callback: any) => {
         if (this.ws !== undefined) {
             this.ws.onmessage = null;
             this.ws.onmessage = function (str) {
@@ -29,30 +29,22 @@ export class WebsocketConnector {
         }
     }
 
-    onOpen(event: any): void {
+    onOpen = (event: any) => {
         console.log("websocket opened");
+        this.heartbeat();
     }
 
-    onError(event: any): void {
+    onError = (event: any) => {
         console.log("error: ", JSON.stringify(event.data));
     }
 
-    onClose(event: any): void {
+    onClose = (event: any) => {
         this.ws = undefined;
         console.log("websocket closed");
         setTimeout(this.connect, 5000)
     }
 
-    /**
-     * Achtung: Diese Funktion gibt nur zurück, ob eine Websocketverbindung offen ist, nicht, ob eine gerade aufgebaut wird.
-     */
-    isOpen(): boolean {
-        console.log("websocket offen? ", this.ws?.readyState === WebSocket.OPEN, "status", this.ws?.readyState)
-
-        return this.ws?.readyState === WebSocket.OPEN;
-    }
-
-    sendData(message: string) {
+    sendData = (message: string) => {
         this.waitForOpenSocketConnection(() => {
             this.ws?.send(message);
             console.log(new Date().getTime(), " nachricht gesendet: ", message)
@@ -68,7 +60,7 @@ export class WebsocketConnector {
      * Die Lösung ist diese rekursive Wartefunktion. Da wir uns in React ohnehin keine Sorgen wegen einfrieren/Threads machen müssen,
      * ist das eine gute Alternativez.
      */
-    waitForOpenSocketConnection(callback: any): void {
+    waitForOpenSocketConnection = (callback: any) => {
         setTimeout(() => {
             if (this.ws?.readyState === WebSocket.OPEN) {
                 console.log("WS-Verbindung ist offen")
