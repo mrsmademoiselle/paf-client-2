@@ -13,8 +13,7 @@ import {TokenManager} from "../services/TokenManager";
 
 
 export default function Game() {
-    // todo später dieses match statt dem dummy-Match verwenden,
-    //  wenn der Server nach dem player-matching ein MatchObjekt zurückgibt
+    // Match-Objekt können wir beim Weiterleitung von Lobby -> Game nicht weitergeben, deswegen lokaler State
     let {match} = useAtom(matchDtoState);
     const websocketConnector = useAtom(websocketState).websocketConnector;
     let navigate = useNavigate()
@@ -32,7 +31,7 @@ export default function Game() {
                     console.log("ist ein valides GameDto");
                     let matchDto: GameDto = JSON.parse(message);
                     addMatchDto(matchDto);
-  
+
                 } else if (EndScoreDto.isValidMatchDto(message)) {
                     console.log("ist ein valides EndScoreDto");
                     let endScoreDto: EndScoreDto = JSON.parse(message);
