@@ -1,5 +1,12 @@
-## 
+## Sprint blarg
 
+Historie:
+Einfaches UI
+Daten werden vom Server abgeholt und in das ui eingebunden
+
+Matchinfo:
+Herausziehen der Bilder aus den JSON aus den Props
+Abfragen ueber Ternary ob Bild da, wenn ja, setzten der Data-URL, wenn nicht setzen des Default Bildes
 
 
 ## Sprint 3
