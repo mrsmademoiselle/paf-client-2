@@ -16,7 +16,9 @@ export default function History() {
     });
 
 
-
+    /**
+     * Abholen der Historie und laden in den State
+     */
     useEffect(()=>{
         // Abholen der Historiedaten
         let data: Promise<Response> = HttpConnector.get("user/history");
@@ -34,7 +36,6 @@ export default function History() {
         );
     }, [])
 
-    console.log(loadedData)
     return (
         <MainLoggedInLayout>
             <Container>
