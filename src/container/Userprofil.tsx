@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styling/css/Userprofil.css';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
@@ -11,6 +11,7 @@ import {UserAuthService} from "../services/UserAuthService";
 import {Stack} from "react-bootstrap";
 import MainLoggedInLayout from "../layouts/MainLoggedInLayout";
 import TextInputFieldComp from "../components/TextInputFieldComp";
+import placeHolderImg from "../styling/images/default.png";
 
 
 export default function Userprofil() {
@@ -35,14 +36,15 @@ export default function Userprofil() {
 
     //Profilbild
     const [selectedImg, setSelectedImg] = useState();
-    const [preview, setPreview] = useState<String | ArrayBuffer | null>();
+    const [preview, setPreview] = useState<any>();
     const hiddenFileInput = React.useRef(null);
 
     // Laden des Usernamens in den State um ihn als Placeholder anzeigen zu koennen
-    UserAuthService.loadUsername().then(res => setloadedUsername(res))
-    UserAuthService.loadUserImage().then(res => {
-        setPreview(res)
-    })
+    useEffect(() =>{
+        UserAuthService.loadUsername().then(res => setloadedUsername(res))
+        UserAuthService.loadUserImage().then(res => setPreview(res))
+    },[])
+
 
     async function handleSubmit(e: any) {
         // @ts-ignore
@@ -116,7 +118,7 @@ export default function Userprofil() {
                         <input onChange={onChangeHandler} style={{display: 'none'}} ref={hiddenFileInput} type="file"
                                accept=".jpg, .jpeg, .png" name="file"/>
                         <img alt="Standard Anzeigebild" className="col-auto profilePic"
-                             onClick={() => fileUpload(hiddenFileInput)} src={src} title="Bild hochladen"
+                             onClick={() => fileUpload(hiddenFileInput)} src={src ? `data:image/jpeg;base64,${src}` : placeHolderImg} title="Bild hochladen"
                         />
                     </Col>
                     {/*Fehlerhandling*/}

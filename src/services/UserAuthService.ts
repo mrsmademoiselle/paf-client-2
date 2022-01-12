@@ -97,10 +97,8 @@ export class UserAuthService {
         try {
             const serverResponse = await HttpConnector.get(this.URL_PREFIX + "info/image");
             const imageRespone = serverResponse.json().then(data => {
-                console.log('Raw response ohne decode: ', data.profileImage)
-                console.log('Decoded response: ', atob(data.profileImage))
-
-                return atob(data.profileImage)
+                console.log('DATA LADEN: ', data.profileImage)
+                return data.profileImage
             })
             return imageRespone
         } catch (e) {
