@@ -11,7 +11,7 @@ import {UserAuthService} from "../services/UserAuthService";
 import {Stack} from "react-bootstrap";
 import MainLoggedInLayout from "../layouts/MainLoggedInLayout";
 import TextInputFieldComp from "../components/TextInputFieldComp";
-import placeHolderImg from "../styling/images/default.png";
+import placeHolderImg from "../styling/images/default.jpg";
 
 
 export default function Userprofil() {

@@ -1,7 +1,7 @@
 import React from "react";
 import '../styling/css/MatchInfo.css';
 import {GameDto} from "../entities/GameDto";
-import placeHolderImg from '../styling/images/default.png';
+import placeHolderImg from '../styling/images/default.jpg';
 import {UserScoreDto} from "../entities/UserScoreDto";
 import {UserDto} from "../entities/UserDto";
 
