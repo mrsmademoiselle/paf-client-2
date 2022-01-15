@@ -20,7 +20,6 @@ export class WebsocketConnector {
             let token = TokenManager.getOnlyToken();
             if (token != null && token.length > 0) {
                 this.sendData(JSON.stringify({"HEARTBEAT": null, "JWT": token}));
-                console.log("sent heartbeat")
                 setTimeout(this.heartbeat, 1000);
             }
         }
@@ -64,7 +63,6 @@ export class WebsocketConnector {
     sendData = (message: string) => {
         this.waitForOpenSocketConnection(() => {
             this.ws?.send(message);
-            console.log(new Date().getTime(), " nachricht gesendet: ", message)
         });
     }
 
@@ -80,7 +78,6 @@ export class WebsocketConnector {
     waitForOpenSocketConnection = (callback: any) => {
         setTimeout(() => {
             if (this.ws?.readyState === WebSocket.OPEN) {
-                console.log("WS-Verbindung ist offen")
                 if (callback != null) callback();
             } else if (this.ws?.readyState === WebSocket.CLOSED) {
                 console.log("reconnecting to websocket to send data...")

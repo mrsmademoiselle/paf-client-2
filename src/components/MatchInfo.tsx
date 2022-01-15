@@ -16,8 +16,6 @@ export default function MatchInfo(props: { match: GameDto }): React.ReactElement
     let userImage1 = userScores[0].user.image
     let userImage2 = userScores[1].user.image
 
-    console.log("img1: ", userImage1, "img2", userImage2)
-
     // falls keine 2 User vorhanden sind (wenn irgendwas buggy ist), verwende Dummydaten für User
     if (!twoUsers) {
         userScores = [new UserScoreDto(new UserDto("username1", "imgbytes1"), 1), new UserScoreDto(new UserDto("username2", "imgbytes2"), 2)];

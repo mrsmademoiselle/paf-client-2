@@ -28,7 +28,7 @@ export default function Game() {
             try {
                 // parse Objekt in Match- oder EndscoreDto
                 if (GameDto.isValidMatchDto(message)) {
-                    console.log("ist ein valides GameDto");
+                    console.log(new Date().getTime(), ": ist ein valides GameDto");
                     let matchDto: GameDto = JSON.parse(message);
                     addMatchDto(matchDto);
 
