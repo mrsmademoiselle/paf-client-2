@@ -4,6 +4,8 @@ import {WebsocketConnector} from "../services/WebsocketConnector";
 import {UserDto} from "../entities/UserDto";
 import {BoardDto} from "../entities/BoardDto";
 import {EndScoreDto} from "../entities/EndScoreDto";
+import {Timer} from "../entities/Timer";
+
 
 export const authentication = Atom.of({
     isAuthenticated: false
@@ -68,3 +70,20 @@ function createWebsocketConnector(): WebsocketConnector {
 export const websocketState: Atom<{ websocketConnector: WebsocketConnector }> = Atom.of({
     websocketConnector: createWebsocketConnector()
 })
+
+/**
+ * Timer für den Cooldown nach einem Spielzug.
+ * Der CardTitle ist später die Restlaufzeit des Cooldowns und wird auf allen Karten angezeigt
+ */
+export const userMoveCooldownState = Atom.of({
+    cardTitle: "",
+    timer: new Timer(2000)
+});
+
+
+export function setCardTitle(value: string): void {
+    return swap(userMoveCooldownState, state => ({
+        ...state,
+        cardTitle: value,
+    }));
+}

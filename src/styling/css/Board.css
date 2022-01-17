@@ -11,3 +11,7 @@
     grid-row-gap: 20px;
     justify-content: center;
 }
+
+.overlay {
+    opacity: 0.4;
+}
