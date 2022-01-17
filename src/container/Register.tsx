@@ -119,7 +119,7 @@ export default function Register() {
 
                                     {/* Profilbild */}
                                     <Row className="d-flex justify-content-center middleRow" onMouseEnter={hoverEffect}
-                                         onMouseLeave={setCurrentPic}>
+                                         onMouseLeave={setCurrentPic} onClick={() => fileUpload(hiddenFileInput)}>
                                         <div className="hoverBlock" style={hoverFx}>
                                             {hoverFx != undefined ? (
                                                 <p className="hoverText">
