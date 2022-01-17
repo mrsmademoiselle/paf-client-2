@@ -1,13 +1,19 @@
+## Sprint 5
+
+Autor: Franzi
+
+- Timer-Klasse für Cooldown-Handling nach Kartenzügen
+    - eigener globaler State dafür, in dem die Dauer definiert wird
+- Cooldown wird in MatchInfo angezeigt
+
 ## Sprint blarg
 
 Historie:
-Einfaches UI
-Daten werden vom Server abgeholt und in das ui eingebunden
+Einfaches UI Daten werden vom Server abgeholt und in das ui eingebunden
 
 Matchinfo:
-Herausziehen der Bilder aus den JSON aus den Props
-Abfragen ueber Ternary ob Bild da, wenn ja, setzten der Data-URL, wenn nicht setzen des Default Bildes
-
+Herausziehen der Bilder aus den JSON aus den Props Abfragen ueber Ternary ob Bild da, wenn ja, setzten der Data-URL,
+wenn nicht setzen des Default Bildes
 
 ## Sprint 3
 
