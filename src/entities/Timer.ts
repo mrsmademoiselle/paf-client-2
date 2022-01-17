@@ -6,7 +6,7 @@ export class Timer {
     private isRunning: boolean = false;
     private timeout: any = null;
     private remainingTimeInMs: any = null;
-    private callback: any;
+    private callback: any = null;
 
     constructor(public timeInMs: any) {
         this.remainingTimeInMs = timeInMs;
@@ -15,11 +15,11 @@ export class Timer {
     /**
      * Startet den Timer durch Initialisieren der Felder
      */
-    start = (callback: any) => {
-        // wenn er schon läuft, beende ihn erstmal
+    start = (callback?: any) => {
+        // wenn er schon läuft, beende
         if (this.isRunning) this.reset();
 
-        this.callback = callback;
+        if (callback !== undefined) this.callback = callback;
         this.isRunning = true;
         // Startdate ist jetzt
         this.startDate = new Date();
@@ -46,6 +46,10 @@ export class Timer {
         }
     }
 
+    setCallback = (callback: any) => {
+        if (this.callback === null) this.callback = callback;
+    }
+
     /**
      * Konvertiert eine Zeit (Einheit: Millisekunden) in einen lesbaren String (Einheit: Sekunden) mit einer Nachkommastelle
      */
@@ -63,8 +67,8 @@ export class Timer {
         clearTimeout(this.timeout);
         this.timeout = null;
 
-        console.log("calling callback")
-        this.callback();
+        console.log("stopped timer")
+        if (this.callback !== null && this.callback !== undefined) this.callback();
     }
 
     isCurrentlyRunning = () => {

@@ -8,7 +8,7 @@ import {userMoveCooldownState} from "../states/UserStates";
 
 
 export default function Board(props: { match: GameDto }): React.ReactElement {
-    let {cardTitle, timer} = useAtom(userMoveCooldownState);
+    let {timer} = useAtom(userMoveCooldownState);
 
     return (
         <div className={"board col-12 w-100 h-100 board " + (timer.isCurrentlyRunning() ? "overlay" : "")}
