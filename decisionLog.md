@@ -1,6 +1,6 @@
 ## Sprint 5
 
-Autor: Franzi
+Autor: Franzi 
 
 - Timer-Klasse für Cooldown-Handling nach Kartenzügen
     - eigener globaler State dafür, in dem die Dauer definiert wird
