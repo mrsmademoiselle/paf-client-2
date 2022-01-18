@@ -126,7 +126,6 @@ export default function Userprofil() {
                     </Col>
                     {/*Buttons*/}
                     <Col>
-                        {/*TODO: FIX BUTTON Behavouir and layout*/}
                         <Stack>
                             <Button className="mb-3" variant="primary"
                                     onClick={() => fileUpload(hiddenFileInput)}>
