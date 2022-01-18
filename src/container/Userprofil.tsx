@@ -12,6 +12,7 @@ import {Stack} from "react-bootstrap";
 import MainLoggedInLayout from "../layouts/MainLoggedInLayout";
 import TextInputFieldComp from "../components/TextInputFieldComp";
 import placeHolderImg from "../styling/images/default.jpg";
+import {HttpConnector} from "../services/HttpConnector";
 
 
 export default function Userprofil() {
@@ -35,17 +36,29 @@ export default function Userprofil() {
     const [inputs, setInputs] = useState({username: '', password: ''});
 
     //Profilbild
-    const [selectedImg, setSelectedImg] = useState();
-    const [preview, setPreview] = useState<any>();
-    const hiddenFileInput = React.useRef(null);
+    const [selectedImg, setSelectedImg] = useState<any>();
+    const [isFilePicked, setIsFilePicked] = useState(false);
 
     // Laden des Usernamens in den State um ihn als Placeholder anzeigen zu koennen
     useEffect(() =>{
         UserAuthService.loadUsername().then(res => setloadedUsername(res))
-        UserAuthService.loadUserImage().then(res => setPreview(res))
+        UserAuthService.loadUserImage().then((res) => {
+            /*
+            Folgendes passiert:
+            Der ArrayBuffer wird in ein 8bit Array konvertiert
+            Dannach wird aus dem 8 Bit Array die unicode Zeichen konvertiert
+            Am Ende kommt unsere DataURL raus, die wir ins Bild setzen
+             */
+            // @ts-ignore
+            let convertedImageArray = new Uint8Array(res);
+            // @ts-ignore
+            const dataImageURL = String.fromCharCode.apply(null, convertedImageArray);
+            setSelectedImg(btoa(dataImageURL));
+        }
+    ).catch(err => console.log(err))
     },[])
 
-
+    // Userdaten aktualisieren
     async function handleSubmit(e: any) {
         /**
          *  update username and password
@@ -59,42 +72,46 @@ export default function Userprofil() {
         await UserAuthService.update(inputs)
     }
 
-    //Bild
-    function fileUpload(ref: any) {
-        console.log('fileupload', ref)
-        if (ref !== undefined) {
-            ref.current.click();
-            UserAuthService.uploadImg(selectedImg);
-        }
-    }
+    // Bild upload
+    const changeHandler = (event:any) => {
+        /**
+         * Setzen des Bildes durch den input
+         */
+        setSelectedImg(event.target.files[0]);
+        setIsFilePicked(true);
+    };
 
-    function onChangeHandler(event: any) {
-        const file = event.target.files[0];
-        console.log('reading files', file)
-        let reader = new FileReader();
-        reader.readAsDataURL(file);
-        console.log('data url', reader)
-        reader.onload = function () {
-            if (reader.result !== null) {
-                setPreview(reader.result);
-                console.log("reader ist nicht null")
-            }
+    const handleSubmission = () => {
+        /**
+            Hochladen des ausgewählten Bildes aus dem state
+         */
+        UserAuthService.uploadImg(selectedImg)
+
+        // Preview setzen des Bildes, vgl. image upload im userAuthService
+        const reader = new FileReader();
+        let base64String;
+
+        reader.onload = function (e) {
+            // @ts-ignore
+            base64String = e.target.result.replace("data:", "").replace(/^.+,/, "");
+            let res = base64String;
+            setSelectedImg(base64String)
         }
-        console.log('FOOBAR UPLOAD')
-        setSelectedImg(file);
-        UserAuthService.uploadImg(selectedImg);
-    }
+        reader.readAsDataURL(selectedImg);
+
+
+    };
 
     function clearImage() {
         //Loeschen des Bildes und abspeichern des Defaultbildes vom Server
-        UserAuthService.clearUserImage().then(res => setPreview(res))
-        console.log("Bild geraeumt:", preview)
+        UserAuthService.clearUserImage().then(res => setSelectedImg(res))
+        console.log("Bild geraeumt:", selectedImg)
     }
 
 
     let src: any;
-    if (preview !== null && preview !== undefined) {
-        src = preview;
+    if (selectedImg !== null && selectedImg !== undefined) {
+        src = selectedImg;
     }
 
     //Notwendig um den Input aus dem Child TextFieldComp abzugreifen
@@ -117,10 +134,8 @@ export default function Userprofil() {
                 <Row>
                     {/*Profilbild*/}
                     <Col>
-                        <input onChange={onChangeHandler} style={{display: 'none'}} ref={hiddenFileInput} type="file"
-                               accept=".jpg, .jpeg, .png" name="file"/>
                         <img alt="Standard Anzeigebild" className="col-auto profilePic"
-                             onClick={() => fileUpload(hiddenFileInput)} src={src ? `data:image/jpeg;base64,${src}` : placeHolderImg} title="Bild hochladen"
+                              src={src ? `data:image/jpeg;base64,${src}` : placeHolderImg} title="Bild hochladen"
                         />
                     </Col>
                     {/*Fehlerhandling*/}
@@ -129,8 +144,11 @@ export default function Userprofil() {
                     {/*Buttons*/}
                     <Col>
                         <Stack>
+                            <input onChange={changeHandler} type="file" className="custom-file-input" id="inputGroupFile02"
+                                   accept=".jpg, .jpeg, .png" name="file">
+                            </input>
                             <Button className="mb-3" variant="primary"
-                                    onClick={() => fileUpload(hiddenFileInput)}>
+                                    onClick={handleSubmission}>
                                 Bild hochladen
                             </Button>
                             <Button onClick={() => clearImage()} variant="danger">

@@ -57,23 +57,15 @@ export class UserAuthService {
     static async uploadImg(img: any): Promise<any> {
         try {
             const reader = new FileReader();
-            //reader.readAsDataURL(img)
-
             let base64String;
 
             reader.onload = function (e) {
                 // @ts-ignore
                 base64String = e.target.result.replace("data:", "").replace(/^.+,/, "");
-                // @ts-ignore
-                console.log("------>", base64String)
                 let res = base64String;
-
                 const serverResponse = HttpConnector.postImage(res, "user/" + "image/upload");
-
             }
             reader.readAsDataURL(img);
-
-            //let res = await this.onLoad(reader);
             return false;
         } catch (e) {
             return false;
