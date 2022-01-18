@@ -47,6 +47,9 @@ export default function Userprofil() {
 
 
     async function handleSubmit(e: any) {
+        /**
+         *  update username and password
+         */
         // @ts-ignore
         setInputs(inputs.username = stateUsername)
         // @ts-ignore
@@ -54,7 +57,6 @@ export default function Userprofil() {
 
         e.preventDefault();
         await UserAuthService.update(inputs)
-
     }
 
     //Bild

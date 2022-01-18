@@ -113,11 +113,7 @@ export class UserAuthService {
         /* Laden des Benutzerbildes ueber den Server */
         try {
             const serverResponse = await HttpConnector.get(this.URL_PREFIX + "info/image");
-            const imageRespone = serverResponse.json().then(data => {
-                console.log('DATA LADEN: ', data.profileImage)
-                return data.profileImage
-            })
-            return imageRespone
+           return await serverResponse.arrayBuffer()
         } catch (e) {
             console.log(e)
         }
