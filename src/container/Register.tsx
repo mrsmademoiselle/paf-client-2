@@ -57,6 +57,9 @@ export default function Register() {
 
 
     function onChangeHandler(event: any) {
+        /**
+         * Handeln des Bildes
+         */
         const file = event.target.files[0];
         let reader = new FileReader();
         reader.readAsDataURL(file);
@@ -97,6 +100,8 @@ export default function Register() {
             }
             return navigate("/dashboard")
         }
+        // Wenn Registrierung nicht erfolgreich, leeren des states damit er neu beschrieben werden kann
+        setInputs({username: '', password: ''});
     }
 
     let src: any = placeHolderImg;

@@ -26,19 +26,22 @@ export class UserAuthService {
     }
 
     static async register(inputs: any) {
+        /**
+        Handhaben von Registrierung
+         */
         try {
             const serverResponse = await HttpConnector.post(inputs, this.URL_PREFIX + "register");
             if (serverResponse.ok) {
                 await serverResponse.json().then(data => TokenManager.setToken(data));
                 return true;
             } else {
-                showBanner("danger", "could not create user");
+                showBanner("danger", "Benutzer bereits vorhanden oder fehlerhafte Eingaben! Es sind nur alphanumerische Zeichen erlaubt!");
                 return false;
             }
 
         } catch (exception) {
             console.log(exception);
-            showBanner("danger", "could not create user");
+            showBanner("danger", "Benutzer bereits vorhanden oder fehlerhafte Eingaben! Es sind nur alphanumerische Zeichen erlaubt!");
             return false;
         }
     }

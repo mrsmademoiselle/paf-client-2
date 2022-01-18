@@ -26,12 +26,17 @@ export default function Login() {
     }
 
     async function handleSubmission(e: any) {
+        /**
+         * Handhaben der Form
+         * Der Request wird nur behandelt, wenn der Server auch erreichbar ist.
+         * Falls die Eingaben nicht korrekt sind, wird ein allgemeiner Fehler ausgegeben.
+         */
         e.preventDefault();
         UserAuthService.login(inputs).then(data => {
             if (data) {
                 return navigate("/dashboard");
             } else {
-                showBanner("danger", "Die Felder dürfen nicht leer sein");
+                showBanner("danger", "Es gab einen Fehler mit dem Login. Bitte überprüfe die Eingaben.");
             }
         });
 
@@ -60,7 +65,7 @@ export default function Login() {
                                             <Form.Group className="mb-3" controlId="userPassword">
                                                 <Form.Control onChange={adjustInput}
                                                               name="password" type="password"
-                                                              placeholder="Passwort"/>
+                                                              placeholder="Passwort" required/>
                                             </Form.Group>
                                             <Row className="loginLinkContainer">
                                                 <Col>
