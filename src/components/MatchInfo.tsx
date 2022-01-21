@@ -6,6 +6,7 @@ import {UserScoreDto} from "../entities/UserScoreDto";
 import {UserDto} from "../entities/UserDto";
 import {useAtom} from "@dbeining/react-atom";
 import {setCardTitle, userMoveCooldownState} from "../states/UserStates";
+import {useNavigate} from "react-router-dom";
 
 
 export default function MatchInfo(props: { match: GameDto }): React.ReactElement {
@@ -19,6 +20,7 @@ export default function MatchInfo(props: { match: GameDto }): React.ReactElement
     let userImage1 = userScores[0].user.image
     let userImage2 = userScores[1].user.image
 
+    let navigate = useNavigate();
     // on mount
     useEffect(() => {
         console.log("setting callback new")
@@ -46,7 +48,7 @@ export default function MatchInfo(props: { match: GameDto }): React.ReactElement
 
     // falls keine 2 User vorhanden sind (wenn irgendwas buggy ist), verwende Dummydaten für User
     if (!twoUsers) {
-        userScores = [new UserScoreDto(new UserDto("username1", "imgbytes1"), 1), new UserScoreDto(new UserDto("username2", "imgbytes2"), 2)];
+        navigate("/dashboard");
     }
     return (
         <div className="match-info h-100">
