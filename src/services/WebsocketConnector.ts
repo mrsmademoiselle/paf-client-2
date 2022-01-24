@@ -41,11 +41,12 @@ export class WebsocketConnector {
     }
 
     isOpen = () => {
-        return this.ws !== undefined && this.ws?.readyState === WebSocket.OPEN;
+        return this.ws !== undefined && this.ws?.readyState !== WebSocket.CLOSED;
     }
 
     onError = (event: any) => {
         console.log("error: ", JSON.stringify(event.data));
+        this.ws?.close();
     }
 
     onClose = (event: any) => {
