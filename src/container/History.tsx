@@ -52,7 +52,7 @@ export default function History() {
                                 <p>Spiele gesamt: </p>
                                 <p>Davon gewonnen: </p>
                                 <p>Davon verloren: </p>
-                                <p>Durchschnittliche Punktzayhl: </p>
+                                <p>Durchschnittliche Punktzahl: </p>
                             </Col>
                             <Col>
                                 <p>{loadedData.totalGames}</p>
