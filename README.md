@@ -1,6 +1,4 @@
-# PAF - Client 1
-
-# PAF - Server
+# PAF - Client 2
 
 Second client for the application for my university module "Patterns and frameworks".
 
